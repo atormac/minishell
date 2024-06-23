@@ -32,6 +32,8 @@ typedef struct t_write_state
 	ssize_t	ret_val;
 }	t_write_state;
 
+void	free_array(char	**arr);
+int		ft_strcmp(char *s1, char *s2);
 int		ft_atoi_base(char *str, char *base);
 char	*read_file(int fd, int buf_size, int *out_size);
 char	*ft_strpbrk(char *s1, const char *s2);

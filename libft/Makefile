@@ -34,7 +34,7 @@ SOURCES = ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c \
 		  ft_lstmap_bonus.c \
 		  get_next_line.c ft_strtok.c \
 		  ft_printf.c ft_print_utils.c ft_hex.c ft_write.c \
-		  file.c ft_atoi_base.c
+		  file.c ft_atoi_base.c ft_strcmp.c free.c
 
 OBJECTS = $(SOURCES:.c=.o)
 

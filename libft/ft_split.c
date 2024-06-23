@@ -42,7 +42,7 @@ static char	**ft_array_init(char const *s, char c)
 	return (arr);
 }
 
-static char	**free_array(char **arr, int i)
+static char	**free_split(char **arr, int i)
 {
 	while (i >= 0)
 	{
@@ -72,7 +72,7 @@ static char	**do_split(char **arr, char const *s, char c)
 			break ;
 		arr[i] = malloc((s - word_start) + 1);
 		if (!arr[i])
-			return (free_array(arr, i - 1));
+			return (free_split(arr, i - 1));
 		ft_strlcpy(arr[i], word_start, (s - word_start) + 1);
 		i++;
 	}

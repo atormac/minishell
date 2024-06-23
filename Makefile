@@ -17,7 +17,7 @@ LIBDIR = ./libft
 LIBS = $(LIBDIR)/libft.a
 INCLUDE_DIR = ./include
 SOURCE_DIR = source
-SOURCES = main.c
+SOURCES = main.c builtin.c path.c exec.c
 OBJECTS = $(addprefix $(SOURCE_DIR)/,$(SOURCES:.c=.o))
 
 target debug: CFLAGS += -fsanitize=address -g
