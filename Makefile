@@ -20,7 +20,7 @@ SOURCE_DIR = source
 SOURCES = main.c
 OBJECTS = $(addprefix $(SOURCE_DIR)/,$(SOURCES:.c=.o))
 
-target debug: CFLAGS += -fsanitize=address -static-libasan -g
+target debug: CFLAGS += -fsanitize=address -g
 
 all: $(NAME)
 
