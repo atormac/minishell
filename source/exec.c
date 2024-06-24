@@ -38,12 +38,15 @@ char	*exec_path_get(t_ms *ms, char *cmd)
 
 int	exec_bin(t_ms *ms, char	*cmd, char **args)
 {			
+	int		ret;
 	char	*cmd_path;
 
 	cmd_path = exec_path_get(ms, cmd);
 	if (!cmd_path)
 		return (0);
-	return (execve(cmd, args, ms->envp));
+	ret = execve(cmd, args, ms->envp);
+	free(cmd_path);
+	return (ret);
 }
 
 int	exec_cmd(t_ms *ms, char *cmd, char **args)
