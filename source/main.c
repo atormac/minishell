@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/06/24 16:27:10 by atorma           ###   ########.fr       */
+/*   Updated: 2024/06/24 17:04:58 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <signal.h>
 
 static	int	minishell_init(t_ms *ms, char **argv, char **envp)
 {
@@ -29,16 +30,28 @@ static	int	minishell_init(t_ms *ms, char **argv, char **envp)
 	return (1);
 }
 
+void	sig_handler(int signo)
+{
+	if (signo == SIGINT)
+	{
+		printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
+}
+
 static	void	minishell(t_ms *ms)
 {
 	char	prompt[1024];
 	char	*line;
 
+	signal(SIGINT, sig_handler);
 	while (1)
 	{
 		prompt_set(ms, prompt, sizeof(prompt));
 		line = readline(prompt);
-		if (line == NULL)
+		if (line == NULL || is_builtin(line) == BUILTIN_EXIT)
 			break;
 		if (*line)
 		{
