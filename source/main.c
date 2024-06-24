@@ -22,9 +22,9 @@ static	void	minishell(t_ms *ms)
 	char	prompt[1024];
 	char	*line;
 
-	prompt_set(ms, prompt, sizeof(prompt));
 	while (1)
 	{
+		prompt_set(ms, prompt, sizeof(prompt));
 		line = readline(prompt);
 		if (line == NULL)
 			break;
