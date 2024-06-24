@@ -53,7 +53,7 @@ static char	*path_search(char **path, char *cmd)
 		cmd_path = path_join(path[i], cmd);
 		if (!cmd_path)
 			break;
-		if (access(cmd_path, F_OK) == 0)
+		if (access(cmd_path, F_OK) == 0 && access(cmd_path, X_OK) == 0)
 		{
 			return (cmd_path);
 		}
