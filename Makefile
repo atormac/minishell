@@ -6,7 +6,7 @@
 #    By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/11 21:03:29 by atorma            #+#    #+#              #
-#    Updated: 2024/06/20 15:11:44 by atorma           ###   ########.fr        #
+#    Updated: 2024/06/24 13:31:41 by atorma           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ SOURCE_DIR = source
 SOURCES = main.c builtin.c path.c exec.c
 OBJECTS = $(addprefix $(SOURCE_DIR)/,$(SOURCES:.c=.o))
 
-target debug: CFLAGS += -fsanitize=address -g
+target debug: CFLAGS += -fsanitize=address -static-libasan -g
 
 all: $(NAME)
 

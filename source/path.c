@@ -75,7 +75,7 @@ char	*path_find_bin(t_ms *ms, char *cmd)
 	if (path)
 	{
 		cmd_path = path_search(path, cmd);
-		free_array(path);
 	}
+	free_array(path);
 	return (cmd_path);
 }
