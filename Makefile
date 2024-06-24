@@ -6,13 +6,14 @@
 #    By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/11 21:03:29 by atorma            #+#    #+#              #
-#    Updated: 2024/06/24 13:31:41 by atorma           ###   ########.fr        #
+#    Updated: 2024/06/24 14:53:06 by atorma           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 CC = cc
 CFLAGS := -Wall -Wextra -Werror 
+LDFLAGS := -lreadline
 LIBDIR = ./libft
 LIBS = $(LIBDIR)/libft.a
 INCLUDE_DIR = ./include
@@ -31,7 +32,7 @@ $(NAME): $(OBJECTS)
 	$(CC) -o $@ $(CFLAGS) $^ $(LIBS) $(LDFLAGS)
 
 $(SOURCE_DIR)/%.o: %.c
-	$(CC) -I$(INCLUDE_DIR) -c $(CFLAGS) $(LIBS) $< -o $@
+	$(CC) -I$(INCLUDE_DIR) -c $(CFLAGS) $(LDFLAGS) $(LIBS) $< -o $@
 
 clean:
 	$(MAKE) -C $(LIBDIR) $@
