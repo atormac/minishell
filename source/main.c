@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/06/24 17:04:58 by atorma           ###   ########.fr       */
+/*   Updated: 2024/06/24 17:33:20 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,17 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <signal.h>
+
+static void	sig_handler(int signo)
+{
+	if (signo == SIGINT)
+	{
+		printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
+}
 
 static	int	minishell_init(t_ms *ms, char **argv, char **envp)
 {
@@ -30,15 +41,9 @@ static	int	minishell_init(t_ms *ms, char **argv, char **envp)
 	return (1);
 }
 
-void	sig_handler(int signo)
+void	minishell_cleanup(t_ms *ms)
 {
-	if (signo == SIGINT)
-	{
-		printf("\n");
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-	}
+	free(ms->cwd);
 }
 
 static	void	minishell(t_ms *ms)
@@ -72,7 +77,7 @@ int main(int argc, char **argv, char **envp)
 		ft_putstr_fd("Error initializing minishell\n", STDERR_FILENO);
 		return (EXIT_FAILURE);
 	}
-
 	minishell(&ms);
+	minishell_cleanup(&ms);
 	return (0);
 }
