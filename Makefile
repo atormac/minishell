@@ -6,7 +6,7 @@
 #    By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/11 21:03:29 by atorma            #+#    #+#              #
-#    Updated: 2024/06/24 15:56:33 by atorma           ###   ########.fr        #
+#    Updated: 2024/06/24 18:19:28 by atorma           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,6 @@ $(SOURCE_DIR)/%.o: %.c
 
 clean:
 	$(MAKE) -C $(LIBDIR) $@
-	rm -rf $(MLXDIR)/build
 	rm -f $(OBJECTS)
 
 fclean: clean
