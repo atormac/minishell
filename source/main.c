@@ -27,8 +27,11 @@ static	void	minishell(t_ms *ms)
 		line = readline("minishell: ");
 		if (line == NULL)
 			break;
-		add_history(line);
-		printf("line: %s\n", line);
+		if (*line)
+		{
+			add_history(line);
+			printf("line: %s\n", line);
+		}
 		free(line);
 	}
 }
