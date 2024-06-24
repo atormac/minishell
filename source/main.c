@@ -31,6 +31,7 @@ int main(int argc, char **argv, char **envp)
 			printf("is_builtin\n");
 		char	*cmd_path = path_find_bin(&ms, argv[1]);
 		printf("cmd_path: %s\n", cmd_path);
+		free(cmd_path);
 	}
 	return (0);
 }

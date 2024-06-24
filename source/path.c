@@ -42,16 +42,12 @@ char	**path_get(char **envp)
 	return (NULL);
 }
 
-char	*path_find_bin(t_ms *ms, char *cmd)
+static char	*path_search(char **path, char *cmd)
 {
 	int		i;
-	char	**path;
 	char	*cmd_path;
 
 	i = 0;
-	path = path_get(ms->envp);
-	if (!path)
-		return (NULL);
 	while (path[i])
 	{
 		cmd_path = path_join(path[i], cmd);
@@ -59,12 +55,27 @@ char	*path_find_bin(t_ms *ms, char *cmd)
 			break;
 		if (access(cmd_path, F_OK) == 0)
 		{
-			free_array(path);
 			return (cmd_path);
 		}
 		free(cmd_path);
 		i++;
 	}
-	free_array(path);
 	return (NULL);
+}
+
+char	*path_find_bin(t_ms *ms, char *cmd)
+{
+	char	**path;
+	char	*cmd_path;
+
+	if (cmd[0] == '\0')
+		return (NULL);
+	cmd_path = NULL;
+	path = path_get(ms->envp);
+	if (path)
+	{
+		cmd_path = path_search(path, cmd);
+		free_array(path);
+	}
+	return (cmd_path);
 }
