@@ -26,8 +26,10 @@ int	exec_bin(t_ms *ms, char	*cmd, char **args)
 int	exec_cmd(t_ms *ms, char *cmd, char **args)
 {
 	int	ret;
+	int	builtin;
 
-	if (is_builtin(cmd))
+	builtin = is_builtin(cmd);
+	if (builtin != BUILTIN_NONE)
 		ret = exec_builtin(ms, cmd, args);
 	else
 		ret = exec_bin(ms, cmd, args);
