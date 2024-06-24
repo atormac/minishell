@@ -19,12 +19,13 @@ static	int	minishell_init(t_ms *ms, char **argv, char **envp)
 
 static	void	minishell(t_ms *ms)
 {
+	char	prompt[1024];
 	char	*line;
 
-	(void)ms;
+	prompt_set(ms, prompt, sizeof(prompt));
 	while (1)
 	{
-		line = readline("minishell: ");
+		line = readline(prompt);
 		if (line == NULL)
 			break;
 		if (*line)
