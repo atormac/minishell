@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/06/24 17:33:20 by atorma           ###   ########.fr       */
+/*   Updated: 2024/06/24 17:40:55 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ static	void	minishell(t_ms *ms)
 		}
 		free(line);
 	}
+	free(line);
 }
 
 int main(int argc, char **argv, char **envp)
