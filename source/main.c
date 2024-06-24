@@ -2,8 +2,6 @@
 
 #include <stdio.h>
 
-char	*exec_path_get(t_ms *ms, char *cmd);
-
 static	int	minishell_init(t_ms *ms, char **argv, char **envp)
 {
 	ms->envp = envp;
@@ -31,7 +29,7 @@ int main(int argc, char **argv, char **envp)
 	{
 		if (is_builtin(argv[1]))
 			printf("is_builtin\n");
-		char	*cmd_path = exec_path_get(&ms, argv[1]);
+		char	*cmd_path = path_find_bin(&ms, argv[1]);
 		printf("cmd_path: %s\n", cmd_path);
 	}
 	return (0);

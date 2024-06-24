@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 15:36:13 by atorma            #+#    #+#             */
-/*   Updated: 2024/06/24 09:50:03 by atorma           ###   ########.fr       */
+/*   Updated: 2024/06/24 11:40:47 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct t_ms
 
 char	*path_join(char *path, char *bin);
 char	**path_get(char **envp);
+char	*path_find_bin(t_ms *ms, char *cmd);
 int		is_builtin(char	*cmd);
 
 #endif
