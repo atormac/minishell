@@ -77,7 +77,7 @@ char	*env_var_get(char **env, char *var)
 	return (NULL);
 }
 
-void	env_var_remove(char **env, char *var)
+void	env_var_unset(char **env, char *var)
 {
 	size_t	len;
 	char	*env_var;
@@ -109,6 +109,7 @@ int	env_var_set(t_ms *ms, char *var, char *val)
 		free(new);
 		return (0);
 	}
+	env_var_unset(ms->env, var);
 	ft_strlcat(new[i], var, len);
 	ft_strlcat(new[i], "=", len);
 	ft_strlcat(new[i], val, len);

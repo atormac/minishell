@@ -41,7 +41,7 @@ enum
 char	**env_clone(char **envp);
 void	env_print(char **env);
 char	*env_var_get(char **env, char *var);
-void	env_var_remove(char **env, char *var);
+void	env_var_unset(char **env, char *var);
 int		env_var_set(t_ms *ms, char *var, char *val);
 void	prompt_set(t_ms *ms, char *prompt, size_t size);
 char	*path_join(char *path, char *bin);
