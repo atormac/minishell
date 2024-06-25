@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 14:30:53 by atorma            #+#    #+#             */
-/*   Updated: 2024/06/25 17:43:02 by atorma           ###   ########.fr       */
+/*   Updated: 2024/06/25 17:58:23 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 //Clones envp to ms->env
 
-char	**env_clone(char **envp, int expand_size)
+char	**env_clone(char **envp)
 {
 	char	**ret;
 	int		i;
@@ -23,7 +23,7 @@ char	**env_clone(char **envp, int expand_size)
 	i = 0;
 	while (envp[i])
 		i++;
-	ret = malloc((i + 1 + expand_size) * sizeof(char*));
+	ret = malloc((i + 1) * sizeof(char*));
 	if (!ret)
 		return (NULL);
 	i = 0;
@@ -97,7 +97,7 @@ int	env_var_set(t_ms *ms, char *var, char *val)
 
 	i = 0;
 	len = ft_strlen(var) + ft_strlen(val) + 2;
-	while (ms->env[i])
+	while (ms->env && ms->env[i])
 		i++;
 	new = ft_calloc(1, (i + 2) * sizeof(char*));
 	if (!new)

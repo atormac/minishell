@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 15:36:13 by atorma            #+#    #+#             */
-/*   Updated: 2024/06/25 17:12:52 by atorma           ###   ########.fr       */
+/*   Updated: 2024/06/25 17:58:50 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ enum
 	BUILTIN_EXIT
 };
 
-char	**env_clone(char **envp, int expand_size);
+char	**env_clone(char **envp);
 void	env_print(char **env);
 char	*env_var_get(char **env, char *var);
 void	env_var_remove(char **env, char *var);
