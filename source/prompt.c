@@ -6,11 +6,25 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:14 by atorma            #+#    #+#             */
-/*   Updated: 2024/06/24 16:27:15 by atorma           ###   ########.fr       */
+/*   Updated: 2024/06/25 16:03:57 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+static void	prompt_dir_set(t_ms *ms, char *prompt, size_t size)
+{
+	char	*home_dir;
+
+	home_dir = getenv("HOME");
+	if (home_dir && ft_strncmp(ms->cwd, home_dir, ft_strlen(home_dir)) == 0)
+	{
+		ft_strlcat(prompt, "~", size);
+		ft_strlcat(prompt, ms->cwd + ft_strlen(home_dir), size);
+		return	;
+	}
+	ft_strlcat(prompt, ms->cwd, size);
+}
 
 void	prompt_set(t_ms *ms, char *prompt, size_t size)
 {
@@ -23,6 +37,6 @@ void	prompt_set(t_ms *ms, char *prompt, size_t size)
 	ft_strlcat(prompt, username, size);
 	ft_strlcat(prompt, "@", size);
 	ft_strlcat(prompt, "minishell ", size);
-	ft_strlcat(prompt, ms->cwd, size);
+	prompt_dir_set(ms, prompt, size);
 	ft_strlcat(prompt, "$ ", size);
 }
