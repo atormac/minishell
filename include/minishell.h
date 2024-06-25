@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 15:36:13 by atorma            #+#    #+#             */
-/*   Updated: 2024/06/25 14:48:24 by atorma           ###   ########.fr       */
+/*   Updated: 2024/06/25 15:14:07 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ enum
 };
 
 int		env_init(t_ms *ms, char **envp);
+void	env_print(char **env);
+int		env_var_remove(char **env, char *var);
 void	prompt_set(t_ms *ms, char *prompt, size_t size);
 char	*path_join(char *path, char *bin);
 char	**path_get(char **envp);

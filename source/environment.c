@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 14:30:53 by atorma            #+#    #+#             */
-/*   Updated: 2024/06/25 14:56:22 by atorma           ###   ########.fr       */
+/*   Updated: 2024/06/25 15:28:28 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,27 @@ int	env_init(t_ms *ms, char **envp)
 			free_array(ms->env);
 			return (0);
 		}
-		printf("ms->env[%d]: %s\n", i, ms->env[i]);
 		i++;
 	}
 	ms->env[i] = NULL;
 	return (1);
+}
+
+void	env_print(char **env)
+{
+	int	i;
+
+	printf("--- env ---\n");
+	if (!env)
+	{
+		printf("env is NULL\n");
+	}
+	i = 0;
+	while (env[i])
+	{
+		printf("env[%d]: %s\n", i, env[i]);
+		i++;
+	}
 }
 
 int	env_var_remove(char **env, char *var)
@@ -55,9 +71,10 @@ int	env_var_remove(char **env, char *var)
 	{
 		if (ft_strncmp(env[i], var, var_len) == 0)
 		{
-			env[i] = '\0';
+			env[i][0] = '\0';
 			break;
 		}
+		i++;
 	}
 	return (1);
 }
