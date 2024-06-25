@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 14:30:53 by atorma            #+#    #+#             */
-/*   Updated: 2024/06/25 16:32:31 by atorma           ###   ########.fr       */
+/*   Updated: 2024/06/25 17:43:02 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,31 @@
 #include <stdio.h>
 
 //Clones envp to ms->env
-int	env_init(t_ms *ms, char **envp)
+
+char	**env_clone(char **envp, int expand_size)
 {
-	int	i;
+	char	**ret;
+	int		i;
 
 	i = 0;
-	if (!envp)
-		return (1);
 	while (envp[i])
 		i++;
-	ms->env = malloc((i + 1) * sizeof(char*));
-	if (!ms->env)
-		return (0);
+	ret = malloc((i + 1 + expand_size) * sizeof(char*));
+	if (!ret)
+		return (NULL);
 	i = 0;
 	while (envp[i])
 	{
-		ms->env[i] = ft_strdup(envp[i]);
-		if (!ms->env[i])
+		ret[i] = ft_strdup(envp[i]);
+		if (!ret[i])
 		{
-			free_array(ms->env);
+			free_array(ret);
 			return (0);
 		}
 		i++;
 	}
-	ms->env[i] = NULL;
-	return (1);
+	ret[i] = NULL;
+	return (ret);
 }
 
 void	env_print(char **env)
@@ -87,4 +87,32 @@ void	env_var_remove(char **env, char *var)
 		return ;
 	len = ft_strlen(var);
 	*(env_var - len - 1) = '\0';
+}
+
+int	env_var_set(t_ms *ms, char *var, char *val)
+{
+	char	**new;
+	int		i;
+	size_t	len;
+
+	i = 0;
+	len = ft_strlen(var) + ft_strlen(val) + 2;
+	while (ms->env[i])
+		i++;
+	new = ft_calloc(1, (i + 2) * sizeof(char*));
+	if (!new)
+		return (0);
+	ft_memcpy(new, ms->env, i * sizeof(char*));
+	new[i] = ft_calloc(1, len);
+	if (!new[i])
+	{
+		free(new);
+		return (0);
+	}
+	ft_strlcat(new[i], var, len);
+	ft_strlcat(new[i], "=", len);
+	ft_strlcat(new[i], val, len);
+	free(ms->env);
+	ms->env = new;
+	return (1);
 }

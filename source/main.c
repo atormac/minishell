@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/06/25 16:29:55 by atorma           ###   ########.fr       */
+/*   Updated: 2024/06/25 17:13:12 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,16 @@ static	int	minishell_init(t_ms *ms, char **argv, char **envp)
 
 	getcwd(ms->cwd, 256);
 
-	if (!env_init(ms, envp))
+	ms->env = env_clone(envp, 0);
+	if (!ms->env)
 	{
 		printf("Failed to initialize env\n");
 		return (0);
 	}
 	env_print(ms->env);
 	env_var_remove(ms->env, "PATH");
+	env_print(ms->env);
+	env_var_set(ms, "CUSTOMVAR", "CUSTOMVALUE");
 	env_print(ms->env);
 	printf("ms->cwd: %s\n", ms->cwd);
 	printf("minishell initialized\n");
