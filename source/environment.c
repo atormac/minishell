@@ -109,7 +109,7 @@ int	env_var_set(t_ms *ms, char *var, char *val)
 		free(new);
 		return (0);
 	}
-	env_var_unset(ms->env, var);
+	env_var_unset(new, var);
 	ft_strlcat(new[i], var, len);
 	ft_strlcat(new[i], "=", len);
 	ft_strlcat(new[i], val, len);
