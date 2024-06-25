@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:28:07 by lopoka            #+#    #+#             */
-/*   Updated: 2024/06/25 17:22:39 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/06/25 17:51:58 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "tokenizer.h"
@@ -38,7 +38,7 @@ void	*ft_realloc(void *src, size_t old_s, size_t add_s)
 	free(src);
 	return (dst);
 }
-
+/*
 int main(void)
 {
 	t_tkn *arr;
@@ -53,4 +53,4 @@ int main(void)
 
 	free(arr);
 	return 0;
-}
+}*/

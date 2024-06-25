@@ -6,10 +6,11 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 16:36:42 by lopoka            #+#    #+#             */
-/*   Updated: 2024/06/25 17:22:57 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/06/25 17:56:29 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
+#include <stdio.h>
 
 typedef enum e_tkn_type
 {
@@ -38,3 +39,6 @@ typedef struct s_tkn_arr
 	size_t	to_add;
 	size_t	err;
 }	t_tkn_arr;
+
+void	*ft_realloc(void *src, size_t old_s, size_t add_s);
+

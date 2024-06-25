@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:15:59 by lopoka            #+#    #+#             */
-/*   Updated: 2024/06/25 16:49:05 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/06/25 18:04:44 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "tokenizer.h"
@@ -47,9 +47,9 @@ int	ft_is_operator(char *str)
 
 void	ft_tkn_arr_realloc(t_tkn_arr *tkn_arr)
 {
-	if (tkn_arr->index >= tkn_arr->size)
+	if (tkn_arr->i >= tkn_arr->size)
 	{
-		tkn_arr->arr = ft_realloc_arr(tkn_arr->arr, tkn_arr->size, tkn_arr->toadd);
+		tkn_arr->arr = ft_realloc(tkn_arr->arr, tkn_arr->size, tkn_arr->to_add);
 		if (!tkn_arr->arr)
 			tkn_arr->err = 1;
 		tkn_arr->size += tkn_arr->to_add;
@@ -62,7 +62,7 @@ void	ft_init_tkn_arr(t_tkn_arr *tkn_arr)
 	tkn_arr->to_add = 5;
 	tkn_arr->i = 5;
 	tkn_arr->err = 0;
-	tkn_arr->arr = (t_tkn *) malloc(tkn_arr->size * sizeof(t_tkn);
+	tkn_arr->arr = (t_tkn *) malloc(tkn_arr->size * sizeof(t_tkn));
 	if (!tkn_arr->arr)
 		tkn_arr->err = 1;
 }
@@ -70,24 +70,26 @@ void	ft_init_tkn_arr(t_tkn_arr *tkn_arr)
 void	ft_add_operator(char *line, t_tkn_arr *tkn_arr)
 {
 	ft_tkn_arr_realloc(tkn_arr);
-	ft_operator_add(line, tkn_arr);
+	tkn_arr->arr[tkn_arr->i].str = 0;
+	tkn_arr->arr[tkn_arr->i].type = 11;
+
 }
-t_tkn_arr	*ft_line_to_tokens(char *line)
+t_tkn_arr	ft_line_to_tokens(char *line)
 {
 	t_tkn_arr	tkn_arr;
 
 	ft_init_tkn_arr(&tkn_arr);
 	if (!tkn_arr.err)
-		return (0),
+		return (tkn_arr);
 	while (*line)
 	{
 		ft_skip_whitespace(&line);
 		if (ft_is_operator(line))
-			ft_add_operator(line, &tkn_llst);
-		else
-			ft_add_cmnd(line, &tkn_llst);
+			ft_add_operator(line, &tkn_arr);
+		//else
+		//	ft_add_cmnd(line, &tkn_llst);
 	}
-	return (tkn_llst);
+	return (tkn_arr);
 }
 	
 #include <stdio.h>
