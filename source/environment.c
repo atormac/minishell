@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 14:30:53 by atorma            #+#    #+#             */
-/*   Updated: 2024/06/25 16:18:17 by atorma           ###   ########.fr       */
+/*   Updated: 2024/06/25 16:32:31 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,30 +70,21 @@ char	*env_var_get(char **env, char *var)
 	var_len = ft_strlen(var);
 	while (env[i])
 	{
-		if (ft_strncmp(env[i], var, var_len) == 0)
+		if (ft_strncmp(env[i], var, var_len) == 0 && *(env[i] + var_len) == '=')
 			return (env[i] + var_len + 1);
 		i++;
 	}
 	return (NULL);
 }
 
-int	env_var_remove(char **env, char *var)
+void	env_var_remove(char **env, char *var)
 {
-	int		i;
-	size_t	var_len;
+	size_t	len;
+	char	*env_var;
 
-	if (!env || !var)
-		return (1);
-	i = 0;
-	var_len = ft_strlen(var);
-	while (env[i])
-	{
-		if (ft_strncmp(env[i], var, var_len) == 0)
-		{
-			env[i][0] = '\0';
-			break;
-		}
-		i++;
-	}
-	return (1);
+	env_var = env_var_get(env, var);
+	if (!env_var)
+		return ;
+	len = ft_strlen(var);
+	*(env_var - len - 1) = '\0';
 }
