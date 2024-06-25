@@ -1,56 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   realloc_tkn_arr.c                                  :+:      :+:    :+:   */
+/*   tkns_realloc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:28:07 by lopoka            #+#    #+#             */
-/*   Updated: 2024/06/25 17:51:58 by lucas            ###   ########.fr       */
+/*   Updated: 2024/06/25 19:55:25 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "tokenizer.h"
 #include <stdlib.h>
 #include <stdio.h>
 
-
-void	*ft_realloc(void *src, size_t old_s, size_t add_s)
+void	ft_free_tkns(t_tkn_arr *tkns)
 {
-	size_t	i;
-	void	*dst;
-	char	*c_dst;
-	char	*c_src;
+	int	i;
 
-	dst = (void *) malloc(old_s + add_s);
+	i = 0;
+	while (i < tkns->i)
+		free(tkns->arr[i++].str);
+	free(tkns->arr);
+}
+
+void	ft_tkns_realloc(t_tkn_arr *tkns)
+{
+	void	*dst;
+
+	if (tkns->i < tkns->size)
+		return ;
+	dst = (void *) malloc(tkns->size * sizeof(t_tkn) + tkns->to_add * sizeof(t_tkn));
 	if (!dst)
 	{
-		free (src);
-		return (0);
+		ft_free_tkns(tkns);
+		tkns->err = 1;
+		return ;
 	}
-	c_dst = (char *) dst;
-	c_src = (char *) src;
-	i = 0;
-	while (i < old_s)
-	{
-		c_dst[i] = c_src[i];
-		i++;
-	}
-	free(src);
-	return (dst);
+	ft_memmove(dst, tkns->arr, tkns->size * sizeof(t_tkn));
+	ft_free_tkns(tkns);
+	tkns->arr = dst;
+	tkns->size += tkns->to_add;
 }
-/*
-int main(void)
-{
-	t_tkn *arr;
-	
-	arr = malloc(5 * sizeof(t_tkn));
-
-	arr[2].type = 13;
-	
-	arr = ft_realloc(arr, 5 * sizeof(t_tkn), 5 * sizeof(t_tkn));
-
-	printf("Type %d\n", arr[2].type);
-
-	free(arr);
-	return 0;
-}*/
