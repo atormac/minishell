@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 15:36:13 by atorma            #+#    #+#             */
-/*   Updated: 2024/06/24 15:56:25 by atorma           ###   ########.fr       */
+/*   Updated: 2024/06/25 14:48:24 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 typedef struct t_ms
 {
-	char	**envp;
+	char	**env;
 	char	**path;
 	char	*cwd;
 	int		fd_in;
@@ -38,6 +38,7 @@ enum
 	BUILTIN_EXIT
 };
 
+int		env_init(t_ms *ms, char **envp);
 void	prompt_set(t_ms *ms, char *prompt, size_t size);
 char	*path_join(char *path, char *bin);
 char	**path_get(char **envp);

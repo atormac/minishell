@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:18 by atorma            #+#    #+#             */
-/*   Updated: 2024/06/24 16:27:19 by atorma           ###   ########.fr       */
+/*   Updated: 2024/06/25 14:49:32 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ char	*path_find_bin(t_ms *ms, char *cmd)
 	if (cmd[0] == '\0')
 		return (NULL);
 	cmd_path = NULL;
-	path = path_get(ms->envp);
+	path = path_get(ms->env);
 	if (path)
 	{
 		cmd_path = path_search(path, cmd);

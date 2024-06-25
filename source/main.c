@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/06/24 17:40:55 by atorma           ###   ########.fr       */
+/*   Updated: 2024/06/25 14:48:55 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,15 @@ static void	sig_handler(int signo)
 
 static	int	minishell_init(t_ms *ms, char **argv, char **envp)
 {
-	ms->envp = envp;
 	ms->cwd = malloc(256);
 
 	getcwd(ms->cwd, 256);
 
+	if (!env_init(ms, envp))
+	{
+		printf("Failed to initialize env\n");
+		return (0);
+	}
 	printf("ms->cwd: %s\n", ms->cwd);
 	printf("minishell initialized\n");
 	(void)argv;
@@ -43,6 +47,7 @@ static	int	minishell_init(t_ms *ms, char **argv, char **envp)
 
 void	minishell_cleanup(t_ms *ms)
 {
+	free_array(ms->env);
 	free(ms->cwd);
 }
 
