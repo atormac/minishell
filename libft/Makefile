@@ -6,12 +6,15 @@
 #    By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/18 14:16:39 by atorma            #+#    #+#              #
-#    Updated: 2024/06/15 19:20:21 by atorma           ###   ########.fr        #
+#    Updated: 2024/06/26 15:46:25 by atorma           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libft.a
-CC = cc
+
+ifeq ($(CC),)
+CC := cc
+endif
 
 ifeq ($(CFLAGS),)
 CFLAGS := -Wall -Wextra -Werror
