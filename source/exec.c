@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:31 by atorma            #+#    #+#             */
-/*   Updated: 2024/06/26 17:36:44 by atorma           ###   ########.fr       */
+/*   Updated: 2024/06/26 18:04:26 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 int	exec_builtin(t_ms *ms, int id, char **args)
 {
 	(void)args;
+	if (id == BUILTIN_ECHO)
+		builtin_echo(args);
 	if (id == BUILTIN_PWD)
 		printf("%s\n", ms->cwd);
 	else if (id == BUILTIN_ENV)

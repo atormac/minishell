@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 15:36:13 by atorma            #+#    #+#             */
-/*   Updated: 2024/06/26 17:52:23 by atorma           ###   ########.fr       */
+/*   Updated: 2024/06/26 18:06:35 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ char	**path_get(char **envp);
 char	*path_find_bin(t_ms *ms, char *cmd);
 int		is_builtin(char	*cmd);
 int		builtin_cd(t_ms *ms, char *dir);
+void	builtin_echo(char **args);
 int		exec_cmd(t_ms *ms, char *cmd, char **args);
 
 #endif
