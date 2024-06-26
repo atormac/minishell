@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 16:36:42 by lopoka            #+#    #+#             */
-/*   Updated: 2024/06/25 19:55:33 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/06/26 10:00:41 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -31,17 +31,17 @@ typedef struct s_tkn
 	char 			*str;
 }	t_tkn;
 
-typedef struct s_tkn_arr
+typedef struct s_tkns
 {
 	t_tkn	*arr;
 	size_t	size;
 	size_t	i;
 	size_t	to_add;
 	size_t	err;
-}	t_tkn_arr;
+}	t_tkns;
 
 //void	*ft_realloc(void *src, size_t old_s, size_t add_s);
 //void	ft_tkn_arr_realloc(t_tkn_arr *tkn_arr);
-void	ft_tkns_realloc(t_tkn_arr *tkns);
-void	ft_free_tkns(t_tkn_arr *tkns);
+void	ft_tkns_realloc(t_tkns *tkns);
+void	ft_free_tkns(t_tkns *tkns);
 
