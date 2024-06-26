@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:23 by atorma            #+#    #+#             */
-/*   Updated: 2024/06/26 18:10:18 by atorma           ###   ########.fr       */
+/*   Updated: 2024/06/26 18:24:57 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,27 @@ int	is_builtin(char	*cmd)
 
 void	builtin_echo(char **args)
 {
+	int	i;
+	int	newline;
+
 	if (!args || !args[0])
 		return ;
+	i = 0;
+	newline = 1;
 	if (ft_strcmp(args[0], "-n") == 0)
 	{
-		if (!args[1])
-			return ;
-		printf("%s", args[1]);
-		return ;
+		newline = 0;
+		i = 1;
 	}
-	printf("%s\n", args[0]);
+	while (args[i])
+	{
+		printf("%s", args[i]);
+		if (args[i + 1] != NULL)
+			printf(" ");
+		i++;
+	}
+	if (newline)
+		printf("\n");
 }
 
 int	builtin_cd(t_ms *ms, char *dir)
