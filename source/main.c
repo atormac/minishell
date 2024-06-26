@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/06/26 14:08:10 by atorma           ###   ########.fr       */
+/*   Updated: 2024/06/26 14:27:54 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	sig_handler(int signo)
 	}
 }
 
-static	int	minishell_init(t_ms *ms, char **argv, char **envp)
+static	int	minishell_init(t_ms *ms, char **envp)
 {
 	ms->env = NULL;
 	if (envp)
@@ -44,7 +44,6 @@ static	int	minishell_init(t_ms *ms, char **argv, char **envp)
 	env_print(ms->env);
 	printf("ms->cwd: %s\n", ms->cwd);
 	printf("minishell initialized\n");
-	(void)argv;
 	return (1);
 }
 
@@ -80,7 +79,8 @@ int main(int argc, char **argv, char **envp)
 	t_ms	ms;
 
 	(void)argc;
-	if (!minishell_init(&ms, argv, envp))
+	(void)argv;
+	if (!minishell_init(&ms, envp))
 	{
 		ft_putstr_fd("Error initializing minishell\n", STDERR_FILENO);
 		return (EXIT_FAILURE);
