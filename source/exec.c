@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:31 by atorma            #+#    #+#             */
-/*   Updated: 2024/06/26 18:45:33 by atorma           ###   ########.fr       */
+/*   Updated: 2024/06/26 18:49:26 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	exec_builtin(t_ms *ms, int id, char **args)
 	else if (id == BUILTIN_UNSET)
 		env_var_unset(ms->env, args[0]);
 	else if (id == BUILTIN_CD)
-		builtin_cd(ms, args);
+		return builtin_cd(ms, args);
 	return (1);
 }
 
@@ -57,6 +57,10 @@ int	exec_cmd(t_ms *ms, char *cmd, char **args)
 		ret = exec_builtin(ms, builtin, args);
 	else
 		ret = exec_bin(ms, cmd, args);
+	if (ret == 0)
+	{
+		printf("minishell: %s\n", strerror(errno));
+	}
 	free_array(args);
 	return (ret);
 }
