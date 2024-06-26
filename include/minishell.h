@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 15:36:13 by atorma            #+#    #+#             */
-/*   Updated: 2024/06/25 17:58:50 by atorma           ###   ########.fr       */
+/*   Updated: 2024/06/26 14:39:02 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,6 @@ typedef struct t_ms
 	char	**env;
 	char	**path;
 	char	*cwd;
-	int		fd_in;
-	int		fd_out;
-	int		heredoc;
 	int		exit_code;
 }	t_ms;
 

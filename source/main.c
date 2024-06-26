@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/06/26 14:27:54 by atorma           ###   ########.fr       */
+/*   Updated: 2024/06/26 14:39:28 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ static void	sig_handler(int signo)
 
 static	int	minishell_init(t_ms *ms, char **envp)
 {
+	ms->exit_code = 0;
 	ms->env = NULL;
 	if (envp)
 	{
@@ -87,5 +88,5 @@ int main(int argc, char **argv, char **envp)
 	}
 	minishell(&ms);
 	minishell_cleanup(&ms);
-	return (0);
+	return (ms.exit_code);
 }
