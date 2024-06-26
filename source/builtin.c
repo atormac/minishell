@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:23 by atorma            #+#    #+#             */
-/*   Updated: 2024/06/26 18:24:57 by atorma           ###   ########.fr       */
+/*   Updated: 2024/06/26 18:42:36 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,13 @@ void	builtin_echo(char **args)
 		printf("\n");
 }
 
-int	builtin_cd(t_ms *ms, char *dir)
+int	builtin_cd(t_ms *ms, char **args)
 {
+	char	*dir;
+
+	if (args_count(args) != 1)
+		return (0);
+	dir = args[0];
 	if (chdir(dir) == -1)
 		return (0);
 	if (!set_cwd(ms))
