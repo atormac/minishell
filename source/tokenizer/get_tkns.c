@@ -1,67 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   line_to_tokens.c                                   :+:      :+:    :+:   */
+/*   get_tkns.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:15:59 by lopoka            #+#    #+#             */
-/*   Updated: 2024/06/26 11:42:15 by lucas            ###   ########.fr       */
+/*   Updated: 2024/06/26 18:10:44 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "tokenizer.h"
-
-int ft_is_quote(char *c)
-{
-	if (*c == '\'' || *c == '"')
-		return (1);
-	return (0);
-}
-
-char	*ft_quote_end(char *line)
-{
-	return (ft_strchr(line + 1, *line));
-}
-
-int	ft_is_whitespace(char *c)
-{
-	if (*c == ' ' || (*c >= '\t' && *c <= '\r'))
-		return (1);
-	return (0);
-}
-
-char	*ft_skip_whitespace(char **str)
-{
-	char	*tmp;
-	
-	tmp = *str;
-	while (*tmp && ft_is_whitespace(tmp))
-		tmp++;
-	*str = tmp;
-}
-
-int	ft_is_operator(char *str)
-{
-	int		i;
-	char	*operators;
-
-	i = 0;
-	operators = "()<>&|";
-	while (operators[i])
-	{
-		if (i < 2 && *str == operators[i])
-			return (i + 1);
-		else if (i >= 2 && *str == operators[i])
-		{
-			if (*(str + 1) == operators[i])
-				return (i + 3);
-			else if (i < 4) 
-				return (i + 1);
-		}
-		i++;
-	}
-	return (0);
-}
 
 void	ft_init_tkns(t_tkns *tkns)
 {
@@ -74,22 +22,7 @@ void	ft_init_tkns(t_tkns *tkns)
 		tkns->err = 1;
 }
 
-void	ft_add_operator(char **line, t_tkns *tkns)
-{
-	int	type;
-
-	ft_tkns_realloc(tkns);
-	type = ft_is_operator(*line);
-	if (type < 5)
-		*line += 1;
-	else
-		*line += 2;
-	tkns->arr[tkns->i].str = 0;
-	tkns->arr[tkns->i].type = type;
-	tkns->i++;
-}
-
-void	ft_add_cmnd(char **line, t_tkns *tkns)
+void	ft_get_cmnd_str(char **line, t_tkns *tkns)
 {
 	char	*tmp;
 
@@ -112,14 +45,28 @@ void	ft_add_cmnd(char **line, t_tkns *tkns)
 		else
 			tmp += 1;
 	}
-	ft_tkns_realloc(tkns);
 	tkns->arr[tkns->i].str = ft_substr(*line, 0, tmp - *line);
-	tkns->arr[tkns->i].type = 0;
-	tkns->i++;
 	*line = tmp;
 }
 
-t_tkns	ft_line_to_tokens(char *line)
+void	ft_add_tkn(char **line, t_tkns *tkns)
+{
+	ft_tkns_realloc(tkns);
+	tkns->arr[tkns->i].type = ft_is_operator(*line);
+	if (tkns->arr[tkns->i].type == 0)
+		ft_get_cmnd_str(line, tkns);
+	else
+	{
+		if (tkns->arr[tkns->i].type < 5)
+			*line += 1;
+		else
+			*line += 2;
+		tkns->arr[tkns->i].str = 0;
+	}
+	tkns->i++;
+}
+
+t_tkns	ft_get_tokens(char *line)
 {
 	t_tkns	tkns;
 
@@ -129,19 +76,14 @@ t_tkns	ft_line_to_tokens(char *line)
 	while (*line && !tkns.err)
 	{
 		ft_skip_whitespace(&line);
-		if (ft_is_operator(line))
-			ft_add_operator(&line, &tkns);
-		else
-			ft_add_cmnd(&line, &tkns);
+		ft_add_tkn(&line, &tkns);
 	}
 	return (tkns);
 }
-	
-#include <stdio.h>
-
+/*
 int main(void)		
 {	
-	/*
+	
 	printf("Is op %s %d\n", "(", ft_is_operator("("));
 	printf("Is op %s %d\n", ")", ft_is_operator(")"));
 	printf("Is op %s %d\n", "<", ft_is_operator("<"));
@@ -150,11 +92,12 @@ int main(void)
 	printf("Is op %s %d\n", ">>", ft_is_operator(">>"));
 	printf("Is op %s %d\n", "&&", ft_is_operator("&&"));
 	printf("Is op %s %d\n", "||", ft_is_operator("||"));
-	*/
+	
 
-	char *line = "()<><<>> 'str1 str1'\"str2 str2\"&&||(((((Monika Konstanty)))))))<><><>||||||&&&&&&";
+	//char *line = "()<><<>> 's1 s1'\"s2 s2\"&&||(Monika Konstanty)<>||&&";
+	char *line = "'str1 str1'\"str2 str2\"&&|||abcd&( abcd'12 34 56'defgh";
 	printf("%s\n", line);
-	t_tkns tkns = ft_line_to_tokens(line);
+	t_tkns tkns = ft_get_tokens(line);
 	for (int i = 0; i < tkns.i && !tkns.err; i++)
 	{
 		printf("Type %d str %s\n", tkns.arr[i].type, tkns.arr[i].str);
@@ -162,4 +105,4 @@ int main(void)
 	if (!tkns.err)
 		ft_free_tkns(&tkns);
 	return 0;
-}
+}*/

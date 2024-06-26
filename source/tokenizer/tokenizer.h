@@ -6,11 +6,14 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 16:36:42 by lopoka            #+#    #+#             */
-/*   Updated: 2024/06/26 10:00:41 by lucas            ###   ########.fr       */
+/*   Updated: 2024/06/26 17:36:50 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../../include/minishell.h"
-#include <stdio.h>
+
+#ifndef TOKENIZER_H
+# define TOKENIZER_H
+
+# include "../../include/minishell.h"
 
 typedef enum e_tkn_type
 {
@@ -27,8 +30,8 @@ typedef enum e_tkn_type
 
 typedef struct s_tkn
 {
-	int				type;
-	char 			*str;
+	t_tkn_type		type;
+	char			*str;
 }	t_tkn;
 
 typedef struct s_tkns
@@ -40,8 +43,15 @@ typedef struct s_tkns
 	size_t	err;
 }	t_tkns;
 
-//void	*ft_realloc(void *src, size_t old_s, size_t add_s);
-//void	ft_tkn_arr_realloc(t_tkn_arr *tkn_arr);
+//Tkns utils
+int		ft_is_quote(char *c);
+char	*ft_quote_end(char *line);
+int		ft_is_whitespace(char *c);
+char	*ft_skip_whitespace(char **str);
+int		ft_is_operator(char *str);
+
+//Tkns memory handling
 void	ft_tkns_realloc(t_tkns *tkns);
 void	ft_free_tkns(t_tkns *tkns);
 
+#endif
