@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 14:30:53 by atorma            #+#    #+#             */
-/*   Updated: 2024/06/25 17:58:23 by atorma           ###   ########.fr       */
+/*   Updated: 2024/06/26 14:08:30 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,14 @@ void	env_print(char **env)
 	printf("--- env ---\n");
 	if (!env)
 	{
-		printf("env is NULL\n");
+		printf("NULL\n");
 		return ;
 	}
 	i = 0;
 	while (env[i])
 	{
-		printf("env[%d]: %s\n", i, env[i]);
+		if (env[i][0] != '\0')
+			printf("env[%d]: %s\n", i, env[i]);
 		i++;
 	}
 }

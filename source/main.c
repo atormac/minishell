@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/06/25 18:22:56 by atorma           ###   ########.fr       */
+/*   Updated: 2024/06/26 14:08:10 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ static	int	minishell_init(t_ms *ms, char **argv, char **envp)
 		}
 	}
 	ms->cwd = env_var_get(ms->env, "PWD");
+	env_print(ms->env);
 	printf("ms->cwd: %s\n", ms->cwd);
 	printf("minishell initialized\n");
 	(void)argv;
