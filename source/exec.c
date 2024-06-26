@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:31 by atorma            #+#    #+#             */
-/*   Updated: 2024/06/26 19:39:41 by atorma           ###   ########.fr       */
+/*   Updated: 2024/06/26 19:53:49 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,6 @@ int	exec_cmd(t_ms *ms, char *cmd, char **args)
 		ret = exec_builtin(ms, builtin, args);
 	else
 		ret = exec_bin(ms, cmd, args);
-	if (ret == 0)
-	{
-		printf("minishell: %s\n", strerror(errno));
-	}
 	free_array(args);
 	return (ret);
 }

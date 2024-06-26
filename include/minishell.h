@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 15:36:13 by atorma            #+#    #+#             */
-/*   Updated: 2024/06/26 19:23:16 by atorma           ###   ########.fr       */
+/*   Updated: 2024/06/26 19:59:49 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ typedef struct t_ms
 	char	**env;
 	char	**path;
 	char	*cwd;
+	int		cmd_error;
 	int		exit_code;
 }	t_ms;
 
@@ -30,11 +31,6 @@ typedef struct t_ms
 char	**get_args(char **cmd);
 size_t	args_count(char **args);
 int		set_cwd(t_ms *ms);
-char	**env_clone(char **envp);
-void	env_print(char **env);
-char	*env_var_get(char **env, char *var);
-void	env_var_unset(char **env, char *var);
-int		env_var_set(t_ms *ms, char *var, char *val);
 void	prompt_set(t_ms *ms, char *prompt, size_t size);
 char	*path_join(char *path, char *bin);
 char	**path_get(char **envp);

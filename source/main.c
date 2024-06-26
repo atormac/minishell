@@ -6,11 +6,12 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/06/26 19:17:10 by atorma           ###   ########.fr       */
+/*   Updated: 2024/06/26 20:00:16 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+#include "../include/environment.h"
 #include "../include/builtin.h"
 
 #include <stdio.h>

@@ -6,11 +6,12 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:14 by atorma            #+#    #+#             */
-/*   Updated: 2024/06/25 16:19:32 by atorma           ###   ########.fr       */
+/*   Updated: 2024/06/26 20:00:35 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+#include "../include/environment.h"
 
 static void	prompt_dir_set(t_ms *ms, char *prompt, size_t size)
 {

@@ -1,32 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   environment.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/26 17:57:24 by atorma            #+#    #+#             */
-/*   Updated: 2024/06/26 20:01:05 by atorma           ###   ########.fr       */
+/*   Created: 2024/06/26 19:59:03 by atorma            #+#    #+#             */
+/*   Updated: 2024/06/26 19:59:22 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
-#include "../include/environment.h"
+#ifndef ENVIRONMENT_H
+# define ENVIRONMENT_H
 
-int	set_cwd(t_ms *ms)
-{
-	char	*dir;
+char	**env_clone(char **envp);
+void	env_print(char **env);
+char	*env_var_get(char **env, char *var);
+void	env_var_unset(char **env, char *var);
+int		env_var_set(t_ms *ms, char *var, char *val);
 
-
-	dir = getcwd(NULL, 0);
-	if (!dir)
-		return (0);
-	if (!env_var_set(ms, "PWD", dir))
-	{
-		free(dir);
-		return (0);
-	}
-	ms->cwd = env_var_get(ms->env, "PWD");
-	free(dir);
-	return (1);
-}
+#endif
