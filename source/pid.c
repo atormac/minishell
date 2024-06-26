@@ -6,11 +6,13 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 14:21:15 by atorma            #+#    #+#             */
-/*   Updated: 2024/06/26 14:22:09 by atorma           ###   ########.fr       */
+/*   Updated: 2024/06/26 14:26:06 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+#include <sys/types.h>
+#include <sys/wait.h>
 
 int	pid_wait(pid_t pid)
 {
@@ -20,4 +22,9 @@ int	pid_wait(pid_t pid)
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
 	return (EXIT_FAILURE);
+}
+
+int	pid_kill(pid_t pid)
+{
+	return (kill(pid, SIGKILL));
 }
