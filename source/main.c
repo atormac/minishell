@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/06/26 16:07:09 by atorma           ###   ########.fr       */
+/*   Updated: 2024/06/26 17:07:00 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,6 @@ static	int	minishell_init(t_ms *ms, char **envp)
 void	minishell_cleanup(t_ms *ms)
 {
 	free_array(ms->env);
-	if (!ms->env)
-		free(ms->cwd);
 }
 
 static	void	minishell(t_ms *ms)
