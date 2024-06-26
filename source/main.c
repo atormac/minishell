@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/06/26 17:07:00 by atorma           ###   ########.fr       */
+/*   Updated: 2024/06/26 17:57:33 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,6 @@ static void	sig_handler(int signo)
 	}
 }
 
-static	int	set_cwd(t_ms *ms)
-{
-	char	tmp[1024];
-
-	if (!getcwd(tmp, sizeof(tmp)))
-		return (0);
-	env_var_set(ms, "PWD", tmp);
-	ms->cwd = env_var_get(ms->env, "PWD");
-	return (1);
-}
 
 static	int	minishell_init(t_ms *ms, char **envp)
 {
