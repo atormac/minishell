@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/06/26 17:57:33 by atorma           ###   ########.fr       */
+/*   Updated: 2024/06/26 19:09:20 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ static	int	minishell_init(t_ms *ms, char **envp)
 			return (0);
 		}
 	}
-	set_cwd(ms);
+	if (!set_cwd(ms))
+		return (0);
 	printf("ms->cwd: %s\n", ms->cwd);
 	printf("minishell initialized\n");
 	return (1);
