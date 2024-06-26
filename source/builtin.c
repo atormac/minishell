@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:23 by atorma            #+#    #+#             */
-/*   Updated: 2024/06/26 19:17:25 by atorma           ###   ########.fr       */
+/*   Updated: 2024/06/26 19:40:40 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,31 @@ int	builtin_cd(t_ms *ms, char **args)
 		return (0);
 	if (!set_cwd(ms))
 		return (0);
+	return (1);
+}
+
+int	builtin_env(t_ms *ms, int id, char **args)
+{
+	size_t	arg_cnt;
+
+	arg_cnt = args_count(args);
+	if (id == BUILTIN_ENV)
+	{
+		if (arg_cnt != 0)
+			return (0);
+		env_print(ms->env);
+	}
+	else if (id == BUILTIN_EXPORT)
+	{
+		if (arg_cnt != 2)
+			return (0);
+		return env_var_set(ms, args[0], args[1]);
+	}
+	else if (id == BUILTIN_UNSET)
+	{
+		if (arg_cnt != 1)
+			return (0);
+		env_var_unset(ms->env, args[0]);
+	}
 	return (1);
 }
