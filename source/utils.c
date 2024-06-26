@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 17:57:24 by atorma            #+#    #+#             */
-/*   Updated: 2024/06/26 20:01:05 by atorma           ###   ########.fr       */
+/*   Updated: 2024/06/26 20:36:40 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 int	set_cwd(t_ms *ms)
 {
 	char	*dir;
-
 
 	dir = getcwd(NULL, 0);
 	if (!dir)

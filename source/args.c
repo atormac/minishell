@@ -6,13 +6,13 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 18:39:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/06/26 18:43:41 by atorma           ###   ########.fr       */
+/*   Updated: 2024/06/26 20:37:11 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-//Remove this later
+//Remove this function later
 char	**get_args(char **cmd)
 {
 	char	*sp;

@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/06/26 20:00:16 by atorma           ###   ########.fr       */
+/*   Updated: 2024/06/26 20:38:05 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include "../include/environment.h"
 #include "../include/builtin.h"
 
-#include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <signal.h>
@@ -30,10 +29,10 @@ static void	sig_handler(int signo)
 	}
 }
 
-
 static	int	minishell_init(t_ms *ms, char **envp)
 {
 	ms->exit_code = 0;
+	ms->cmd_error = 0;
 	ms->cwd = NULL;
 	ms->env = NULL;
 	if (envp)
@@ -65,7 +64,7 @@ static	void	minishell(t_ms *ms)
 	signal(SIGINT, sig_handler);
 	while (1)
 	{
-		prompt_set(ms, prompt, sizeof(prompt));
+		prompt_update(ms, prompt, sizeof(prompt));
 		line = readline(prompt);
 		if (line == NULL || is_builtin(line) == BUILTIN_EXIT)
 			break;
@@ -73,7 +72,6 @@ static	void	minishell(t_ms *ms)
 		{
 			add_history(line);
 			exec_cmd(ms, line, NULL);
-			//printf("line: %s\n", line);
 		}
 		free(line);
 	}
@@ -90,6 +88,7 @@ int main(int argc, char **argv, char **envp)
 	if (!minishell_init(&ms, envp))
 	{
 		ft_putstr_fd("Error initializing minishell\n", STDERR_FILENO);
+		minishell_cleanup(&ms);
 		return (EXIT_FAILURE);
 	}
 	minishell(&ms);

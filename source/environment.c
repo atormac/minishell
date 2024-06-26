@@ -6,14 +6,11 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 14:30:53 by atorma            #+#    #+#             */
-/*   Updated: 2024/06/26 14:53:06 by atorma           ###   ########.fr       */
+/*   Updated: 2024/06/26 20:36:54 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-#include <stdio.h>
-
-//Clones envp to ms->env
 
 char	**env_clone(char **envp)
 {

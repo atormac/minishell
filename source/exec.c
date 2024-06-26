@@ -6,14 +6,14 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:31 by atorma            #+#    #+#             */
-/*   Updated: 2024/06/26 19:53:49 by atorma           ###   ########.fr       */
+/*   Updated: 2024/06/26 20:35:32 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 #include "../include/builtin.h"
 
-int	exec_builtin(t_ms *ms, int id, char **args)
+static int	exec_builtin(t_ms *ms, int id, char **args)
 {
 	if (id == BUILTIN_ECHO)
 		builtin_echo(args);
@@ -26,8 +26,7 @@ int	exec_builtin(t_ms *ms, int id, char **args)
 	return (1);
 }
 
-
-int	exec_bin(t_ms *ms, char	*cmd, char **args)
+static int	exec_bin(t_ms *ms, char	*cmd, char **args)
 {			
 	int		ret;
 	char	*cmd_path;
@@ -41,7 +40,6 @@ int	exec_bin(t_ms *ms, char	*cmd, char **args)
 	free(cmd_path);
 	return (ret);
 }
-
 
 int	exec_cmd(t_ms *ms, char *cmd, char **args)
 {
