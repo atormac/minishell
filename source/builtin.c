@@ -6,12 +6,13 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:23 by atorma            #+#    #+#             */
-/*   Updated: 2024/06/26 18:42:36 by atorma           ###   ########.fr       */
+/*   Updated: 2024/06/26 19:17:25 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../include/minishell.h"
+#include "../include/builtin.h"
 
 int	is_builtin(char	*cmd)
 {
