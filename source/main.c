@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/06/26 14:39:28 by atorma           ###   ########.fr       */
+/*   Updated: 2024/06/26 14:49:01 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ static	void	minishell(t_ms *ms)
 		if (*line)
 		{
 			add_history(line);
-			printf("line: %s\n", line);
+			exec_cmd(ms, line, NULL);
+			//printf("line: %s\n", line);
 		}
 		free(line);
 	}

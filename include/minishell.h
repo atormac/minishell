@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 15:36:13 by atorma            #+#    #+#             */
-/*   Updated: 2024/06/26 14:39:02 by atorma           ###   ########.fr       */
+/*   Updated: 2024/06/26 14:49:29 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 #include "../libft/libft.h"
+#include <stdio.h>
 
 typedef struct t_ms
 {
@@ -45,5 +46,6 @@ char	*path_join(char *path, char *bin);
 char	**path_get(char **envp);
 char	*path_find_bin(t_ms *ms, char *cmd);
 int		is_builtin(char	*cmd);
+int		exec_cmd(t_ms *ms, char *cmd, char **args);
 
 #endif
