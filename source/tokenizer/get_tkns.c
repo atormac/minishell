@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:15:59 by lopoka            #+#    #+#             */
-/*   Updated: 2024/06/26 18:10:44 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/06/26 18:28:46 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "tokenizer.h"
@@ -39,11 +39,8 @@ void	ft_get_cmnd_str(char **line, t_tkns *tkns)
 				tkns->err = 1;
 				return ;
 			}
-			tmp += 1;
-			break ;
 		}
-		else
-			tmp += 1;
+		tmp += 1;
 	}
 	tkns->arr[tkns->i].str = ft_substr(*line, 0, tmp - *line);
 	*line = tmp;
@@ -82,8 +79,7 @@ t_tkns	ft_get_tokens(char *line)
 }
 /*
 int main(void)		
-{	
-	
+{		
 	printf("Is op %s %d\n", "(", ft_is_operator("("));
 	printf("Is op %s %d\n", ")", ft_is_operator(")"));
 	printf("Is op %s %d\n", "<", ft_is_operator("<"));
@@ -92,10 +88,9 @@ int main(void)
 	printf("Is op %s %d\n", ">>", ft_is_operator(">>"));
 	printf("Is op %s %d\n", "&&", ft_is_operator("&&"));
 	printf("Is op %s %d\n", "||", ft_is_operator("||"));
-	
 
 	//char *line = "()<><<>> 's1 s1'\"s2 s2\"&&||(Monika Konstanty)<>||&&";
-	char *line = "'str1 str1'\"str2 str2\"&&|||abcd&( abcd'12 34 56'defgh";
+	char *line = "'s1 s1'\"s2 s2\"&&|||ab&( abcd '12 34 56'cd (a && b)";
 	printf("%s\n", line);
 	t_tkns tkns = ft_get_tokens(line);
 	for (int i = 0; i < tkns.i && !tkns.err; i++)
