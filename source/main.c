@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/06/26 14:49:01 by atorma           ###   ########.fr       */
+/*   Updated: 2024/06/26 16:07:09 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,21 @@ static void	sig_handler(int signo)
 	}
 }
 
+static	int	set_cwd(t_ms *ms)
+{
+	char	tmp[1024];
+
+	if (!getcwd(tmp, sizeof(tmp)))
+		return (0);
+	env_var_set(ms, "PWD", tmp);
+	ms->cwd = env_var_get(ms->env, "PWD");
+	return (1);
+}
+
 static	int	minishell_init(t_ms *ms, char **envp)
 {
 	ms->exit_code = 0;
+	ms->cwd = NULL;
 	ms->env = NULL;
 	if (envp)
 	{
@@ -41,8 +53,7 @@ static	int	minishell_init(t_ms *ms, char **envp)
 			return (0);
 		}
 	}
-	ms->cwd = env_var_get(ms->env, "PWD");
-	env_print(ms->env);
+	set_cwd(ms);
 	printf("ms->cwd: %s\n", ms->cwd);
 	printf("minishell initialized\n");
 	return (1);
@@ -51,6 +62,8 @@ static	int	minishell_init(t_ms *ms, char **envp)
 void	minishell_cleanup(t_ms *ms)
 {
 	free_array(ms->env);
+	if (!ms->env)
+		free(ms->cwd);
 }
 
 static	void	minishell(t_ms *ms)
@@ -82,6 +95,7 @@ int main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
+
 	if (!minishell_init(&ms, envp))
 	{
 		ft_putstr_fd("Error initializing minishell\n", STDERR_FILENO);
