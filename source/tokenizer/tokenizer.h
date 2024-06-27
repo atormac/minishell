@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 16:36:42 by lopoka            #+#    #+#             */
-/*   Updated: 2024/06/26 17:36:50 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/06/27 14:56:47 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,11 @@ typedef enum e_tkn_type
 	t_prnths_cls,
 	t_lwr,
 	t_bgr,
+	t_pipe,
 	t_lwrlwr,
 	t_bgrbgr,
-	t_and,
-	t_pipe
+	t_or,
+	t_and
 }	t_tkn_type;
 
 typedef struct s_tkn

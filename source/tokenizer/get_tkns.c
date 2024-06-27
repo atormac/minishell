@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:15:59 by lopoka            #+#    #+#             */
-/*   Updated: 2024/06/26 18:28:46 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/06/27 14:58:49 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "tokenizer.h"
@@ -84,10 +84,13 @@ int main(void)
 	printf("Is op %s %d\n", ")", ft_is_operator(")"));
 	printf("Is op %s %d\n", "<", ft_is_operator("<"));
 	printf("Is op %s %d\n", ">", ft_is_operator(">"));
+	printf("Is op %s %d\n", "|", ft_is_operator("|"));
 	printf("Is op %s %d\n", "<<", ft_is_operator("<<"));
 	printf("Is op %s %d\n", ">>", ft_is_operator(">>"));
-	printf("Is op %s %d\n", "&&", ft_is_operator("&&"));
 	printf("Is op %s %d\n", "||", ft_is_operator("||"));
+	printf("Is op %s %d\n", "&&", ft_is_operator("&&"));
+	printf("Is op %s %d\n", "&", ft_is_operator("&"));
+	return 0;
 
 	//char *line = "()<><<>> 's1 s1'\"s2 s2\"&&||(Monika Konstanty)<>||&&";
 	char *line = "'s1 s1'\"s2 s2\"&&|||ab&( abcd '12 34 56'cd (a && b)";
