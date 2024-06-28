@@ -6,7 +6,7 @@
 #    By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/11 21:03:29 by atorma            #+#    #+#              #
-#    Updated: 2024/06/26 18:41:39 by atorma           ###   ########.fr        #
+#    Updated: 2024/06/28 17:14:49 by atorma           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ LIBDIR = ./libft
 LIBS = $(LIBDIR)/libft.a
 INCLUDE_DIR = ./include
 SOURCE_DIR = source
-SOURCES = main.c prompt.c builtin.c path.c exec.c environment.c pid.c utils.c args.c
+SOURCES = main.c prompt.c builtin.c path.c exec.c environment.c pid.c utils.c args.c pipes.c
 OBJECTS = $(addprefix $(SOURCE_DIR)/,$(SOURCES:.c=.o))
 
 target debug: CC = clang
