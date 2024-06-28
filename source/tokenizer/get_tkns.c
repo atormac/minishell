@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:15:59 by lopoka            #+#    #+#             */
-/*   Updated: 2024/06/27 14:58:49 by lucas            ###   ########.fr       */
+/*   Updated: 2024/06/27 15:18:18 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "tokenizer.h"
@@ -16,6 +16,7 @@ void	ft_init_tkns(t_tkns *tkns)
 	tkns->size = 5;
 	tkns->to_add = 5;
 	tkns->i = 0;
+	tkns->curr_tkn = 0;
 	tkns->err = 0;
 	tkns->arr = (t_tkn *) malloc(tkns->size * sizeof(t_tkn));
 	if (!tkns->arr)

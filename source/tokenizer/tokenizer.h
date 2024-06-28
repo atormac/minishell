@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 16:36:42 by lopoka            #+#    #+#             */
-/*   Updated: 2024/06/27 14:56:47 by lucas            ###   ########.fr       */
+/*   Updated: 2024/06/27 15:17:52 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,14 @@ typedef struct s_tkns
 {
 	t_tkn	*arr;
 	size_t	size;
+	size_t	curr_tkn;
 	size_t	i;
 	size_t	to_add;
 	size_t	err;
 }	t_tkns;
+
+//Tkns
+t_tkns	ft_get_tokens(char *line);
 
 //Tkns utils
 int		ft_is_quote(char *c);
