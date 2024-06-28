@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 15:04:51 by lopoka            #+#    #+#             */
-/*   Updated: 2024/06/28 14:25:42 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/06/28 15:18:37 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "tokenizer.h"
@@ -180,10 +180,10 @@ t_ast	*ft_get_ast(t_tkns *tkns, int min_prcd)
 		return (0);
 	ast = ft_get_branch(tkns);
 	if (!ast)
-		return (0);
-	while (ft_curr_tkn_bop(tkns) && ft_prcd(tkns->arr[tkns->curr_tkn].type) >= min_prcd)
+		return (0); 
+	op = tkns->arr[tkns->curr_tkn].type;
+	while (ft_curr_tkn_bop(tkns) && ft_prcd(op) >= min_prcd)
 	{
-		op = tkns->arr[tkns->curr_tkn].type;
 		tkns->curr_tkn++;
 		if (!ft_is_tkn(tkns))
 		{
@@ -214,7 +214,7 @@ void	ft_print_ast(t_ast *ast)
 
 int main(void)		
 {		
-	char *line = "ab && (cd || bd)";
+	char *line = "(ab aa | bb) && (cd || (bd && (zz)))";
 	printf("%s\n", line);
 
 	t_tkns tkns = ft_get_tokens(line);
