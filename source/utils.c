@@ -20,6 +20,22 @@ int	is_executable(char *path)
 	return (0);
 }
 
+void	set_shlvl(t_ms *ms)
+{
+	char	*level;
+	int		new_lvl;
+
+	level = env_var_get(ms->env, "SHLVL");
+	if (!level || level[0] == '\0')
+		return ;
+	new_lvl = ft_atoi(level) + 1;
+	level = ft_itoa(new_lvl);
+	if (!level)
+		return ;
+	env_var_set(ms, "SHLVL", level);
+	free(level);
+}
+
 int	set_cwd(t_ms *ms)
 {
 	char	*dir;

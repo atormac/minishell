@@ -31,6 +31,7 @@ static	int	minishell_init(t_ms *ms, char **envp)
 			printf("Failed to initialize env\n");
 			return (0);
 		}
+		set_shlvl(ms);
 	}
 	if (!set_cwd(ms))
 		return (0);
