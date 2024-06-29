@@ -72,6 +72,8 @@ static char	*path_search(char **path, char *cmd)
 
 char	*path_abs_or_relative(char *cmd)
 {
+	if (ft_strchr(cmd, '/') == NULL)
+		return (NULL);
 	if (is_executable(cmd))
 		return ft_strdup(cmd);
 	return (NULL);
@@ -82,9 +84,9 @@ char	*path_find_bin(t_ms *ms, char *cmd)
 	char	**path;
 	char	*cmd_path;
 
+	cmd_path = NULL;
 	if (cmd[0] == '\0')
 		return (NULL);
-	cmd_path = NULL;
 	path = path_get(ms->env);
 	cmd_path = path_search(path, cmd);
 	if (!cmd_path)
