@@ -70,7 +70,7 @@ int	builtin_cd(t_ms *ms, char **args)
 	dir = args[0];
 	if (chdir(dir) == -1)
 		return (0);
-	if (!set_cwd(ms))
+	if (!update_cwd(ms))
 		return (0);
 	return (1);
 }

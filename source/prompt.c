@@ -16,12 +16,17 @@
 static void	prompt_set_dir(t_ms *ms, char *prompt, size_t size)
 {
 	char	*home_dir;
+	size_t	home_len;
 
 	home_dir = env_var_get(ms->env, "HOME");
 	if (home_dir && ft_strncmp(ms->cwd, home_dir, ft_strlen(home_dir)) == 0)
 	{
-		ft_strlcat(prompt, "~", size);
-		ft_strlcat(prompt, ms->cwd + ft_strlen(home_dir), size);
+		home_len = ft_strlen(home_dir);
+		if (ms->cwd[home_len] == '/')
+		{
+			ft_strlcat(prompt, "~", size);
+			ft_strlcat(prompt, ms->cwd + ft_strlen(home_dir), size);
+		}
 		return	;
 	}
 	ft_strlcat(prompt, ms->cwd, size);

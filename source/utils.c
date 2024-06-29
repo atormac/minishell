@@ -32,12 +32,29 @@ int	set_cwd(t_ms *ms)
 		free(dir);
 		return (0);
 	}
-	if (ms->cwd && !env_var_set(ms, "OLDPWD", ms->cwd))
-	{
-		free(dir);
+	ms->cwd = dir;
+	return (1);
+}
+
+int	update_cwd(t_ms *ms)
+{
+	char	*dir;
+	char	*pwd_exists;
+
+	dir = getcwd(NULL, 0);
+	if (!dir)
 		return (0);
+	pwd_exists = env_var_get(ms->env, "PWD");
+	if (!pwd_exists)
+	{
+		env_var_unset(ms->env, "OLDPWD");
+		free(ms->cwd);
+		ms->cwd = dir;
+		return (1);
 	}
-	ms->cwd = env_var_get(ms->env, "PWD");
-	free(dir);
+	env_var_set(ms, "PWD", dir);
+	env_var_set(ms, "OLDPWD", ms->cwd);
+	free(ms->cwd);
+	ms->cwd = dir;
 	return (1);
 }

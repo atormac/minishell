@@ -42,6 +42,7 @@ static	int	minishell_init(t_ms *ms, char **envp)
 void	minishell_cleanup(t_ms *ms)
 {
 	free_array(ms->env);
+	free(ms->cwd);
 }
 
 static	void	minishell(t_ms *ms)

@@ -31,6 +31,7 @@ typedef struct t_ms
 char	**get_args(char **cmd);
 size_t	args_count(char **args);
 int		set_cwd(t_ms *ms);
+int		update_cwd(t_ms *ms);
 void	prompt_update(t_ms *ms, char *prompt, size_t size);
 char	*path_join(char *path, char *bin);
 char	**path_get(char **envp);
