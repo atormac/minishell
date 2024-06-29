@@ -16,18 +16,6 @@
 
 #include <readline/readline.h>
 #include <readline/history.h>
-#include <signal.h>
-
-static void	sig_handler(int signo)
-{
-	if (signo == SIGINT)
-	{
-		printf("\n");
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-	}
-}
 
 static	int	minishell_init(t_ms *ms, char **envp)
 {
@@ -46,8 +34,8 @@ static	int	minishell_init(t_ms *ms, char **envp)
 	}
 	if (!set_cwd(ms))
 		return (0);
-	printf("ms->cwd: %s\n", ms->cwd);
-	printf("minishell initialized\n");
+	if (!init_signals())
+		return (0);
 	return (1);
 }
 
@@ -61,7 +49,6 @@ static	void	minishell(t_ms *ms)
 	char	prompt[1024];
 	char	*line;
 
-	signal(SIGINT, sig_handler);
 	while (1)
 	{
 		prompt_update(ms, prompt, sizeof(prompt));
@@ -75,6 +62,7 @@ static	void	minishell(t_ms *ms)
 		}
 		free(line);
 	}
+	printf("exit\n");
 	free(line);
 }
 

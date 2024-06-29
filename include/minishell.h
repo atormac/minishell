@@ -36,5 +36,6 @@ char	*path_join(char *path, char *bin);
 char	**path_get(char **envp);
 char	*path_find_bin(t_ms *ms, char *cmd);
 int		exec_cmd(t_ms *ms, char *cmd, char **args);
+int		init_signals(void);
 
 #endif

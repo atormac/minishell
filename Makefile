@@ -18,7 +18,8 @@ LIBDIR = ./libft
 LIBS = $(LIBDIR)/libft.a
 INCLUDE_DIR = ./include
 SOURCE_DIR = source
-SOURCES = main.c prompt.c builtin.c path.c exec.c environment.c pid.c utils.c args.c pipes.c
+SOURCES = main.c prompt.c builtin.c path.c exec.c environment.c \
+		  pid.c utils.c args.c pipes.c signals.c
 OBJECTS = $(addprefix $(SOURCE_DIR)/,$(SOURCES:.c=.o))
 
 target debug: CC = clang

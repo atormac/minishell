@@ -25,6 +25,11 @@ int	set_cwd(t_ms *ms)
 		free(dir);
 		return (0);
 	}
+	if (ms->cwd && !env_var_set(ms, "OLDPWD", ms->cwd))
+	{
+		free(dir);
+		return (0);
+	}
 	ms->cwd = env_var_get(ms->env, "PWD");
 	free(dir);
 	return (1);
