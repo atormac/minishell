@@ -34,11 +34,14 @@ static int	exec_bin(t_ms *ms, char	*cmd, char **args)
 	ret = 0;
 	cmd_path = path_find_bin(ms, cmd);
 	if (!cmd_path)
+	{
+		printf("%s: command not found\n", cmd);
 		return (0);
-	(void)args;
+	}
 	//ret = execve(cmd, args, ms->env);
-	printf("exec_bin: %s\n", cmd_path);
+	printf("cmd_path %s\n", cmd_path);
 	free(cmd_path);
+	(void)args;
 	return (ret);
 }
 

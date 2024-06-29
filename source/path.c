@@ -49,31 +49,32 @@ char	**path_get(char **envp)
 	return (NULL);
 }
 
-static char	*path_search(char **path, char *cmd)
+static char	*path_search(t_ms *ms, char *cmd)
 {
 	int		i;
 	char	*cmd_path;
+	char	**path;
 
 	i = 0;
-	if (ft_strchr(cmd, '/'))
-		return (NULL);
+	cmd_path = NULL;
+	path = path_get(ms->env);
 	while (path && path[i])
 	{
 		cmd_path = path_join(path[i], cmd);
 		if (!cmd_path)
 			break;
 		if (is_executable(cmd_path))
-			return (cmd_path);
+			break;
 		free(cmd_path);
+		cmd_path = NULL;
 		i++;
 	}
-	return (NULL);
+	free_array(path);
+	return (cmd_path);
 }
 
 char	*path_abs_or_relative(char *cmd)
 {
-	if (ft_strchr(cmd, '/') == NULL)
-		return (NULL);
 	if (is_executable(cmd))
 		return ft_strdup(cmd);
 	return (NULL);
@@ -81,16 +82,14 @@ char	*path_abs_or_relative(char *cmd)
 
 char	*path_find_bin(t_ms *ms, char *cmd)
 {
-	char	**path;
 	char	*cmd_path;
 
 	cmd_path = NULL;
 	if (cmd[0] == '\0')
 		return (NULL);
-	path = path_get(ms->env);
-	cmd_path = path_search(path, cmd);
-	if (!cmd_path)
+	if (ft_strchr(cmd, '/'))
 		cmd_path = path_abs_or_relative(cmd);
-	free_array(path);
+	else
+		cmd_path = path_search(ms, cmd);
 	return (cmd_path);
 }
