@@ -26,8 +26,11 @@ void	set_shlvl(t_ms *ms)
 	int		new_lvl;
 
 	level = env_var_get(ms->env, "SHLVL");
-	if (!level || level[0] == '\0')
+	if (!level)
+	{
+		env_var_set(ms, "SHLVL", "1");
 		return ;
+	}
 	new_lvl = ft_atoi(level) + 1;
 	level = ft_itoa(new_lvl);
 	if (!level)
@@ -63,7 +66,7 @@ int	update_cwd(t_ms *ms)
 	pwd_exists = env_var_get(ms->env, "PWD");
 	if (!pwd_exists)
 	{
-		env_var_unset(ms->env, "OLDPWD");
+		env_var_set(ms, "OLDPWD", "");
 		free(ms->cwd);
 		ms->cwd = dir;
 		return (1);
