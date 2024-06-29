@@ -23,11 +23,6 @@ char	*path_join(char *path, char *bin)
 	ret = malloc(path_len + bin_len + 2);
 	if (!ret)
 		return (NULL);
-	if (ft_strchr(bin, '/'))
-	{
-		ft_strlcpy(ret, bin, bin_len + 1);
-		return (ret);
-	}
 	ft_strlcpy(ret, path, path_len + 1);
 	ft_strlcpy(ret + path_len, "/", 2);
 	ft_strlcpy(ret + path_len + 1, bin, bin_len + 1);
@@ -60,18 +55,25 @@ static char	*path_search(char **path, char *cmd)
 	char	*cmd_path;
 
 	i = 0;
-	while (path[i])
+	if (ft_strchr(cmd, '/'))
+		return (NULL);
+	while (path && path[i])
 	{
 		cmd_path = path_join(path[i], cmd);
 		if (!cmd_path)
 			break;
-		if (access(cmd_path, F_OK) == 0 && access(cmd_path, X_OK) == 0)
-		{
+		if (is_executable(cmd_path))
 			return (cmd_path);
-		}
 		free(cmd_path);
 		i++;
 	}
+	return (NULL);
+}
+
+char	*path_abs_or_relative(char *cmd)
+{
+	if (is_executable(cmd))
+		return ft_strdup(cmd);
 	return (NULL);
 }
 
@@ -84,10 +86,9 @@ char	*path_find_bin(t_ms *ms, char *cmd)
 		return (NULL);
 	cmd_path = NULL;
 	path = path_get(ms->env);
-	if (path)
-	{
-		cmd_path = path_search(path, cmd);
-	}
+	cmd_path = path_search(path, cmd);
+	if (!cmd_path)
+		cmd_path = path_abs_or_relative(cmd);
 	free_array(path);
 	return (cmd_path);
 }

@@ -31,12 +31,13 @@ static int	exec_bin(t_ms *ms, char	*cmd, char **args)
 	int		ret;
 	char	*cmd_path;
 
-	printf("exec_bin: TODO\n");
-	return (0);
+	ret = 0;
 	cmd_path = path_find_bin(ms, cmd);
 	if (!cmd_path)
 		return (0);
-	ret = execve(cmd, args, ms->env);
+	(void)args;
+	//ret = execve(cmd, args, ms->env);
+	printf("exec_bin: %s\n", cmd_path);
 	free(cmd_path);
 	return (ret);
 }

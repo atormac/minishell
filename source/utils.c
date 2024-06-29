@@ -13,6 +13,13 @@
 #include "../include/minishell.h"
 #include "../include/environment.h"
 
+int	is_executable(char *path)
+{
+	if (access(path, F_OK) == 0 && access(path, X_OK) == 0)
+		return (1);
+	return (0);
+}
+
 int	set_cwd(t_ms *ms)
 {
 	char	*dir;
