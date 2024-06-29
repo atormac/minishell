@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 15:04:51 by lopoka            #+#    #+#             */
-/*   Updated: 2024/06/28 15:50:38 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/06/29 10:05:31 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "tokenizer.h"
@@ -26,12 +26,13 @@ void	ft_free_ast(t_ast *ast)
 {
 	if (!ast)
 		return ;
-	if (ast->str)
-		free(ast->str);
 	if (ast->left)
 		ft_free_ast(ast->left);
 	if (ast->right)
 		ft_free_ast(ast->right);
+	if (ast->str)
+		free(ast->str);
+	free(ast);
 }
 
 int	ft_prcd(int type)
@@ -56,7 +57,7 @@ int	ft_curr_tkn_bop(t_tkns *tkns)
 		return (0);
 	type = tkns->arr[tkns->curr_tkn].type;
 	if (type == t_pipe || type == t_or || type == t_and)
-		return (1);
+		return (type);
 	return (0);	
 }
 
@@ -125,7 +126,7 @@ t_ast	*ft_get_branch(t_tkns *tkns)
 	else if (tkns->arr[tkns->curr_tkn].type == t_prnths_opn)
 	{
 		tkns->curr_tkn++;
-		branch = ft_get_ast(tkns, 0);
+		branch = ft_get_ast(tkns, 1);
 		if (!branch)
 		{
 			printf("ERROR5");//mem error
@@ -171,7 +172,7 @@ t_ast	*ft_merge_branch(t_ast *ast, int op, t_ast *new_branch)
 	return (new_ast);
 }
 
-t_ast	*ft_get_ast(t_tkns *tkns, int min_prcd)
+t_ast	*ft_get_ast(t_tkns *tkns, int tree_top)
 {
 	t_ast	*ast;
 	int		op;
@@ -180,17 +181,17 @@ t_ast	*ft_get_ast(t_tkns *tkns, int min_prcd)
 		return (0);
 	ast = ft_get_branch(tkns);
 	if (!ast)
-		return (0); 
-	op = tkns->arr[tkns->curr_tkn].type;
-	while (ft_curr_tkn_bop(tkns) && ft_prcd(op) >= min_prcd)
+		return (0); 	
+	while ((tree_top && ft_curr_tkn_bop(tkns)) || (!tree_top && ft_curr_tkn_bop(tkns) == t_pipe))
 	{
+		op = tkns->arr[tkns->curr_tkn].type;
 		tkns->curr_tkn++;
 		if (!ft_is_tkn(tkns))
 		{
 			printf("ERROR1");//ERROR syntax
 			return (ast);
 		}
-		ast = ft_merge_branch(ast, op, ft_get_ast(tkns, ft_prcd(op) + 1));
+		ast = ft_merge_branch(ast, op, ft_get_ast(tkns, 0));
 		if (!ast)
 		{
 			printf("ERROR2");
@@ -214,21 +215,23 @@ void	ft_print_ast(t_ast *ast)
 
 int main(void)		
 {		
-	char *line = "(ab aa | bb) && (cd || (bd && (zz)))";
+	char *line = "(1 2 | 3) && (4 || (5 && (6 && 7 || 8)))";
+	//char *line = "6 && 7 || 8";
 	printf("%s\n", line);
 
-	t_tkns tkns = ft_get_tokens(line);
-	for (int i = 0; i < tkns.i && !tkns.err; i++)
+	t_tkns *tkns = ft_get_tokens(line);
+	if (!tkns)
+		return (1);
+	for (int i = 0; i < tkns->i; i++)
 	{
-		printf("Type %d str %s\n", tkns.arr[i].type, tkns.arr[i].str);
+		//printf("Type %d str %s\n", tkns.arr[i].type, tkns.arr[i].str);
 	}
 
-	printf("------------AST-------------- i=%ld curr=%ld\n", tkns.i, tkns.curr_tkn);
-	t_ast *ast = ft_get_ast(&tkns, 0);
+	printf("------------AST-------------- i=%ld curr=%ld\n", tkns->i, tkns->curr_tkn);
+	t_ast *ast = ft_get_ast(tkns, 1);
 
 	ft_print_ast(ast);
-
-	if (!tkns.err)
-		ft_free_tkns(&tkns);
+	ft_free_ast(ast);
+	ft_free_tkns(&tkns);
 	return 0;
 }
