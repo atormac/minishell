@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 15:04:51 by lopoka            #+#    #+#             */
-/*   Updated: 2024/06/29 10:05:31 by lucas            ###   ########.fr       */
+/*   Updated: 2024/06/29 17:05:27 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "tokenizer.h"
@@ -17,6 +17,7 @@ typedef struct s_ast
 	char			*str;
 	struct s_ast	*left;
 	struct s_ast	*right;
+	struct s_ast	*io;
 }	t_ast;
 
 t_ast	*ft_get_ast_node(int type);
@@ -24,6 +25,9 @@ t_ast	*ft_get_ast(t_tkns *tkns, int min_prcd);
 
 void	ft_free_ast(t_ast *ast)
 {
+	t_ast	*curr;
+	t_ast	*tmp;
+
 	if (!ast)
 		return ;
 	if (ast->left)
@@ -32,6 +36,17 @@ void	ft_free_ast(t_ast *ast)
 		ft_free_ast(ast->right);
 	if (ast->str)
 		free(ast->str);
+	if (ast->io)
+	{
+		curr = ast->io;
+		while (curr)
+		{
+			tmp = curr;
+			free(curr->str);
+			curr = curr->io;
+			free(tmp);
+		}
+	}
 	free(ast);
 }
 
@@ -49,7 +64,7 @@ int	ft_is_tkn(t_tkns *tkns)
 	return (1);
 }
 
-int	ft_curr_tkn_bop(t_tkns *tkns)
+int	ft_is_tkn_bop(t_tkns *tkns)
 {
 	int	type;
 
@@ -58,6 +73,30 @@ int	ft_curr_tkn_bop(t_tkns *tkns)
 	type = tkns->arr[tkns->curr_tkn].type;
 	if (type == t_pipe || type == t_or || type == t_and)
 		return (type);
+	return (0);	
+}
+
+int	ft_is_tkn_io(t_tkns *tkns)
+{
+	int	type;
+	
+	if (!ft_is_tkn(tkns))
+		return (0);
+	type = tkns->arr[tkns->curr_tkn].type;
+	if (type == t_lwr || type == t_bgr || type == t_lwrlwr || type == t_bgrbgr)
+		return (type);
+	return (0);	
+}
+
+int	ft_is_tkn_cmnd(t_tkns *tkns)
+{
+	int	type;
+	
+	if (!ft_is_tkn(tkns))
+		return (0);
+	type = tkns->arr[tkns->curr_tkn].type;
+	if (type == 0)
+		return (1);
 	return (0);	
 }
 
@@ -84,7 +123,7 @@ int	ft_join_cmnd(t_tkns *tkns, t_ast *cmnd_node)
 		cmnd_node->str = ft_strdup("");
 	if (!cmnd_node->str)
 		return (0);
-	while (ft_is_tkn(tkns) && tkns->arr[tkns->curr_tkn].type == 0)
+	while (ft_is_tkn_cmnd(tkns))
 	{	
 		tmp = cmnd_node->str;
 		cmnd_node->str = ft_strjoin_space(cmnd_node->str, tkns->arr[tkns->curr_tkn].str);
@@ -99,6 +138,52 @@ int	ft_join_cmnd(t_tkns *tkns, t_ast *cmnd_node)
 	return (1);
 }
 
+void	ft_add_io_node(t_ast *cmnd_node, t_ast *io_node)
+{
+	t_ast	*curr;
+
+	if (!cmnd_node->io)
+	{
+		cmnd_node->io = io_node;
+		return ;
+	}
+	curr = cmnd_node->io;
+	while (curr && curr->io)
+		curr = curr->io;
+	curr->io = io_node; 
+}
+
+int	ft_get_io(t_tkns *tkns, t_ast *cmnd_node)
+{
+	t_ast	*io_node;
+	int		type;
+
+	while (ft_is_tkn_io(tkns))
+	{
+		type = ft_is_tkn_io(tkns);	
+		tkns->curr_tkn++;
+		if (!ft_is_tkn_cmnd(tkns))
+		{
+			printf("ERROR1"); //ERROR syntax
+			return (0);
+		}
+		io_node = ft_get_ast_node(type);
+		if (!io_node)
+		{
+			printf("ERROR7");//MEM error
+			return (0);
+		}
+		io_node->str = ft_strdup(tkns->arr[tkns->curr_tkn].str);
+		if (!io_node->str)
+		{
+			free(io_node);
+			return (0);
+		}
+		ft_add_io_node(cmnd_node, io_node);
+		tkns->curr_tkn++;
+	}
+}
+
 t_ast	*ft_get_cmnd(t_tkns *tkns)
 {
 	t_ast	*cmnd_node;
@@ -109,8 +194,19 @@ t_ast	*ft_get_cmnd(t_tkns *tkns)
 		printf("ERROR7");//MEM error
 		return (0);
 	}
-	while (ft_is_tkn(tkns) && tkns->arr[tkns->curr_tkn].type == 0)
-		ft_join_cmnd(tkns, cmnd_node);
+	while (ft_is_tkn_cmnd(tkns) || ft_is_tkn_io(tkns))
+	{
+		if (ft_is_tkn_cmnd(tkns))
+		{
+			if (!ft_join_cmnd(tkns, cmnd_node))
+				printf("ERROR8");//ERROR
+		}
+		else if (ft_is_tkn_io(tkns))
+		{
+			if (!ft_get_io(tkns, cmnd_node))
+				printf("ERROR9");//ERROR
+		} 
+	}
 	return (cmnd_node);
 }
 
@@ -118,7 +214,7 @@ t_ast	*ft_get_branch(t_tkns *tkns)
 {
 	t_ast	*branch;
 
-	if (ft_curr_tkn_bop(tkns) || tkns->arr[tkns->curr_tkn].type == t_prnths_cls)
+	if (ft_is_tkn_bop(tkns) || tkns->arr[tkns->curr_tkn].type == t_prnths_cls)
 	{
 		printf("ERROR4");//ERROR syntax
 		return (0);
@@ -152,7 +248,7 @@ t_ast	*ft_get_ast_node(int type)
 	if (!new_node)
 		return (NULL);
 	new_node->type = type;
-	return (new_node);	
+	return (new_node);
 }
 
 t_ast	*ft_merge_branch(t_ast *ast, int op, t_ast *new_branch)
@@ -182,7 +278,7 @@ t_ast	*ft_get_ast(t_tkns *tkns, int tree_top)
 	ast = ft_get_branch(tkns);
 	if (!ast)
 		return (0); 	
-	while ((tree_top && ft_curr_tkn_bop(tkns)) || (!tree_top && ft_curr_tkn_bop(tkns) == t_pipe))
+	while ((tree_top && ft_is_tkn_bop(tkns)) || (!tree_top && ft_is_tkn_bop(tkns) == t_pipe))
 	{
 		op = tkns->arr[tkns->curr_tkn].type;
 		tkns->curr_tkn++;
@@ -204,9 +300,23 @@ t_ast	*ft_get_ast(t_tkns *tkns, int tree_top)
 
 void	ft_print_ast(t_ast *ast)
 {
+	t_ast *curr;
+
 	if (!ast)
 		return ;
-	printf("Ast type %d, str %s\n", ast->type, ast->str);
+	printf("Ast type %d, str %s", ast->type, ast->str);
+	if (!ast->io)
+		printf("\n");
+	else
+	{
+		curr = ast->io;
+		while (curr)
+		{
+			printf(", IO type: %d, s: %s", curr->type, curr->str);
+			curr = curr->io;
+		}
+		printf("\n");
+	}
 	if (ast->left)
 		ft_print_ast(ast->left);
 	if (ast->right)
@@ -215,7 +325,7 @@ void	ft_print_ast(t_ast *ast)
 
 int main(void)		
 {		
-	char *line = "(1 2 | 3) && (4 || (5 && (6 && 7 || 8)))";
+	char *line = "(1 > outfile.txt > out2 > out3 | 3) && (4 || (5 && (6 && 7 || 8)))";
 	//char *line = "6 && 7 || 8";
 	printf("%s\n", line);
 
