@@ -22,12 +22,12 @@ static void	prompt_set_dir(t_ms *ms, char *prompt, size_t size)
 	if (home_dir && ft_strncmp(ms->cwd, home_dir, ft_strlen(home_dir)) == 0)
 	{
 		home_len = ft_strlen(home_dir);
-		if (ms->cwd[home_len] == '/')
+		if (ms->cwd[home_len] == '\0' || ms->cwd[home_len] == '/')
 		{
 			ft_strlcat(prompt, "~", size);
 			ft_strlcat(prompt, ms->cwd + ft_strlen(home_dir), size);
+			return	;
 		}
-		return	;
 	}
 	ft_strlcat(prompt, ms->cwd, size);
 }
