@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/01 16:00:26 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/01 18:13:22 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,29 +48,46 @@ void	minishell_cleanup(t_ms *ms)
 void	ft_free_ast(t_ast *ast);
 t_ast	*ft_get_ast(t_tkns *tkns, int tree_top);
 
-void	recurse_ast(t_ms *ms, t_ast *ast)
+void	recurse_ast(t_ms *ms, t_ast *ast, t_ast *prev)
 {
-	t_ast *curr;
+	//t_ast *curr;
 
 	if (!ast)
 		return ;
-	if (ast->str)
-		printf("Ast type %d, str %s ", ast->type, ast->str);
+	printf("prev->type: %d\n", prev->type);
+	printf("current->type: %d\n", ast->type);
+	if (prev->type == 5)
+	{
+		if (ast->str)
+			printf("pipeline: type %d, cmd %s\n", ast->type, ast->str);
+	}
+	else
+	{
+		if (ast->str)
+			printf("no pipe: type %d, cmd %s\n", ast->type, ast->str);
+	}
+	/*
 	curr = ast->io;
 	while (curr)
 	{
 		printf(", IO type: %d, s: %s ", curr->type, curr->str);
 		curr = curr->io;
 	}
+	*/
 	//Process ast entry here
 	//Do redirection if needed
 	//exec_cmd if there is one
+	/*
 	if (ast->str)
+	{
+		printf("\n");
 		exec_cmd(ms, ast->str + 1, NULL);
+	}
+	*/
 	if (ast->left)
-		recurse_ast(ms, ast->left);
+		recurse_ast(ms, ast->left, ast);
 	if (ast->right)
-		recurse_ast(ms, ast->right);
+		recurse_ast(ms, ast->right, ast);
 }
 
 void	process_line(t_ms *ms, char *line)
@@ -82,7 +99,7 @@ void	process_line(t_ms *ms, char *line)
 	t_ast *ast = ft_get_ast(ms->tkns, 1);
 	if (!ast)
 		return ;
-	ft_print_ast(ast);
+	recurse_ast(ms, ast, ast);
 	ft_free_ast(ast);
 	ft_free_tkns(ms);
 }
