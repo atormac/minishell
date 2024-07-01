@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 17:31:46 by lopoka            #+#    #+#             */
-/*   Updated: 2024/06/27 14:51:57 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/01 13:45:11 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "tokenizer.h"
@@ -38,6 +38,7 @@ char	*ft_skip_whitespace(char **str)
 	while (*tmp && ft_is_whitespace(tmp))
 		tmp++;
 	*str = tmp;
+	return (NULL);
 }
 
 int	ft_is_operator(char *str)

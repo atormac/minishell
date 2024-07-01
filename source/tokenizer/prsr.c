@@ -6,19 +6,11 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 15:04:51 by lopoka            #+#    #+#             */
-/*   Updated: 2024/06/29 17:05:27 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/01 13:49:11 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "tokenizer.h"
 
-typedef struct s_ast
-{
-	int				type;
-	char			*str;
-	struct s_ast	*left;
-	struct s_ast	*right;
-	struct s_ast	*io;
-}	t_ast;
 
 t_ast	*ft_get_ast_node(int type);
 t_ast	*ft_get_ast(t_tkns *tkns, int min_prcd);
@@ -182,6 +174,7 @@ int	ft_get_io(t_tkns *tkns, t_ast *cmnd_node)
 		ft_add_io_node(cmnd_node, io_node);
 		tkns->curr_tkn++;
 	}
+	return (1);
 }
 
 t_ast	*ft_get_cmnd(t_tkns *tkns)
@@ -323,9 +316,10 @@ void	ft_print_ast(t_ast *ast)
 		ft_print_ast(ast->right);
 }
 
+/*
 int main(void)		
 {		
-	char *line = "(1 > outfile.txt > out2 > out3 | 3) && (4 || (5 && (6 && 7 || 8)))";
+	//char *line = "(1 > outfile.txt > out2 > out3 | 3) && (4 || (5 && (6 && 7 || 8)))";
 	//char *line = "6 && 7 || 8";
 	printf("%s\n", line);
 
@@ -345,3 +339,4 @@ int main(void)
 	ft_free_tkns(&tkns);
 	return 0;
 }
+*/

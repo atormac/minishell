@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 16:36:42 by lopoka            #+#    #+#             */
-/*   Updated: 2024/06/29 09:01:46 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/01 13:49:23 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,15 @@
 # define TOKENIZER_H
 
 # include "../../include/minishell.h"
+
+typedef struct s_ast
+{
+	int				type;
+	char			*str;
+	struct s_ast	*left;
+	struct s_ast	*right;
+	struct s_ast	*io;
+}	t_ast;
 
 typedef enum e_tkn_type
 {

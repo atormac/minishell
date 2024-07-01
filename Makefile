@@ -6,7 +6,7 @@
 #    By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/11 21:03:29 by atorma            #+#    #+#              #
-#    Updated: 2024/06/28 17:14:49 by atorma           ###   ########.fr        #
+#    Updated: 2024/07/01 13:41:04 by atorma           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,13 @@ INCLUDE_DIR = ./include
 SOURCE_DIR = source
 SOURCES = main.c prompt.c builtin.c path.c exec.c environment.c \
 		  pid.c utils.c args.c pipes.c signals.c
+
+TKN_DIR = source/tokenizer
+TKN_SRC = prsr.c tkns_realloc.c tkns_utils.c get_tkns.c
+TKN_OBJ = $(addprefix $(TKN_DIR)/,$(TKN_SRC:.c=.o))
+
 OBJECTS = $(addprefix $(SOURCE_DIR)/,$(SOURCES:.c=.o))
+OBJECTS += $(TKN_OBJ)
 
 target debug: CC = clang
 target debug: CFLAGS += -fsanitize=address,undefined -g 

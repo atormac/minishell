@@ -6,14 +6,14 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:28:07 by lopoka            #+#    #+#             */
-/*   Updated: 2024/06/29 09:17:49 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/01 13:43:49 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "tokenizer.h"
 
 void	ft_free_tkns(t_tkns **tkns)
 {
-	int		i;
+	size_t	i;
 
 	if (!*tkns)
 		return ;
