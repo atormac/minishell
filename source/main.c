@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/01 18:13:22 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/01 18:37:02 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,17 +54,23 @@ void	recurse_ast(t_ms *ms, t_ast *ast, t_ast *prev)
 
 	if (!ast)
 		return ;
-	printf("prev->type: %d\n", prev->type);
-	printf("current->type: %d\n", ast->type);
 	if (prev->type == 5)
 	{
 		if (ast->str)
-			printf("pipeline: type %d, cmd %s\n", ast->type, ast->str);
+		{
+			printf("pipe: type %d, cmd %s\n", ast->type, ast->str);
+			if (ast->io)
+				printf("io->str: %s, type: %d\n", ast->io->str, ast->io->type);
+		}
 	}
 	else
 	{
 		if (ast->str)
+		{
 			printf("no pipe: type %d, cmd %s\n", ast->type, ast->str);
+			if (ast->io)
+				printf("io->str: %s, type: %d\n", ast->io->str, ast->io->type);
+		}
 	}
 	/*
 	curr = ast->io;
@@ -95,7 +101,6 @@ void	process_line(t_ms *ms, char *line)
 	ft_get_tokens(ms, line);
 	if (!ms->tkns)
 		return ;
-	printf("------------AST-------------- i=%ld curr=%ld\n", ms->tkns->i, ms->tkns->curr_tkn);
 	t_ast *ast = ft_get_ast(ms->tkns, 1);
 	if (!ast)
 		return ;
