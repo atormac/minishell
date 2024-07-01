@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/01 18:37:50 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/01 21:02:13 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,12 @@ void	process_line(t_ms *ms, char *line)
 	ft_get_tokens(ms, line);
 	if (!ms->tkns)
 		return ;
+	printf("--------------TOKENS----------------\n");
+	for (size_t i = 0; i < ms->tkns->i; i++)
+	{
+		ft_printf("Type %d str %s\n", ms->tkns->arr[i].type, ms->tkns->arr[i].str);
+	}
+
 	printf("------------AST-------------- i=%ld curr=%ld\n", ms->tkns->i, ms->tkns->curr_tkn);
 	t_ast *ast = ft_get_ast(ms->tkns, 1, ms);
 	if (!ast)

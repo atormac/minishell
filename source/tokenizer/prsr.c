@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 15:04:51 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/01 18:34:30 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/01 21:06:50 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "tokenizer.h"
@@ -99,7 +99,10 @@ char	*ft_strjoin_space(char *s1, char *s2)
 
 	if (!s1 || !s2)
 		return (0);
-	part = ft_strjoin(s1, " ");
+	if (!s1[0])
+		part = ft_strjoin(s1, "");
+	else
+		part = ft_strjoin(s1, " ");
 	if (!part)
 		return (0);
 	final = ft_strjoin(part, s2);
