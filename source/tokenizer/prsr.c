@@ -6,14 +6,14 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 15:04:51 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/01 13:49:11 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/01 18:34:30 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "tokenizer.h"
 
 
 t_ast	*ft_get_ast_node(int type);
-t_ast	*ft_get_ast(t_tkns *tkns, int min_prcd);
+t_ast	*ft_get_ast(t_tkns *tkns, int tree_top, t_ms *ms);
 
 void	ft_free_ast(t_ast *ast)
 {
@@ -145,11 +145,12 @@ void	ft_add_io_node(t_ast *cmnd_node, t_ast *io_node)
 	curr->io = io_node; 
 }
 
-int	ft_get_io(t_tkns *tkns, t_ast *cmnd_node)
+int	ft_get_io(t_tkns *tkns, t_ast *cmnd_node, t_ms *ms)
 {
 	t_ast	*io_node;
 	int		type;
 
+	(void) ms;
 	while (ft_is_tkn_io(tkns))
 	{
 		type = ft_is_tkn_io(tkns);	
@@ -177,7 +178,7 @@ int	ft_get_io(t_tkns *tkns, t_ast *cmnd_node)
 	return (1);
 }
 
-t_ast	*ft_get_cmnd(t_tkns *tkns)
+t_ast	*ft_get_cmnd(t_tkns *tkns, t_ms *ms)
 {
 	t_ast	*cmnd_node;
 
@@ -196,14 +197,14 @@ t_ast	*ft_get_cmnd(t_tkns *tkns)
 		}
 		else if (ft_is_tkn_io(tkns))
 		{
-			if (!ft_get_io(tkns, cmnd_node))
+			if (!ft_get_io(tkns, cmnd_node, ms))
 				printf("ERROR9");//ERROR
 		} 
 	}
 	return (cmnd_node);
 }
 
-t_ast	*ft_get_branch(t_tkns *tkns)
+t_ast	*ft_get_branch(t_tkns *tkns, t_ms *ms)
 {
 	t_ast	*branch;
 
@@ -215,7 +216,7 @@ t_ast	*ft_get_branch(t_tkns *tkns)
 	else if (tkns->arr[tkns->curr_tkn].type == t_prnths_opn)
 	{
 		tkns->curr_tkn++;
-		branch = ft_get_ast(tkns, 1);
+		branch = ft_get_ast(tkns, 1, ms);
 		if (!branch)
 		{
 			printf("ERROR5");//mem error
@@ -230,7 +231,7 @@ t_ast	*ft_get_branch(t_tkns *tkns)
 		return (branch);
 	}
 	else
-		return (ft_get_cmnd(tkns));
+		return (ft_get_cmnd(tkns, ms));
 }
 
 t_ast	*ft_get_ast_node(int type)
@@ -244,10 +245,11 @@ t_ast	*ft_get_ast_node(int type)
 	return (new_node);
 }
 
-t_ast	*ft_merge_branch(t_ast *ast, int op, t_ast *new_branch)
+t_ast	*ft_merge_branch(t_ast *ast, int op, t_ast *new_branch, t_ms *ms)
 {
 	t_ast	*new_ast;
-	
+
+	(void) ms;	
 	if (!new_branch)
 		return (ast);
 	new_ast = ft_get_ast_node(op);
@@ -261,14 +263,14 @@ t_ast	*ft_merge_branch(t_ast *ast, int op, t_ast *new_branch)
 	return (new_ast);
 }
 
-t_ast	*ft_get_ast(t_tkns *tkns, int tree_top)
+t_ast	*ft_get_ast(t_tkns *tkns, int tree_top, t_ms *ms)
 {
 	t_ast	*ast;
 	int		op;
 
 	if (!ft_is_tkn(tkns))
 		return (0);
-	ast = ft_get_branch(tkns);
+	ast = ft_get_branch(tkns, ms);
 	if (!ast)
 		return (0); 	
 	while ((tree_top && ft_is_tkn_bop(tkns)) || (!tree_top && ft_is_tkn_bop(tkns) == t_pipe))
@@ -280,7 +282,7 @@ t_ast	*ft_get_ast(t_tkns *tkns, int tree_top)
 			printf("ERROR1");//ERROR syntax
 			return (ast);
 		}
-		ast = ft_merge_branch(ast, op, ft_get_ast(tkns, 0));
+		ast = ft_merge_branch(ast, op, ft_get_ast(tkns, 0, ms), ms);
 		if (!ast)
 		{
 			printf("ERROR2");

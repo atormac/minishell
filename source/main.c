@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/01 16:00:26 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/01 18:37:50 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	minishell_cleanup(t_ms *ms)
 	free(ms->cwd);
 }
 void	ft_free_ast(t_ast *ast);
-t_ast	*ft_get_ast(t_tkns *tkns, int tree_top);
+t_ast	*ft_get_ast(t_tkns *tkns, int tree_top, t_ms *ms);
 
 void	recurse_ast(t_ms *ms, t_ast *ast)
 {
@@ -79,7 +79,7 @@ void	process_line(t_ms *ms, char *line)
 	if (!ms->tkns)
 		return ;
 	printf("------------AST-------------- i=%ld curr=%ld\n", ms->tkns->i, ms->tkns->curr_tkn);
-	t_ast *ast = ft_get_ast(ms->tkns, 1);
+	t_ast *ast = ft_get_ast(ms->tkns, 1, ms);
 	if (!ast)
 		return ;
 	ft_print_ast(ast);
