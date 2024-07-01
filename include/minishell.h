@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 15:36:13 by atorma            #+#    #+#             */
-/*   Updated: 2024/06/26 20:36:05 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/01 15:44:56 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,15 @@
 
 typedef struct t_ms
 {
-	char	**env;
-	char	**path;
-	char	*cwd;
-	int		cmd_error;
-	int		exit_code;
+	char			**env;
+	char			**path;
+	char			*cwd;
+	int				cmd_error;
+	int				exit_code;
+	struct s_tkns	*tkns;
 }	t_ms;
 
+#include "../source/tokenizer/tokenizer.h"
 
 char	**get_args(char **cmd);
 size_t	args_count(char **args);

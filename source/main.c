@@ -6,14 +6,13 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/01 14:36:55 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/01 16:00:26 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 #include "../include/environment.h"
 #include "../include/builtin.h"
-#include "tokenizer/tokenizer.h"
 
 #include <readline/readline.h>
 #include <readline/history.h>
@@ -76,16 +75,16 @@ void	recurse_ast(t_ms *ms, t_ast *ast)
 
 void	process_line(t_ms *ms, char *line)
 {
-	t_tkns *tkns = ft_get_tokens(line);
-	if (!tkns)
+	ft_get_tokens(ms, line);
+	if (!ms->tkns)
 		return ;
-	printf("------------AST-------------- i=%ld curr=%ld\n", tkns->i, tkns->curr_tkn);
-	t_ast *ast = ft_get_ast(tkns, 1);
+	printf("------------AST-------------- i=%ld curr=%ld\n", ms->tkns->i, ms->tkns->curr_tkn);
+	t_ast *ast = ft_get_ast(ms->tkns, 1);
 	if (!ast)
 		return ;
-	recurse_ast(ms, ast);
+	ft_print_ast(ast);
 	ft_free_ast(ast);
-	ft_free_tkns(&tkns);
+	ft_free_tkns(ms);
 }
 
 static	void	minishell(t_ms *ms)

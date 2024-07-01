@@ -6,10 +6,10 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 17:31:46 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/01 13:45:11 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/01 15:36:06 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "tokenizer.h"
+#include "../../include/minishell.h"
 
 int	ft_is_quote(char *c)
 {

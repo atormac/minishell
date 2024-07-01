@@ -6,37 +6,38 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:28:07 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/01 13:43:49 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/01 15:41:16 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "tokenizer.h"
+//#include "tokenizer.h"
+#include "../../include/minishell.h"
 
-void	ft_free_tkns(t_tkns **tkns)
+void	ft_free_tkns(t_ms *ms)
 {
 	size_t	i;
 
-	if (!*tkns)
+	if (!ms->tkns)
 		return ;
 	i = 0;
-	while (i < (*tkns)->i && (*tkns)->arr)
-		free((*tkns)->arr[i++].str);
-	free((*tkns)->arr);
-	free(*tkns);
-	*tkns = 0;
+	while (i < ms->tkns->i && ms->tkns->arr)
+		free(ms->tkns->arr[i++].str);
+	free(ms->tkns->arr);
+	free(ms->tkns);
+	ms->tkns = 0;
 }
 
-void	ft_tkns_realloc(t_tkns **tkns)
+void	ft_tkns_realloc(t_ms *ms)
 {
 	void	*dst;
 
-	if (!*tkns || (*tkns)->i < (*tkns)->size)
+	if (!ms->tkns || ms->tkns->i < ms->tkns->size)
 		return ;
-	dst = (t_tkn *) malloc((*tkns)->size * sizeof(t_tkn)
-			+ (*tkns)->to_add * sizeof(t_tkn));
+	dst = (t_tkn *) malloc(ms->tkns->size * sizeof(t_tkn)
+			+ ms->tkns->to_add * sizeof(t_tkn));
 	if (!dst)
-		return (ft_free_tkns(tkns));
-	ft_memmove(dst, (*tkns)->arr, (*tkns)->size * sizeof(t_tkn));
-	free((*tkns)->arr);
-	(*tkns)->arr = dst;
-	(*tkns)->size += (*tkns)->to_add;
+		return (ft_free_tkns(ms));
+	ft_memmove(dst, ms->tkns->arr, ms->tkns->size * sizeof(t_tkn));
+	free(ms->tkns->arr);
+	ms->tkns->arr = dst;
+	ms->tkns->size += ms->tkns->to_add;
 }
