@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/02 18:13:41 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/02 18:48:05 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	minishell_cleanup(t_ms *ms)
 	free(ms->cwd);
 }
 void	ft_free_ast(t_ast *ast);
+t_ast	*ft_prsr(t_tkns *tkns, t_ms *ms);
 t_ast	*ft_get_ast(t_tkns *tkns, int tree_top, t_ms *ms);
 
 void	recurse_ast(t_ms *ms, t_ast *ast)
@@ -143,9 +144,12 @@ int main(int argc, char **argv)
 	(void) argc;
 	t_ms ms;
 	ms.prsr_err = 0;
+	ms.tkns = 0;
 	char *line = argv[1];
 
 	ft_get_tokens(&ms, line);
+	if (!ms.tkns)
+		return (1);
 	printf("--------------TOKENS----------------\n");
 	for (size_t i = 0; i < ms.tkns->i; i++)
 	{
@@ -153,10 +157,13 @@ int main(int argc, char **argv)
 	}
 
 	printf("------------AST-------------- i=%ld curr=%ld\n", ms.tkns->i, ms.tkns->curr_tkn);
-	t_ast *ast = ft_get_ast(ms.tkns, 1, &ms);
+	t_ast *ast = ft_prsr(ms.tkns, &ms);
+	printf("----------AST Error %d-----------------\n", ms.prsr_err);
 	if (ast)
+	{
 		ft_print_ast(ast);
-	printf("Error %d\n", ms.prsr_err);
-	ft_free_ast(ast);
-	ft_free_tkns(&ms);
+		ft_free_ast(ast);
+	}
+	if (ms.tkns)
+		ft_free_tkns(&ms);
 }

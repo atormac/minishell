@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 15:04:51 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/02 17:49:11 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/02 18:31:58 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "tokenizer.h"
@@ -280,6 +280,17 @@ t_ast	*ft_get_ast(t_tkns *tkns, int tree_top, t_ms *ms)
 	return (ast);
 }
 
+t_ast	*ft_prsr(t_tkns *tkns, t_ms *ms)
+{
+	t_ast	*ast;
+	
+	if (!tkns || !ms)
+		return (NULL);
+	ast = ft_get_ast(tkns, 1, ms);
+	if (ft_is_tkn(tkns))
+		return (ft_free_ast(ast), ft_set_prsr_err(ms, e_sntx), NULL); //SYNTAX ERR HANDLE
+	return (ast);
+}
 
 void	ft_print_ast(t_ast *ast)
 {
