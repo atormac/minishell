@@ -6,11 +6,23 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 15:04:51 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/01 21:06:50 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/02 14:51:05 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "tokenizer.h"
 
+
+typedef enum e_prsr_err
+{
+	e_none,
+	e_mem,
+	e_sntx
+}	t_prsr_err;
+
+void	ft_set_prsr_err(t_ms *ms, int type)
+{
+	ms->prsr_err = type;
+}
 
 t_ast	*ft_get_ast_node(int type);
 t_ast	*ft_get_ast(t_tkns *tkns, int tree_top, t_ms *ms);
@@ -153,28 +165,20 @@ int	ft_get_io(t_tkns *tkns, t_ast *cmnd_node, t_ms *ms)
 	t_ast	*io_node;
 	int		type;
 
-	(void) ms;
+	if (ms->prsr_err)
+		return (0);
 	while (ft_is_tkn_io(tkns))
 	{
 		type = ft_is_tkn_io(tkns);	
 		tkns->curr_tkn++;
 		if (!ft_is_tkn_cmnd(tkns))
-		{
-			printf("ERROR1"); //ERROR syntax
-			return (0);
-		}
+			return (ft_set_prsr_err(ms, e_sntx), 0); //SYNTAX ERR HANDLE
 		io_node = ft_get_ast_node(type);
 		if (!io_node)
-		{
-			printf("ERROR7");//MEM error
-			return (0);
-		}
+			return (ft_set_prsr_err(ms, e_mem), 0); //MEM ERR HANDLE
 		io_node->str = ft_strdup(tkns->arr[tkns->curr_tkn].str);
 		if (!io_node->str)
-		{
-			free(io_node);
-			return (0);
-		}
+			return (ft_set_prsr_err(ms, e_mem), free(io_node), 0); //MEM ERR HANDLE
 		ft_add_io_node(cmnd_node, io_node);
 		tkns->curr_tkn++;
 	}
@@ -185,23 +189,22 @@ t_ast	*ft_get_cmnd(t_tkns *tkns, t_ms *ms)
 {
 	t_ast	*cmnd_node;
 
+	if (ms->prsr_err)
+		return (NULL);
 	cmnd_node = ft_get_ast_node(0);
 	if (!cmnd_node)
-	{
-		printf("ERROR7");//MEM error
-		return (0);
-	}
+		return (ft_set_prsr_err(ms, e_mem), NULL); //MEM ERR HANDLE
 	while (ft_is_tkn_cmnd(tkns) || ft_is_tkn_io(tkns))
 	{
 		if (ft_is_tkn_cmnd(tkns))
 		{
 			if (!ft_join_cmnd(tkns, cmnd_node))
-				printf("ERROR8");//ERROR
+				return (ft_free_ast(cmnd_node), ft_set_prsr_err(ms, e_mem), NULL); //MEM ERR HANDLE
 		}
 		else if (ft_is_tkn_io(tkns))
 		{
-			if (!ft_get_io(tkns, cmnd_node, ms))
-				printf("ERROR9");//ERROR
+			if (!ft_get_io(tkns, cmnd_node, ms))	
+				return (ft_free_ast(cmnd_node), NULL); //ERR HANDLE IN FT_GET_IO
 		} 
 	}
 	return (cmnd_node);
@@ -211,25 +214,18 @@ t_ast	*ft_get_branch(t_tkns *tkns, t_ms *ms)
 {
 	t_ast	*branch;
 
+	if (ms->prsr_err)
+		return (NULL);
 	if (ft_is_tkn_bop(tkns) || tkns->arr[tkns->curr_tkn].type == t_prnths_cls)
-	{
-		printf("ERROR4");//ERROR syntax
-		return (0);
-	}
+		return (ft_set_prsr_err(ms, e_sntx), NULL); //SYNTAX ERR HANDLE
 	else if (tkns->arr[tkns->curr_tkn].type == t_prnths_opn)
 	{
 		tkns->curr_tkn++;
 		branch = ft_get_ast(tkns, 1, ms);
 		if (!branch)
-		{
-			printf("ERROR5");//mem error
-			return (0);
-		}
+			return (ft_set_prsr_err(ms, e_mem), NULL); //MEM ERR HANDLE
 		if (!ft_is_tkn(tkns) || tkns->arr[tkns->curr_tkn].type != t_prnths_cls)
-		{
-			printf("ERROR6");//;syntax error
-			return (branch);
-		}
+			return (ft_set_prsr_err(ms, e_sntx), branch); //SYNTAX ERR HANDLE
 		tkns->curr_tkn++;
 		return (branch);
 	}
@@ -252,13 +248,15 @@ t_ast	*ft_merge_branch(t_ast *ast, int op, t_ast *new_branch, t_ms *ms)
 {
 	t_ast	*new_ast;
 
-	(void) ms;	
+	if (ms->prsr_err)
+		return (NULL);	
 	if (!new_branch)
 		return (ast);
 	new_ast = ft_get_ast_node(op);
 	if (!new_ast)
 	{
-		printf("ERROR3");//MEMORY error
+		ft_free_ast(ast);
+		ft_free_ast(new_branch);
 		return (0);
 	}
 	new_ast->left = ast;
@@ -271,7 +269,7 @@ t_ast	*ft_get_ast(t_tkns *tkns, int tree_top, t_ms *ms)
 	t_ast	*ast;
 	int		op;
 
-	if (!ft_is_tkn(tkns))
+	if (!ft_is_tkn(tkns) || ms->prsr_err)
 		return (0);
 	ast = ft_get_branch(tkns, ms);
 	if (!ast)
@@ -281,16 +279,10 @@ t_ast	*ft_get_ast(t_tkns *tkns, int tree_top, t_ms *ms)
 		op = tkns->arr[tkns->curr_tkn].type;
 		tkns->curr_tkn++;
 		if (!ft_is_tkn(tkns))
-		{
-			printf("ERROR1");//ERROR syntax
-			return (ast);
-		}
+			return (ft_set_prsr_err(ms, e_sntx), NULL); //SYNTAX ERR HANDLE
 		ast = ft_merge_branch(ast, op, ft_get_ast(tkns, 0, ms), ms);
 		if (!ast)
-		{
-			printf("ERROR2");
-			return (0);//free ast and right, return NULL
-		}
+			return (ft_set_prsr_err(ms, e_mem), NULL); //MEM ERR HANDLE
 	}
 	return (ast);
 }

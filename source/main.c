@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/01 21:02:13 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/02 13:51:46 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static	int	minishell_init(t_ms *ms, char **envp)
 {
 	ms->exit_code = 0;
 	ms->cmd_error = 0;
+	ms->prsr_err = 0;
 	ms->cwd = NULL;
 	ms->env = NULL;
 	if (envp)
