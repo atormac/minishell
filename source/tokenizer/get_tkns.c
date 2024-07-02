@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:15:59 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/02 13:32:11 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/02 18:16:59 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -87,7 +87,8 @@ void	ft_get_tokens(t_ms *ms, char *line)
 	while (ms->tkns && *line)
 	{
 		ft_skip_whtspc(&line);
-		ft_add_tkn(ms, &line);
+		if (*line)
+			ft_add_tkn(ms, &line);
 	}
 }
 /*

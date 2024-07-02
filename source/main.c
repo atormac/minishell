@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/02 13:51:46 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/02 18:13:41 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-static	int	minishell_init(t_ms *ms, char **envp)
+/*static	int	minishell_init(t_ms *ms, char **envp)
 {
 	ms->exit_code = 0;
 	ms->cmd_error = 0;
@@ -39,7 +39,7 @@ static	int	minishell_init(t_ms *ms, char **envp)
 	if (!init_signals())
 		return (0);
 	return (1);
-}
+}*/
 
 void	minishell_cleanup(t_ms *ms)
 {
@@ -94,7 +94,7 @@ void	process_line(t_ms *ms, char *line)
 	ft_free_tkns(ms);
 }
 
-static	void	minishell(t_ms *ms)
+/*static	void	minishell(t_ms *ms)
 {
 	char	prompt[1024];
 	char	*line;
@@ -116,6 +116,7 @@ static	void	minishell(t_ms *ms)
 	free(line);
 }
 
+
 int main(int argc, char **argv, char **envp)
 {
 	t_ms	ms;
@@ -132,4 +133,30 @@ int main(int argc, char **argv, char **envp)
 	minishell(&ms);
 	minishell_cleanup(&ms);
 	return (ms.exit_code);
+}
+*/
+
+//Parser testing main
+int main(int argc, char **argv)
+{
+	
+	(void) argc;
+	t_ms ms;
+	ms.prsr_err = 0;
+	char *line = argv[1];
+
+	ft_get_tokens(&ms, line);
+	printf("--------------TOKENS----------------\n");
+	for (size_t i = 0; i < ms.tkns->i; i++)
+	{
+		ft_printf("Type %d str |%s|\n", ms.tkns->arr[i].type, ms.tkns->arr[i].str);
+	}
+
+	printf("------------AST-------------- i=%ld curr=%ld\n", ms.tkns->i, ms.tkns->curr_tkn);
+	t_ast *ast = ft_get_ast(ms.tkns, 1, &ms);
+	if (ast)
+		ft_print_ast(ast);
+	printf("Error %d\n", ms.prsr_err);
+	ft_free_ast(ast);
+	ft_free_tkns(&ms);
 }

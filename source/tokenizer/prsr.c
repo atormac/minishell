@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 15:04:51 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/02 14:51:05 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/02 17:49:11 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "tokenizer.h"
@@ -134,12 +134,9 @@ int	ft_join_cmnd(t_tkns *tkns, t_ast *cmnd_node)
 	{	
 		tmp = cmnd_node->str;
 		cmnd_node->str = ft_strjoin_space(cmnd_node->str, tkns->arr[tkns->curr_tkn].str);
-		if (!cmnd_node)
-		{
-			free(tmp);
-			return (0);
-		}
 		free(tmp);
+		if (!cmnd_node->str)
+			return (0);
 		tkns->curr_tkn++;
 	}
 	return (1);
@@ -225,7 +222,7 @@ t_ast	*ft_get_branch(t_tkns *tkns, t_ms *ms)
 		if (!branch)
 			return (ft_set_prsr_err(ms, e_mem), NULL); //MEM ERR HANDLE
 		if (!ft_is_tkn(tkns) || tkns->arr[tkns->curr_tkn].type != t_prnths_cls)
-			return (ft_set_prsr_err(ms, e_sntx), branch); //SYNTAX ERR HANDLE
+			return (ft_set_prsr_err(ms, e_sntx), ft_free_ast(branch), NULL); //SYNTAX ERR HANDLE
 		tkns->curr_tkn++;
 		return (branch);
 	}
@@ -249,16 +246,12 @@ t_ast	*ft_merge_branch(t_ast *ast, int op, t_ast *new_branch, t_ms *ms)
 	t_ast	*new_ast;
 
 	if (ms->prsr_err)
-		return (NULL);	
+		return (ft_free_ast(ast), ft_free_ast(new_branch), NULL);
 	if (!new_branch)
 		return (ast);
 	new_ast = ft_get_ast_node(op);
 	if (!new_ast)
-	{
-		ft_free_ast(ast);
-		ft_free_ast(new_branch);
-		return (0);
-	}
+		return (ft_free_ast(ast), ft_free_ast(new_branch), NULL);
 	new_ast->left = ast;
 	new_ast->right = new_branch;
 	return (new_ast);
@@ -270,16 +263,16 @@ t_ast	*ft_get_ast(t_tkns *tkns, int tree_top, t_ms *ms)
 	int		op;
 
 	if (!ft_is_tkn(tkns) || ms->prsr_err)
-		return (0);
+		return (NULL);
 	ast = ft_get_branch(tkns, ms);
 	if (!ast)
-		return (0); 	
+		return (NULL);
 	while ((tree_top && ft_is_tkn_bop(tkns)) || (!tree_top && ft_is_tkn_bop(tkns) == t_pipe))
 	{
 		op = tkns->arr[tkns->curr_tkn].type;
 		tkns->curr_tkn++;
 		if (!ft_is_tkn(tkns))
-			return (ft_set_prsr_err(ms, e_sntx), NULL); //SYNTAX ERR HANDLE
+			return (ft_set_prsr_err(ms, e_sntx), ft_free_ast(ast), NULL); //SYNTAX ERR HANDLE
 		ast = ft_merge_branch(ast, op, ft_get_ast(tkns, 0, ms), ms);
 		if (!ast)
 			return (ft_set_prsr_err(ms, e_mem), NULL); //MEM ERR HANDLE
