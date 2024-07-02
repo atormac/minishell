@@ -19,7 +19,7 @@ LIBS = $(LIBDIR)/libft.a
 INCLUDE_DIR = ./include
 SOURCE_DIR = source
 SOURCES = main.c prompt.c builtin.c path.c exec.c environment.c \
-		  pid.c utils.c args.c pipes.c signals.c
+		  pid.c utils.c args.c signals.c redir.c
 
 TKN_DIR = source/tokenizer
 TKN_SRC = prsr.c tkns_realloc.c tkns_utils.c get_tkns.c

@@ -45,12 +45,14 @@ void	minishell_cleanup(t_ms *ms)
 	free_array(ms->env);
 	free(ms->cwd);
 }
+
 void	ft_free_ast(t_ast *ast);
 t_ast	*ft_get_ast(t_tkns *tkns, int tree_top);
+int		exec_ast(t_ms *ms, t_ast *ast, int cmd_id);
 
 void	recurse_ast(t_ms *ms, t_ast *ast, t_ast *prev)
 {
-	//t_ast *curr;
+	int	cmd_id;
 
 	if (!ast)
 		return ;
@@ -58,38 +60,20 @@ void	recurse_ast(t_ms *ms, t_ast *ast, t_ast *prev)
 	{
 		if (ast->str)
 		{
-			printf("pipe: type %d, cmd %s\n", ast->type, ast->str);
-			if (ast->io)
-				printf("io->str: %s, type: %d\n", ast->io->str, ast->io->type);
+			if (ms->is_first_cmd)
+			{
+				cmd_id = CMD_FIRST;
+				ms->is_first_cmd = 0;
+			}
+			else if (prev->right == ast && !ast->left && !ast->right)
+				cmd_id = CMD_LAST;
+			else
+				cmd_id = CMD_MIDDLE;
+			exec_ast(ms, ast, cmd_id);
 		}
 	}
 	else
-	{
-		if (ast->str)
-		{
-			printf("no pipe: type %d, cmd %s\n", ast->type, ast->str);
-			if (ast->io)
-				printf("io->str: %s, type: %d\n", ast->io->str, ast->io->type);
-		}
-	}
-	/*
-	curr = ast->io;
-	while (curr)
-	{
-		printf(", IO type: %d, s: %s ", curr->type, curr->str);
-		curr = curr->io;
-	}
-	*/
-	//Process ast entry here
-	//Do redirection if needed
-	//exec_cmd if there is one
-	/*
-	if (ast->str)
-	{
-		printf("\n");
-		exec_cmd(ms, ast->str + 1, NULL);
-	}
-	*/
+		exec_ast(ms, ast, CMD_NOPIPE);
 	if (ast->left)
 		recurse_ast(ms, ast->left, ast);
 	if (ast->right)
@@ -98,6 +82,9 @@ void	recurse_ast(t_ms *ms, t_ast *ast, t_ast *prev)
 
 void	process_line(t_ms *ms, char *line)
 {
+	ms->is_first_cmd = 1;
+	ms->pipe_read = -1;
+	ms->pipe_write = -1;
 	ft_get_tokens(ms, line);
 	if (!ms->tkns)
 		return ;
@@ -107,6 +94,8 @@ void	process_line(t_ms *ms, char *line)
 	recurse_ast(ms, ast, ast);
 	ft_free_ast(ast);
 	ft_free_tkns(ms);
+	close(ms->pipe_read);
+	close(ms->pipe_write);
 }
 
 static	void	minishell(t_ms *ms)

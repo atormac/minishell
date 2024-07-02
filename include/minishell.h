@@ -17,12 +17,27 @@
 #include <string.h>
 #include <errno.h>
 #include <stdio.h>
+#include <unistd.h>
+#include <unistd.h>
+
+enum
+{
+	CMD_NOPIPE,
+	CMD_FIRST,
+	CMD_MIDDLE,
+	CMD_LAST
+};
 
 typedef struct t_ms
 {
 	char			**env;
 	char			**path;
 	char			*cwd;
+	int				is_first_cmd;
+	int				pipe_read;
+	int				pipe_write;
+	int				mid_pipe_read;
+	int				mid_pipe_write;
 	int				cmd_error;
 	int				exit_code;
 	struct s_tkns	*tkns;
@@ -40,6 +55,7 @@ char	*path_join(char *path, char *bin);
 char	**path_get(char **envp);
 char	*path_find_bin(t_ms *ms, char *cmd);
 int		exec_cmd(t_ms *ms, char *cmd, char **args);
+//int		exec_cmd(t_ms *ms, t_ast *ast);
 int		is_executable(char *path);
 int		init_signals(void);
 
