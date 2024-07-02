@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 16:36:42 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/01 15:59:29 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/02 13:21:22 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ void	ft_get_tokens(t_ms *ms, char *line);
 //Tkns utils
 int		ft_is_quote(char *c);
 char	*ft_quote_end(char *line);
-int		ft_is_whitespace(char *c);
-char	*ft_skip_whitespace(char **str);
-int		ft_is_operator(char *str);
+int		ft_is_whtspc(char *c);
+char	*ft_skip_whtspc(char **str);
+int		ft_is_opr(char *str);
 
 //Tkns memory handling
 void	ft_tkns_realloc(t_ms *ms);

@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 17:31:46 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/01 15:36:06 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/02 13:23:16 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -23,25 +23,25 @@ char	*ft_quote_end(char *line)
 	return (ft_strchr(line + 1, *line));
 }
 
-int	ft_is_whitespace(char *c)
+int	ft_is_whtspc(char *c)
 {
 	if (*c == ' ' || (*c >= '\t' && *c <= '\r'))
 		return (1);
 	return (0);
 }
 
-char	*ft_skip_whitespace(char **str)
+char	*ft_skip_whtspc(char **str)
 {
 	char	*tmp;
 
 	tmp = *str;
-	while (*tmp && ft_is_whitespace(tmp))
+	while (*tmp && ft_is_whtspc(tmp))
 		tmp++;
 	*str = tmp;
 	return (NULL);
 }
 
-int	ft_is_operator(char *str)
+int	ft_is_opr(char *str)
 {
 	int		i;
 	char	*operators;

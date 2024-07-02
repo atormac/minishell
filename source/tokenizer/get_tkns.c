@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:15:59 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/01 15:48:38 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/02 13:32:11 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -22,30 +22,36 @@ void	ft_init_tkns(t_ms *ms)
 		ft_free_tkns(ms);
 }
 
+void	ft_quote_err(char c)
+{
+	ft_printf("minishell: unexpected EOF while");
+	ft_printf("looking for matching `%c'\n", c);
+}
+
 void	ft_get_cmnd_str(t_ms *ms, char **line)
 {
-	char	*tmp;
+	char	*tmp_line;
+	char	*q_end;
 	char	*cmnd_str;
 
-	tmp = *line;
-	while (*tmp && !ft_is_operator(tmp) && !ft_is_whitespace(tmp))
+	tmp_line = *line;
+	while (*tmp_line && !ft_is_opr(tmp_line) && !ft_is_whtspc(tmp_line))
 	{
-		if (ft_is_quote(tmp))
+		if (ft_is_quote(tmp_line))
 		{
-			tmp = ft_quote_end(tmp);
-			if (!tmp)
-			{
-				ft_printf("No quote end\n");
-				return (ft_free_tkns(ms));
-			}
+			q_end = ft_quote_end(tmp_line);
+			if (q_end)
+				tmp_line = q_end;
+			else
+				return (ft_free_tkns(ms), ft_quote_err(tmp_line[0]));
 		}
-		tmp += 1;
+		tmp_line += 1;
 	}
-	cmnd_str = ft_substr(*line, 0, tmp - *line);
+	cmnd_str = ft_substr(*line, 0, tmp_line - *line);
 	if (!cmnd_str)
 		return (ft_free_tkns(ms));
 	ms->tkns->arr[ms->tkns->i].str = cmnd_str;
-	*line = tmp;
+	*line = tmp_line;
 }
 
 void	ft_add_tkn(t_ms *ms, char **line)
@@ -53,9 +59,9 @@ void	ft_add_tkn(t_ms *ms, char **line)
 	ft_tkns_realloc(ms);
 	if (!ms->tkns)
 		return ;
-	ms->tkns->arr[ms->tkns->i].type = ft_is_operator(*line);
+	ms->tkns->arr[ms->tkns->i].type = ft_is_opr(*line);
 	if (ms->tkns->arr[ms->tkns->i].type == 0)
-		ft_get_cmnd_str(ms, line); //UPDATE
+		ft_get_cmnd_str(ms, line);
 	else
 	{
 		if (ms->tkns->arr[ms->tkns->i].type < 5)
@@ -70,19 +76,17 @@ void	ft_add_tkn(t_ms *ms, char **line)
 
 void	ft_get_tokens(t_ms *ms, char *line)
 {
-	//t_tkns	*tkns;
-
 	if (!line || !line[0])
-		return ;//(0);
+		return ;
 	ms->tkns = ft_calloc(1, sizeof(t_tkns));
 	if (!ms->tkns)
-		return ;//(0);
+		return ;
 	ft_init_tkns(ms);
 	if (!ms->tkns)
-		return ;//(0);
+		return ;
 	while (ms->tkns && *line)
 	{
-		ft_skip_whitespace(&line);
+		ft_skip_whtspc(&line);
 		ft_add_tkn(ms, &line);
 	}
 }
