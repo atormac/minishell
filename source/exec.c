@@ -13,7 +13,7 @@
 #include "../include/minishell.h"
 #include "../include/builtin.h"
 
-void	redirect(t_ms *ms, t_ast *ast, int cmd_id, int *prev_fd);
+int		redirect(t_ms *ms, t_ast *ast, int cmd_id, int *prev_fd);
 int		pid_wait(pid_t pid);
 
 static int	exec_builtin(t_ms *ms, int id, char **args)
@@ -37,15 +37,10 @@ static int	exec_bin(t_ms *ms, char **args)
 	ret = 0;
 	cmd_path = path_find_bin(ms, args[0]);
 	if (!cmd_path)
-	{
-		ft_putstr_fd("could not find cmd", 2);
-		ft_putstr_fd(args[0], 2);
-		ft_putstr_fd("\n", 2);
 		return (0);
-	}
 	ret = execve(cmd_path, args, ms->env);
 	if (ret == -1)
-		ft_putstr_fd("execve failed\n", 2);
+		error_print(args[0]);
 	free(cmd_path);
 	(void)args;
 	return (ret);
@@ -56,8 +51,8 @@ static pid_t exec_fork(t_ms *ms, t_ast *ast, int cmd_id, int *prev_fd, char **ar
 	pid_t pid = fork();
 	if (pid == 0)
 	{
-		redirect(ms, ast, cmd_id, prev_fd);
-		exec_bin(ms, args);
+		if (redirect(ms, ast, cmd_id, prev_fd))
+			exec_bin(ms, args);
 		exit(0);
 	}
 	return (pid);

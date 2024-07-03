@@ -12,6 +12,8 @@
 
 #include "../include/minishell.h"
 
+void	error_cmd(char *s);
+
 char	*path_join(char *path, char *bin)
 {
 	char	*ret;
@@ -75,7 +77,7 @@ static char	*path_search(t_ms *ms, char *cmd)
 
 char	*path_abs_or_relative(char *cmd)
 {
-	if (is_executable(cmd))
+	if (access(cmd, F_OK) == 0)
 		return ft_strdup(cmd);
 	return (NULL);
 }
@@ -91,5 +93,7 @@ char	*path_find_bin(t_ms *ms, char *cmd)
 		cmd_path = path_abs_or_relative(cmd);
 	else
 		cmd_path = path_search(ms, cmd);
+	if (!cmd_path)
+		error_cmd(cmd);
 	return (cmd_path);
 }

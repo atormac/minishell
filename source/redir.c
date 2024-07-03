@@ -36,7 +36,8 @@ static void	dup_close(int a, int to_a, int b, int to_b)
 	close(b);
 }
 
-static void	redirect_io(t_ast *ast)
+
+static int	redirect_io(t_ast *ast)
 {
 	int	file_fd;
 	int	to_fd;
@@ -51,22 +52,23 @@ static void	redirect_io(t_ast *ast)
 		file_fd = open_infile(ast->io->str, 0);
 	if (file_fd == -1)
 	{
-		ft_putstr_fd("file error\n", 2);
-		return ;
+		error_print(ast->io->str);
+		return (0);
 	}
 	dup2(file_fd, to_fd);
+	return (1);
 }
 
 
-void	redirect(t_ms *ms, t_ast *ast, int cmd_id, int *prev_fd)
+int	redirect(t_ms *ms, t_ast *ast, int cmd_id, int *prev_fd)
 {
-	if (ast->io)
-		redirect_io(ast);
+	if (ast->io && !redirect_io(ast))
+		return (0);
 	if (cmd_id == CMD_FIRST)
 	{
 		close(ms->pipe_read);
 		if (dup2(ms->pipe_write, STDOUT_FILENO) == -1)
-			perror("dup2");
+			error_print("dup2");
 	}
 	else if (cmd_id == CMD_MIDDLE)
 		dup_close(ms->pipe_write, STDOUT_FILENO, prev_fd[0], STDIN_FILENO);
@@ -74,7 +76,8 @@ void	redirect(t_ms *ms, t_ast *ast, int cmd_id, int *prev_fd)
 	{
 		close(prev_fd[1]);
 		if (dup2(prev_fd[0], STDIN_FILENO) == -1)
-			perror("dup2");
+			error_print("dup2");
 	}
+	return (1);
 }
 
