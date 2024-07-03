@@ -13,6 +13,9 @@
 #include "../include/minishell.h"
 #include "../include/builtin.h"
 
+void	redirect(t_ms *ms, t_ast *ast, int cmd_id, int *prev_fd);
+int		pid_wait(pid_t pid);
+
 static int	exec_builtin(t_ms *ms, int id, char **args)
 {
 	if (id == BUILTIN_ECHO)
@@ -26,36 +29,83 @@ static int	exec_builtin(t_ms *ms, int id, char **args)
 	return (1);
 }
 
-static int	exec_bin(t_ms *ms, char	*cmd, char **args)
+static int	exec_bin(t_ms *ms, char **args)
 {			
 	int		ret;
 	char	*cmd_path;
 
 	ret = 0;
-	cmd_path = path_find_bin(ms, cmd);
+	cmd_path = path_find_bin(ms, args[0]);
 	if (!cmd_path)
 	{
-		printf("%s: command not found\n", cmd);
+		ft_putstr_fd("could not find cmd", 2);
+		ft_putstr_fd(args[0], 2);
+		ft_putstr_fd("\n", 2);
 		return (0);
 	}
-	//ret = execve(cmd, args, ms->env);
-	printf("cmd_path %s\n", cmd_path);
+	ret = execve(cmd_path, args, ms->env);
+	if (ret == -1)
+		ft_putstr_fd("execve failed\n", 2);
 	free(cmd_path);
 	(void)args;
 	return (ret);
 }
 
-int	exec_cmd(t_ms *ms, char *cmd, char **args)
+static pid_t exec_fork(t_ms *ms, t_ast *ast, int cmd_id, int *prev_fd, char **args)
+{
+	pid_t pid = fork();
+	if (pid == 0)
+	{
+		redirect(ms, ast, cmd_id, prev_fd);
+		exec_bin(ms, args);
+		exit(0);
+	}
+	return (pid);
+}
+
+static pid_t	exec_piped(t_ms *ms, t_ast *ast, int cmd_id, char **args)
+{
+	pid_t	pid;
+	int	prev_fd[2];
+	int	pipefd[2];
+
+	prev_fd[0] = ms->pipe_read;
+	prev_fd[1] = ms->pipe_write;
+	if (cmd_id < CMD_LAST)
+	{
+		close(prev_fd[1]);
+		pipe(pipefd);
+		ms->pipe_read = pipefd[0];
+		ms->pipe_write = pipefd[1];
+	}
+	pid = exec_fork(ms, ast, cmd_id, prev_fd, args);
+	close(prev_fd[0]);
+	return (pid);
+}
+
+
+int	exec_ast(t_ms *ms, t_ast *ast, int cmd_id)
 {
 	int	ret;
 	int	builtin;
+	char	**args;
+	pid_t	pid;
 
-	args = get_args(&cmd);
-	builtin = is_builtin(cmd);
+	ret = 0;
+	args = ft_split(ast->str, ' ');
+	if (args[0] == NULL)
+		return (0);
+	builtin = is_builtin(args[0]);
 	if (builtin != BUILTIN_NONE)
-		ret = exec_builtin(ms, builtin, args);
+		ret = exec_builtin(ms, builtin, &args[1]);
 	else
-		ret = exec_bin(ms, cmd, args);
+	{
+		if (cmd_id == CMD_NOPIPE)
+			pid = exec_fork(ms, ast, cmd_id, NULL, args);
+		else
+			pid = exec_piped(ms, ast, cmd_id, args);
+		ast->pid = pid;
+	}
 	free_array(args);
 	return (ret);
 }
