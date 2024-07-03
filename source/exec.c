@@ -38,7 +38,9 @@ static int	exec_bin(t_ms *ms, char **args)
 	cmd_path = path_find_bin(ms, args[0]);
 	if (!cmd_path)
 	{
-		ft_putstr_fd("could not find cmd\n", 2);
+		ft_putstr_fd("could not find cmd", 2);
+		ft_putstr_fd(args[0], 2);
+		ft_putstr_fd("\n", 2);
 		return (0);
 	}
 	ret = execve(cmd_path, args, ms->env);
@@ -69,17 +71,15 @@ static pid_t	exec_piped(t_ms *ms, t_ast *ast, int cmd_id, char **args)
 
 	prev_fd[0] = ms->pipe_read;
 	prev_fd[1] = ms->pipe_write;
-	pipe(pipefd);
-	ms->pipe_read = pipefd[0];
-	ms->pipe_write = pipefd[1];
-	pid = exec_fork(ms, ast, cmd_id, prev_fd, args);
-	if (cmd_id == CMD_FIRST)
-		close(ms->pipe_write);
-	if (cmd_id == CMD_MIDDLE)
+	if (cmd_id < CMD_LAST)
 	{
-		close(prev_fd[0]);
-		close(ms->pipe_write);
+		close(prev_fd[1]);
+		pipe(pipefd);
+		ms->pipe_read = pipefd[0];
+		ms->pipe_write = pipefd[1];
 	}
+	pid = exec_fork(ms, ast, cmd_id, prev_fd, args);
+	close(prev_fd[0]);
 	return (pid);
 }
 
@@ -104,7 +104,7 @@ int	exec_ast(t_ms *ms, t_ast *ast, int cmd_id)
 			pid = exec_fork(ms, ast, cmd_id, NULL, args);
 		else
 			pid = exec_piped(ms, ast, cmd_id, args);
-		ret = pid_wait(pid);
+		ast->pid = pid;
 	}
 	free_array(args);
 	return (ret);

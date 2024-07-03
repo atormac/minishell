@@ -49,13 +49,12 @@ void	minishell_cleanup(t_ms *ms)
 void	ft_free_ast(t_ast *ast);
 t_ast	*ft_get_ast(t_tkns *tkns, int tree_top);
 int		exec_ast(t_ms *ms, t_ast *ast, int cmd_id);
+int		pid_wait(pid_t pid);
 
 void	recurse_ast(t_ms *ms, t_ast *ast, t_ast *prev)
 {
 	int	cmd_id;
 
-	if (!ast)
-		return ;
 	if (prev->type == 5)
 	{
 		if (ast->str)
@@ -80,6 +79,16 @@ void	recurse_ast(t_ms *ms, t_ast *ast, t_ast *prev)
 		recurse_ast(ms, ast->right, ast);
 }
 
+void	wait_ast(t_ms *ms, t_ast *ast)
+{
+	if (ast->type == 0)
+			pid_wait(ast->pid);
+	if (ast->left)
+		wait_ast(ms, ast->left);
+	if (ast->right)
+		wait_ast(ms, ast->right);
+}
+
 void	process_line(t_ms *ms, char *line)
 {
 	ms->is_first_cmd = 1;
@@ -92,10 +101,11 @@ void	process_line(t_ms *ms, char *line)
 	if (!ast)
 		return ;
 	recurse_ast(ms, ast, ast);
-	ft_free_ast(ast);
-	ft_free_tkns(ms);
 	close(ms->pipe_read);
 	close(ms->pipe_write);
+	wait_ast(ms, ast);
+	ft_free_ast(ast);
+	ft_free_tkns(ms);
 }
 
 static	void	minishell(t_ms *ms)

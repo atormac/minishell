@@ -18,6 +18,7 @@
 typedef struct s_ast
 {
 	int				type;
+	int				pid;
 	char			*str;
 	struct s_ast	*left;
 	struct s_ast	*right;

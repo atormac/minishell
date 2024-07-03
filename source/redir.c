@@ -30,11 +30,9 @@ int	open_outfile(char *file, int is_heredoc)
 
 static void	dup_close(int a, int to_a, int b, int to_b)
 {
-	if (a != to_a)
-		dup2(a, to_a);
+	dup2(a, to_a);
 	close(a);
-	if (b != to_b)
-		dup2(b, to_b);
+	dup2(b, to_b);
 	close(b);
 }
 
@@ -51,7 +49,6 @@ static void	redirect_io(t_ast *ast)
 	}
 	else
 		file_fd = open_infile(ast->io->str, 0);
-	ft_putstr_fd(ast->io->str, 2);
 	if (file_fd == -1)
 	{
 		ft_putstr_fd("file error\n", 2);
@@ -67,18 +64,17 @@ void	redirect(t_ms *ms, t_ast *ast, int cmd_id, int *prev_fd)
 		redirect_io(ast);
 	if (cmd_id == CMD_FIRST)
 	{
-		//TODO: fix redirect io hang
-		dup_close(ms->pipe_write, STDOUT_FILENO, ms->pipe_read, STDIN_FILENO);
+		close(ms->pipe_read);
+		if (dup2(ms->pipe_write, STDOUT_FILENO) == -1)
+			perror("dup2");
 	}
 	else if (cmd_id == CMD_MIDDLE)
 		dup_close(ms->pipe_write, STDOUT_FILENO, prev_fd[0], STDIN_FILENO);
 	else if (cmd_id == CMD_LAST)
 	{
-		if (dup2(prev_fd[0], STDIN_FILENO) == -1)
-			perror("ldup2");
 		close(prev_fd[1]);
-		close(ms->pipe_read);
-		close(ms->pipe_write);
+		if (dup2(prev_fd[0], STDIN_FILENO) == -1)
+			perror("dup2");
 	}
 }
 
