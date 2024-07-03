@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/02 19:08:16 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/03 15:42:02 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-/*static	int	minishell_init(t_ms *ms, char **envp)
+static	int	minishell_init(t_ms *ms, char **envp)
 {
 	ms->exit_code = 0;
 	ms->cmd_error = 0;
@@ -39,7 +39,7 @@
 	if (!init_signals())
 		return (0);
 	return (1);
-}*/
+}
 
 void	minishell_cleanup(t_ms *ms)
 {
@@ -90,12 +90,12 @@ void	process_line(t_ms *ms, char *line)
 	t_ast *ast = ft_get_ast(ms->tkns, 1, ms);
 	if (!ast)
 		return ;
-	ft_print_ast(ast);
+	ft_print_ast(ms, ast);
 	ft_free_ast(ast);
 	ft_free_tkns(ms);
 }
 
-/*static	void	minishell(t_ms *ms)
+static	void	minishell(t_ms *ms)
 {
 	char	prompt[1024];
 	char	*line;
@@ -135,8 +135,9 @@ int main(int argc, char **argv, char **envp)
 	minishell_cleanup(&ms);
 	return (ms.exit_code);
 }
-*/
 
+
+/*
 //Parser testing main
 int main(int argc, char **argv)
 {
@@ -161,9 +162,10 @@ int main(int argc, char **argv)
 	printf("----------AST Error %d-----------------\n", ms.prsr_err);
 	if (ast)
 	{
-		ft_print_ast(ast);
-		ft_free_ast(ast);
+		ft_print_ast(&ms, ast);
+		//ft_free_ast(ast);
 	}
 	if (ms.tkns)
 		ft_free_tkns(&ms);
 }
+*/

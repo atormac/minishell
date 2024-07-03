@@ -6,7 +6,7 @@
 #    By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/11 21:03:29 by atorma            #+#    #+#              #
-#    Updated: 2024/07/01 13:41:04 by atorma           ###   ########.fr        #
+#    Updated: 2024/07/03 15:20:02 by lucas            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ SOURCES = main.c prompt.c builtin.c path.c exec.c environment.c \
 		  pid.c utils.c args.c pipes.c signals.c
 
 TKN_DIR = source/tokenizer
-TKN_SRC = prsr.c tkns_realloc.c tkns_utils.c get_tkns.c
+TKN_SRC = prsr.c tkns_realloc.c tkns_utils.c get_tkns.c expd.c
 TKN_OBJ = $(addprefix $(TKN_DIR)/,$(TKN_SRC:.c=.o))
 
 OBJECTS = $(addprefix $(SOURCE_DIR)/,$(SOURCES:.c=.o))
