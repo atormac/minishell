@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/03 16:39:25 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/03 17:55:17 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ t_ast	*ft_prsr(t_tkns *tkns, t_ms *ms);
 t_ast	*ft_get_ast(t_tkns *tkns, int tree_top, t_ms *ms);
 int		exec_ast(t_ms *ms, t_ast *ast, int cmd_id);
 int		pid_wait(pid_t pid);
+void	ft_expd_ast(t_ms *ms, t_ast *ast);
 
 void	recurse_ast(t_ms *ms, t_ast *ast, t_ast *prev)
 {
@@ -113,7 +114,9 @@ void	process_line(t_ms *ms, char *line)
 	close(ms->pipe_read);
 	close(ms->pipe_write);
 	wait_ast(ms, ast);
-	ft_print_ast(ms, ast);
+	
+	//ft_expd_ast(ms, ast);
+	//ft_print_ast(ms, ast);
 	//ft_free_ast(ast);
 	//ft_free_tkns(ms);
 }
@@ -162,7 +165,7 @@ int main(int argc, char **argv, char **envp)
 
 /*
 //Parser testing main
-/*
+
 int main(int argc, char **argv)
 {
 	
