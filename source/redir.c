@@ -71,7 +71,10 @@ int	redirect(t_ms *ms, t_ast *ast, int cmd_id, int *prev_fd)
 			error_print("dup2");
 	}
 	else if (cmd_id == CMD_MIDDLE)
+	{
+		close(prev_fd[1]);
 		dup_close(ms->pipe_write, STDOUT_FILENO, prev_fd[0], STDIN_FILENO);
+	}
 	else if (cmd_id == CMD_LAST)
 	{
 		close(prev_fd[1]);

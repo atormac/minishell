@@ -114,8 +114,8 @@ void	process_line(t_ms *ms, char *line)
 	
 	//ft_expd_ast(ms, ast);
 	//ft_print_ast(ms, ast);
-	//ft_free_ast(ast);
-	//ft_free_tkns(ms);
+	ft_free_ast(ast);
+	ft_free_tkns(ms);
 }
 
 static	void	minishell(t_ms *ms)
