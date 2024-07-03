@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 15:04:51 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/03 15:31:20 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/03 18:53:06 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "tokenizer.h"
@@ -298,7 +298,7 @@ void	ft_print_ast(t_ms *ms, t_ast *ast)
 
 	if (!ast)
 		return ;
-	printf("Ast type %d, str %s", ast->type, expd_prep(ast->str, ms));
+	printf("Ast type %d, str %s", ast->type, ast->str);
 	if (!ast->io)
 		printf("\n");
 	else

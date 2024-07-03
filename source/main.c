@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/03 17:55:17 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/03 18:56:56 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ void	process_line(t_ms *ms, char *line)
 	//ft_free_ast(ast);
 	//ft_free_tkns(ms);
 }
-
+/*
 static	void	minishell(t_ms *ms)
 {
 	char	prompt[1024];
@@ -161,12 +161,12 @@ int main(int argc, char **argv, char **envp)
 	minishell_cleanup(&ms);
 	return (ms.exit_code);
 }
+*/
 
 
-/*
 //Parser testing main
 
-int main(int argc, char **argv)
+int main(int argc, char **argv, char **envp)
 {
 	
 	(void) argc;
@@ -174,6 +174,13 @@ int main(int argc, char **argv)
 	ms.prsr_err = 0;
 	ms.tkns = 0;
 	char *line = argv[1];
+
+	if (!minishell_init(&ms, envp))
+	{
+		ft_putstr_fd("Error initializing minishell\n", STDERR_FILENO);
+		minishell_cleanup(&ms);
+		return (EXIT_FAILURE);
+	}
 
 	ft_get_tokens(&ms, line);
 	if (!ms.tkns)
@@ -189,10 +196,14 @@ int main(int argc, char **argv)
 	printf("----------AST Error %d-----------------\n", ms.prsr_err);
 	if (ast)
 	{
+		ft_expd_ast(&ms, ast);
 		ft_print_ast(&ms, ast);
-		//ft_free_ast(ast);
+		ft_free_ast(ast);
 	}
 	if (ms.tkns)
 		ft_free_tkns(&ms);
+	
+	minishell_cleanup(&ms);
+
+	return (0);
 }
-*/
