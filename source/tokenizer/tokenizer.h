@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 16:36:42 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/02 13:21:22 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/03 15:30:38 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,6 @@ void	ft_tkns_realloc(t_ms *ms);
 void	ft_free_tkns(t_ms *ms);
 
 //Print AST
-void	ft_print_ast(t_ast *ast);
+void	ft_print_ast(t_ms *ms, t_ast *ast);
+
 #endif

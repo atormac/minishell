@@ -6,8 +6,8 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/02 19:08:16 by lucas            ###   ########.fr       */
-/*   Updated: 2024/07/01 18:37:02 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/03 16:37:07 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/03 15:42:02 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,8 +114,9 @@ void	process_line(t_ms *ms, char *line)
 	close(ms->pipe_read);
 	close(ms->pipe_write);
 	wait_ast(ms, ast);
-	ft_free_ast(ast);
-	ft_free_tkns(ms);
+	ft_print_ast(ms, ast);
+	//ft_free_ast(ast);
+	//ft_free_tkns(ms);
 }
 
 static	void	minishell(t_ms *ms)
@@ -159,6 +160,8 @@ int main(int argc, char **argv, char **envp)
 	return (ms.exit_code);
 }
 
+
+/*
 //Parser testing main
 /*
 int main(int argc, char **argv)
@@ -184,8 +187,8 @@ int main(int argc, char **argv)
 	printf("----------AST Error %d-----------------\n", ms.prsr_err);
 	if (ast)
 	{
-		ft_print_ast(ast);
-		ft_free_ast(ast);
+		ft_print_ast(&ms, ast);
+		//ft_free_ast(ast);
 	}
 	if (ms.tkns)
 		ft_free_tkns(&ms);

@@ -6,11 +6,10 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 15:04:51 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/02 18:31:58 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/03 15:31:20 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "tokenizer.h"
-
 
 typedef enum e_prsr_err
 {
@@ -26,6 +25,7 @@ void	ft_set_prsr_err(t_ms *ms, int type)
 
 t_ast	*ft_get_ast_node(int type);
 t_ast	*ft_get_ast(t_tkns *tkns, int tree_top, t_ms *ms);
+char	*expd_prep(char *s, t_ms *ms);
 
 void	ft_free_ast(t_ast *ast)
 {
@@ -292,13 +292,13 @@ t_ast	*ft_prsr(t_tkns *tkns, t_ms *ms)
 	return (ast);
 }
 
-void	ft_print_ast(t_ast *ast)
+void	ft_print_ast(t_ms *ms, t_ast *ast)
 {
 	t_ast *curr;
 
 	if (!ast)
 		return ;
-	printf("Ast type %d, str %s", ast->type, ast->str);
+	printf("Ast type %d, str %s", ast->type, expd_prep(ast->str, ms));
 	if (!ast->io)
 		printf("\n");
 	else
@@ -312,9 +312,9 @@ void	ft_print_ast(t_ast *ast)
 		printf("\n");
 	}
 	if (ast->left)
-		ft_print_ast(ast->left);
+		ft_print_ast(ms, ast->left);
 	if (ast->right)
-		ft_print_ast(ast->right);
+		ft_print_ast(ms, ast->right);
 }
 
 /*
