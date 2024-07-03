@@ -22,7 +22,7 @@ int	pid_wait(pid_t pid)
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
 	if (WIFSIGNALED(status))
-		return (0);
+		return (WTERMSIG(status));
 	return (EXIT_FAILURE);
 }
 

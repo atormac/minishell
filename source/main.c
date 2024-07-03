@@ -58,23 +58,20 @@ void	recurse_ast(t_ms *ms, t_ast *ast, t_ast *prev)
 {
 	int	cmd_id;
 
-	if (prev->type == 5)
+	if (ast->str && prev->type == 5)
 	{
-		if (ast->str)
+		if (ms->is_first_cmd)
 		{
-			if (ms->is_first_cmd)
-			{
-				cmd_id = CMD_FIRST;
-				ms->is_first_cmd = 0;
-			}
-			else if (prev->right == ast && !ast->left && !ast->right)
-				cmd_id = CMD_LAST;
-			else
-				cmd_id = CMD_MIDDLE;
-			exec_ast(ms, ast, cmd_id);
+			cmd_id = CMD_FIRST;
+			ms->is_first_cmd = 0;
 		}
+		else if (prev->right == ast && !ast->left && !ast->right)
+			cmd_id = CMD_LAST;
+		else
+			cmd_id = CMD_MIDDLE;
+		exec_ast(ms, ast, cmd_id);
 	}
-	else
+	else if (ast->str)
 		exec_ast(ms, ast, CMD_NOPIPE);
 	if (ast->left)
 		recurse_ast(ms, ast->left, ast);
@@ -85,7 +82,7 @@ void	recurse_ast(t_ms *ms, t_ast *ast, t_ast *prev)
 void	wait_ast(t_ms *ms, t_ast *ast)
 {
 	if (ast->type == 0)
-			pid_wait(ast->pid);
+			ms->exit_code = pid_wait(ast->pid);
 	if (ast->left)
 		wait_ast(ms, ast->left);
 	if (ast->right)
