@@ -75,7 +75,6 @@ static pid_t	exec_piped(t_ms *ms, t_ast *ast, int cmd_id, char **args)
 	return (pid);
 }
 
-
 int	exec_ast(t_ms *ms, t_ast *ast, int cmd_id)
 {
 	int	ret;

@@ -97,13 +97,6 @@ void	process_line(t_ms *ms, char *line)
 	ft_get_tokens(ms, line);
 	if (!ms->tkns)
 		return ;
-	printf("--------------TOKENS----------------\n");
-	for (size_t i = 0; i < ms->tkns->i; i++)
-	{
-		ft_printf("Type %d str %s\n", ms->tkns->arr[i].type, ms->tkns->arr[i].str);
-	}
-
-	printf("------------AST-------------- i=%ld curr=%ld\n", ms->tkns->i, ms->tkns->curr_tkn);
 	t_ast *ast = ft_get_ast(ms->tkns, 1, ms);
 	if (!ast)
 		return ;
@@ -118,7 +111,6 @@ void	process_line(t_ms *ms, char *line)
 	ft_free_tkns(ms);
 }
 
-/*
 static	void	minishell(t_ms *ms)
 {
 	char	prompt[1024];
@@ -159,11 +151,11 @@ int main(int argc, char **argv, char **envp)
 	minishell_cleanup(&ms);
 	return (ms.exit_code);
 }
-*/
 
 
 //Parser testing main
 
+/*
 int main(int argc, char **argv, char **envp)
 {
 	
@@ -206,3 +198,4 @@ int main(int argc, char **argv, char **envp)
 	return (0);
 }
 
+*/

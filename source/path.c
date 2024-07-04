@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+#include <sys/stat.h>
 
 void	error_cmd(char *s);
 
@@ -77,12 +78,15 @@ static char	*path_search(t_ms *ms, char *cmd)
 
 char	*path_abs_or_relative(char *cmd)
 {
+	struct stat file_stat;
+
 	if (access(cmd, F_OK) != 0 || access(cmd, X_OK) != 0)
 	{
 		error_print(cmd, NULL);
 		return (NULL);
 	}
-	if ((cmd[ft_strlen(cmd) - 1]) == '/')
+	stat(cmd, &file_stat);
+	if (S_ISDIR(file_stat.st_mode))
 	{
 		error_print(cmd, "Is a directory");
 		return (0);
