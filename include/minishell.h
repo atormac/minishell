@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 15:36:13 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/02 13:50:47 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/04 19:49:31 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ typedef struct t_ms
 	int				prsr_err;
 }	t_ms;
 
-#include "../source/tokenizer/tokenizer.h"
+#include "../source/tkns/tkns.h"
 
 void	error_print(char *s);
 char	**get_args(char **cmd);

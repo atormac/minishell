@@ -6,7 +6,7 @@
 #    By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/11 21:03:29 by atorma            #+#    #+#              #
-#    Updated: 2024/07/03 15:20:02 by lucas            ###   ########.fr        #
+#    Updated: 2024/07/04 19:59:52 by lucas            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,12 +21,21 @@ SOURCE_DIR = source
 SOURCES = main.c prompt.c builtin.c path.c exec.c environment.c \
 		  pid.c utils.c args.c signals.c redir.c error.c
 
-TKN_DIR = source/tokenizer
-TKN_SRC = prsr.c tkns_realloc.c tkns_utils.c get_tkns.c expd.c
-TKN_OBJ = $(addprefix $(TKN_DIR)/,$(TKN_SRC:.c=.o))
+TKNS_DIR = source/tkns
+TKNS_SRC = tkns_realloc.c tkns_utils.c get_tkns.c
+TKNS_OBJ = $(addprefix $(TKNS_DIR)/,$(TKNS_SRC:.c=.o))
+
+PRSR_DIR = source/prsr
+PRSR_SRC = prsr.c
+PRSR_OBJ = $(addprefix $(PRSR_DIR)/,$(PRSR_SRC:.c=.o))
+
+EXPD_DIR = source/expd
+EXPD_SRC = expd.c
+EXPD_OBJ = $(addprefix $(EXPD_DIR)/,$(EXPD_SRC:.c=.o))
+
 
 OBJECTS = $(addprefix $(SOURCE_DIR)/,$(SOURCES:.c=.o))
-OBJECTS += $(TKN_OBJ)
+OBJECTS += $(TKNS_OBJ) $(PRSR_OBJ) $(EXPD_OBJ)
 
 target debug: CC = clang
 target debug: CFLAGS += -fsanitize=address,undefined -g 
@@ -48,6 +57,7 @@ clean:
 	rm -f $(OBJECTS)
 
 fclean: clean
+	$(MAKE) -C $(LIBDIR) $@
 	rm -f $(NAME)
 
 re: fclean all

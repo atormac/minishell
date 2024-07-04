@@ -6,10 +6,10 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 15:04:51 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/03 18:53:06 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/04 19:40:26 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "tokenizer.h"
+#include "../../include/minishell.h"
 
 typedef enum e_prsr_err
 {
