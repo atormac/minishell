@@ -107,12 +107,12 @@ void	process_line(t_ms *ms, char *line)
 	t_ast *ast = ft_get_ast(ms->tkns, 1, ms);
 	if (!ast)
 		return ;
+	ft_expd_ast(ms, ast);
 	recurse_ast(ms, ast, ast);
 	close(ms->pipe_read);
 	close(ms->pipe_write);
 	wait_ast(ms, ast);
 	
-	//ft_expd_ast(ms, ast);
 	//ft_print_ast(ms, ast);
 	ft_free_ast(ast);
 	ft_free_tkns(ms);

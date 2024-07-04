@@ -30,9 +30,11 @@ int	open_outfile(char *file, int is_heredoc)
 
 static void	dup_close(int a, int to_a, int b, int to_b)
 {
-	dup2(a, to_a);
+	if (dup2(a, to_a) == -1)
+		error_print("dup2", NULL);
 	close(a);
-	dup2(b, to_b);
+	if (dup2(b, to_b) == -1)
+		error_print("dup2", NULL);
 	close(b);
 }
 
@@ -52,10 +54,11 @@ static int	redirect_io(t_ast *ast)
 		file_fd = open_infile(ast->io->str, 0);
 	if (file_fd == -1)
 	{
-		error_print(ast->io->str);
+		error_print(ast->io->str, NULL);
 		return (0);
 	}
-	dup2(file_fd, to_fd);
+	if (dup2(file_fd, to_fd) == -1)
+		error_print("dup2", NULL);
 	return (1);
 }
 
@@ -66,20 +69,20 @@ int	redirect(t_ms *ms, t_ast *ast, int cmd_id, int *prev_fd)
 		return (0);
 	if (cmd_id == CMD_FIRST)
 	{
-		close(ms->pipe_read);
 		if (dup2(ms->pipe_write, STDOUT_FILENO) == -1)
-			error_print("dup2");
+			error_print("dup2", NULL);
+		close(ms->pipe_read);
 	}
 	else if (cmd_id == CMD_MIDDLE)
 	{
-		close(prev_fd[1]);
 		dup_close(ms->pipe_write, STDOUT_FILENO, prev_fd[0], STDIN_FILENO);
+		close(prev_fd[1]);
 	}
 	else if (cmd_id == CMD_LAST)
 	{
-		close(prev_fd[1]);
 		if (dup2(prev_fd[0], STDIN_FILENO) == -1)
-			error_print("dup2");
+			error_print("dup2", NULL);
+		close(prev_fd[1]);
 	}
 	return (1);
 }

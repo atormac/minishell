@@ -39,10 +39,7 @@ static int	exec_bin(t_ms *ms, char **args)
 	if (!cmd_path)
 		return (0);
 	ret = execve(cmd_path, args, ms->env);
-	if (ret == -1)
-		error_print(args[0]);
 	free(cmd_path);
-	(void)args;
 	return (ret);
 }
 

@@ -65,7 +65,7 @@ static char	*path_search(t_ms *ms, char *cmd)
 		cmd_path = path_join(path[i], cmd);
 		if (!cmd_path)
 			break;
-		if (is_executable(cmd_path))
+		if (access(cmd_path, F_OK) == 0)
 			break;
 		free(cmd_path);
 		cmd_path = NULL;
@@ -77,23 +77,43 @@ static char	*path_search(t_ms *ms, char *cmd)
 
 char	*path_abs_or_relative(char *cmd)
 {
-	if (access(cmd, F_OK) == 0)
-		return ft_strdup(cmd);
-	return (NULL);
+	if (access(cmd, F_OK) != 0 || access(cmd, X_OK) != 0)
+	{
+		error_print(cmd, NULL);
+		return (NULL);
+	}
+	if ((cmd[ft_strlen(cmd) - 1]) == '/')
+	{
+		error_print(cmd, "Is a directory");
+		return (0);
+	}
+	return (ft_strdup(cmd));
 }
 
 char	*path_find_bin(t_ms *ms, char *cmd)
 {
 	char	*cmd_path;
 
-	cmd_path = NULL;
 	if (cmd[0] == '\0')
 		return (NULL);
+	if (cmd[0] == '.' && cmd[1] == '\0')
+	{
+		error_print(cmd, "filename argument required\n.: usage: . filename [arguments]");
+		return (NULL);
+	}
 	if (ft_strchr(cmd, '/'))
 		cmd_path = path_abs_or_relative(cmd);
 	else
+	{
 		cmd_path = path_search(ms, cmd);
-	if (!cmd_path)
-		error_cmd(cmd);
+		if (!cmd_path)
+			error_cmd(cmd);
+		else if (cmd_path && access(cmd_path, X_OK) != 0)
+		{
+			error_print(cmd_path, NULL);
+			free(cmd_path);
+			return NULL;
+		}
+	}
 	return (cmd_path);
 }
