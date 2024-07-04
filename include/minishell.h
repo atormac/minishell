@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 15:36:13 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/04 19:49:31 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/04 20:35:21 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,9 @@ typedef struct t_ms
 	int				prsr_err;
 }	t_ms;
 
+#include "environment.h"
 #include "../source/tkns/tkns.h"
+#include "../source/expd/expd.h"
 
 void	error_print(char *s);
 char	**get_args(char **cmd);

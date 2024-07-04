@@ -6,7 +6,7 @@
 #    By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/11 21:03:29 by atorma            #+#    #+#              #
-#    Updated: 2024/07/04 19:59:52 by lucas            ###   ########.fr        #
+#    Updated: 2024/07/04 20:31:37 by lopoka           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ PRSR_SRC = prsr.c
 PRSR_OBJ = $(addprefix $(PRSR_DIR)/,$(PRSR_SRC:.c=.o))
 
 EXPD_DIR = source/expd
-EXPD_SRC = expd.c
+EXPD_SRC = expd.c expd_rglr.c expd_sq.c expd_dq.c expd_dlr.c
 EXPD_OBJ = $(addprefix $(EXPD_DIR)/,$(EXPD_SRC:.c=.o))
 
 
