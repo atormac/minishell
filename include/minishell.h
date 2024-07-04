@@ -46,7 +46,7 @@ typedef struct t_ms
 
 #include "../source/tokenizer/tokenizer.h"
 
-void	error_print(char *s);
+void	error_print(char *s, char *error_str);
 char	**get_args(char **cmd);
 size_t	args_count(char **args);
 void	set_shlvl(t_ms *ms);
