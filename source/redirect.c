@@ -73,7 +73,6 @@ static int	redirect_io(t_ast *ast)
 	return (1);
 }
 
-
 int	redirect(t_ms *ms, t_ast *ast, int cmd_id, int *prev_fd)
 {
 	if (ast->io && !redirect_io(ast))
@@ -82,19 +81,18 @@ int	redirect(t_ms *ms, t_ast *ast, int cmd_id, int *prev_fd)
 	{
 		if (dup2(ms->pipe_write, STDOUT_FILENO) == -1)
 			error_print("dup2", NULL);
-		close(ms->pipe_read);
 	}
 	else if (cmd_id == CMD_MIDDLE)
-	{
 		dup_close(ms->pipe_write, STDOUT_FILENO, prev_fd[0], STDIN_FILENO);
-		close(prev_fd[1]);
-	}
 	else if (cmd_id == CMD_LAST)
 	{
 		if (dup2(prev_fd[0], STDIN_FILENO) == -1)
 			error_print("dup2", NULL);
-		close(prev_fd[1]);
 	}
+	close(ms->pipe_read);
+	close(ms->pipe_write);
+	if (cmd_id != CMD_NOPIPE && cmd_id < CMD_LAST)
+		close(prev_fd[0]);
 	return (1);
 }
 

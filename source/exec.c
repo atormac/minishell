@@ -66,13 +66,14 @@ static pid_t	exec_piped(t_ms *ms, t_ast *ast, int cmd_id, char **args)
 	prev_fd[1] = ms->pipe_write;
 	if (cmd_id < CMD_LAST)
 	{
-		close(prev_fd[1]);
 		pipe(pipefd);
 		ms->pipe_read = pipefd[0];
 		ms->pipe_write = pipefd[1];
 	}
 	pid = exec_fork(ms, ast, cmd_id, prev_fd, args);
-	close(prev_fd[0]);
+	close(ms->pipe_write);
+	if (cmd_id > CMD_FIRST)
+		close(prev_fd[0]);
 	return (pid);
 }
 

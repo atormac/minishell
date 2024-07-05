@@ -99,8 +99,6 @@ void	process_line(t_ms *ms, char *line)
 		return ;
 	ft_expd_ast(ms, ast);
 	recurse_ast(ms, ast, ast);
-	close(ms->pipe_read);
-	close(ms->pipe_write);
 	wait_ast(ms, ast);
 	
 	//ft_print_ast(ms, ast);
