@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/05 18:25:38 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/05 19:51:57 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static	int	minishell_init(t_ms *ms, char **envp)
 		return (0);
 	if (!set_cwd(ms))
 		return (0);
-	if (!init_signals())
+	if (!init_signals(ms))
 		return (0);
 	return (1);
 }

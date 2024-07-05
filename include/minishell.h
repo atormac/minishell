@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 15:36:13 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/05 19:25:47 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/05 19:51:39 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,6 @@ char	**path_get(char **envp);
 char	*path_find_bin(t_ms *ms, char *cmd);
 int		exec_cmd(t_ms *ms, char *cmd, char **args);
 int		is_executable(char *path);
-int		init_signals(void);
+int		init_signals(t_ms *ms);
 
 #endif
