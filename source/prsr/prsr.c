@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 15:04:51 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/05 13:06:36 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/07/05 13:29:32 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -26,15 +26,16 @@ t_ast	*ft_get_ast(t_tkns *tkns, int tree_top, t_ms *ms)
 	ast = ft_get_branch(tkns, ms);
 	if (!ast)
 		return (NULL);
-	while ((tree_top && ft_is_tkn_bop(tkns)) || (!tree_top && ft_is_tkn_bop(tkns) == t_pipe))
+	while ((tree_top && ft_is_tkn_bop(tkns))
+		|| (!tree_top && ft_is_tkn_bop(tkns) == t_pipe))
 	{
 		op = tkns->arr[tkns->curr_tkn].type;
 		tkns->curr_tkn++;
 		if (!ft_is_tkn(tkns))
-			return (ft_set_prsr_err(ms, e_sntx), ft_free_ast(ast), NULL); //SYNTAX ERR HANDLE
+			return (ft_set_prsr_err(ms, e_sntx), ft_free_ast(ast), NULL);
 		ast = ft_merge_branch(ast, op, ft_get_ast(tkns, 0, ms), ms);
 		if (!ast)
-			return (ft_set_prsr_err(ms, e_mem), NULL); //MEM ERR HANDLE
+			return (ft_set_prsr_err(ms, e_mem), NULL);
 	}
 	return (ast);
 }
@@ -42,11 +43,11 @@ t_ast	*ft_get_ast(t_tkns *tkns, int tree_top, t_ms *ms)
 t_ast	*ft_prsr(t_tkns *tkns, t_ms *ms)
 {
 	t_ast	*ast;
-	
+
 	if (!tkns || !ms)
 		return (NULL);
 	ast = ft_get_ast(tkns, 1, ms);
 	if (ft_is_tkn(tkns))
-		return (ft_free_ast(ast), ft_set_prsr_err(ms, e_sntx), NULL); //SYNTAX ERR HANDLE
+		return (ft_free_ast(ast), ft_set_prsr_err(ms, e_sntx), NULL);
 	return (ast);
 }

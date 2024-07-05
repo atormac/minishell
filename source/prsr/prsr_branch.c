@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 12:52:44 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/05 12:55:21 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/07/05 13:27:04 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -34,15 +34,15 @@ t_ast	*ft_get_branch(t_tkns *tkns, t_ms *ms)
 	if (ms->prsr_err)
 		return (NULL);
 	if (ft_is_tkn_bop(tkns) || tkns->arr[tkns->curr_tkn].type == t_prnths_cls)
-		return (ft_set_prsr_err(ms, e_sntx), NULL); //SYNTAX ERR HANDLE
+		return (ft_set_prsr_err(ms, e_sntx), NULL);
 	else if (tkns->arr[tkns->curr_tkn].type == t_prnths_opn)
 	{
 		tkns->curr_tkn++;
 		branch = ft_get_ast(tkns, 1, ms);
 		if (!branch)
-			return (ft_set_prsr_err(ms, e_mem), NULL); //MEM ERR HANDLE
+			return (ft_set_prsr_err(ms, e_mem), NULL);
 		if (!ft_is_tkn(tkns) || tkns->arr[tkns->curr_tkn].type != t_prnths_cls)
-			return (ft_set_prsr_err(ms, e_sntx), ft_free_ast(branch), NULL); //SYNTAX ERR HANDLE
+			return (ft_set_prsr_err(ms, e_sntx), ft_free_ast(branch), NULL);
 		tkns->curr_tkn++;
 		return (branch);
 	}

@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 11:37:12 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/05 11:38:15 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/07/05 13:08:43 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -48,4 +48,3 @@ void	ft_free_ast(t_ast *ast)
 	}
 	free(ast);
 }
-

@@ -6,14 +6,14 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 11:32:37 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/05 11:33:13 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/07/05 13:09:00 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
 
 void	ft_print_ast(t_ms *ms, t_ast *ast)
 {
-	t_ast *curr;
+	t_ast	*curr;
 
 	if (!ast)
 		return ;

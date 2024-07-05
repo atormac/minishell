@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 13:03:23 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/05 13:04:42 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/07/05 13:33:30 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -19,19 +19,20 @@ t_ast	*ft_get_cmnd(t_tkns *tkns, t_ms *ms)
 		return (NULL);
 	cmnd_node = ft_get_ast_node(0);
 	if (!cmnd_node)
-		return (ft_set_prsr_err(ms, e_mem), NULL); //MEM ERR HANDLE
+		return (ft_set_prsr_err(ms, e_mem), NULL);
 	while (ft_is_tkn_cmnd(tkns) || ft_is_tkn_io(tkns))
 	{
 		if (ft_is_tkn_cmnd(tkns))
 		{
 			if (!ft_join_cmnd(tkns, cmnd_node))
-				return (ft_free_ast(cmnd_node), ft_set_prsr_err(ms, e_mem), NULL); //MEM ERR HANDLE
+				return (ft_free_ast(cmnd_node),
+					ft_set_prsr_err(ms, e_mem), NULL);
 		}
 		else if (ft_is_tkn_io(tkns))
 		{
-			if (!ft_get_io(tkns, cmnd_node, ms))	
-				return (ft_free_ast(cmnd_node), NULL); //ERR HANDLE IN FT_GET_IO
-		} 
+			if (!ft_get_io(tkns, cmnd_node, ms))
+				return (ft_free_ast(cmnd_node), NULL);
+		}
 	}
 	return (cmnd_node);
 }
@@ -45,9 +46,10 @@ int	ft_join_cmnd(t_tkns *tkns, t_ast *cmnd_node)
 	if (!cmnd_node->str)
 		return (0);
 	while (ft_is_tkn_cmnd(tkns))
-	{	
+	{
 		tmp = cmnd_node->str;
-		cmnd_node->str = ft_strjoin_space(cmnd_node->str, tkns->arr[tkns->curr_tkn].str);
+		cmnd_node->str = ft_strjoin_space(cmnd_node->str,
+				tkns->arr[tkns->curr_tkn].str);
 		free(tmp);
 		if (!cmnd_node->str)
 			return (0);
