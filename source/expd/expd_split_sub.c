@@ -6,37 +6,10 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 11:06:16 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/05 19:53:04 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/07/05 20:32:22 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
-
-static inline void	ft_rm_char(char *s, char c)
-{
-	int	rd;
-	int	wr;
-
-	rd = 0;
-	wr = 0;
-	while (s[rd])
-	{
-		if (s[rd] != c)
-			s[wr++] = s[rd];
-		rd++;
-	}
-	s[wr] = 0;
-}
-
-static inline char	**ft_free_split(char **arr, int i)
-{
-	int	j;
-
-	j = 0;
-	while (j < i)
-		free(arr[j++]);
-	free(arr);
-	return (NULL);
-}
 
 static inline void	ft_find_substr(t_token *tk, const char **sp, int esc)
 {

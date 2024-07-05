@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 20:25:15 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/05 19:01:12 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/07/05 20:35:23 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,12 @@ void	ft_expd_sq(char **res, char *s, size_t *i);
 void	ft_expd_dq(char **res, char *s, size_t *i, t_ms *ms);
 void	ft_expd_dlr(char **res, char *s, size_t *i, t_ms *ms);
 
-// Utils
-void	ft_free_null(char **s);
-
 // 2nd Expansion stage top level functions
 void	ft_rm_empty_str(char *s);
 char	**ft_expd_split_sub(const char *str, char sep, int esc);
 
+// Utils
+void	ft_free_null(char **s);
+void	ft_rm_char(char *s, char c);
+char	**ft_free_split(char **arr, int i);
 #endif
