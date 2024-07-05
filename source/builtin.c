@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:23 by atorma            #+#    #+#             */
-/*   Updated: 2024/06/28 18:54:10 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/05 18:44:40 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,10 @@ int	builtin_cd(t_ms *ms, char **args)
 		return (0);
 	dir = args[0];
 	if (chdir(dir) == -1)
+	{
+		error_builtin("cd", dir, NULL);
 		return (0);
+	}
 	if (!update_cwd(ms))
 		return (0);
 	return (1);
@@ -90,7 +93,7 @@ int	builtin_env(t_ms *ms, int id, char **args)
 	{
 		if (arg_cnt != 2)
 			return (0);
-		return env_var_set(ms, args[0], args[1]);
+		return (env_var_set(ms, args[0], args[1]));
 	}
 	else if (id == BUILTIN_UNSET)
 	{

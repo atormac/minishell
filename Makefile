@@ -6,7 +6,7 @@
 #    By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/11 21:03:29 by atorma            #+#    #+#              #
-#    Updated: 2024/07/05 19:04:22 by lopoka           ###   ########.fr        #
+#    Updated: 2024/07/05 20:00:42 by lopoka           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ LIBS = $(LIBDIR)/libft.a
 INCLUDE_DIR = ./include
 SOURCE_DIR = source
 SOURCES = main.c prompt.c builtin.c path.c exec.c environment.c \
-		  pid.c utils.c args.c signals.c redir.c error.c
+		  pid.c utils.c args.c signals.c redirect.c error.c check.c
 
 TKNS_DIR = source/tkns
 TKNS_SRC = tkns_realloc.c tkns_utils.c get_tkns.c

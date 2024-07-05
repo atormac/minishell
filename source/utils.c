@@ -6,21 +6,14 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 17:57:24 by atorma            #+#    #+#             */
-/*   Updated: 2024/06/26 20:36:40 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/05 19:36:54 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 #include "../include/environment.h"
 
-int	is_executable(char *path)
-{
-	if (access(path, F_OK) == 0 && access(path, X_OK) == 0)
-		return (1);
-	return (0);
-}
-
-void	set_shlvl(t_ms *ms)
+int	set_shlvl(t_ms *ms)
 {
 	char	*level;
 	int		new_lvl;
@@ -29,14 +22,15 @@ void	set_shlvl(t_ms *ms)
 	if (!level)
 	{
 		env_var_set(ms, "SHLVL", "1");
-		return ;
+		return (1);
 	}
 	new_lvl = ft_atoi(level) + 1;
 	level = ft_itoa(new_lvl);
 	if (!level)
-		return ;
+		return (0);
 	env_var_set(ms, "SHLVL", level);
 	free(level);
+	return (1);
 }
 
 int	set_cwd(t_ms *ms)
