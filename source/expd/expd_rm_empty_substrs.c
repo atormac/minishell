@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 13:59:48 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/05 19:56:24 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/07/05 20:23:35 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -29,23 +29,3 @@ void	ft_rm_empty_str(char *s)
 	}
 	s[w] = 0;
 }
-
-/*
-int main(int ac, char **av)
-{
-	(void) ac;
-	char	*s = strdup(av[1]);
-	
-	ft_rm_empty_str(s);
-	
-	printf("After removal: %s\n", s);
-	
-	char	**s_arr = ft_expd_split_sub(s, ' ', 1);
-
-	int i = 0;
-	while (s_arr[i])
-	{
-		printf("%s\n", s_arr[i++]);
-	}
-	return (0);
-}*/
