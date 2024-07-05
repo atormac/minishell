@@ -26,6 +26,7 @@ static int	exec_builtin(t_ms *ms, int id, char **args)
 		builtin_env(ms, id, args);
 	else if (id == BUILTIN_CD)
 		return builtin_cd(ms, args);
+	ms->exit_code = 0;
 	return (1);
 }
 

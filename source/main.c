@@ -53,6 +53,8 @@ void	recurse_ast(t_ms *ms, t_ast *ast, t_ast *prev)
 {
 	int	cmd_id;
 
+	if (ast->type == 0)
+		ast->pid = -1;
 	if (ast->str && prev->type == 5)
 	{
 		if (ms->is_first_cmd)
@@ -76,8 +78,8 @@ void	recurse_ast(t_ms *ms, t_ast *ast, t_ast *prev)
 
 void	wait_ast(t_ms *ms, t_ast *ast)
 {
-	if (ast->type == 0)
-			ms->exit_code = pid_wait(ast->pid);
+	if (ast->type == 0 && ast->pid >= 0)
+		ms->exit_code = pid_wait(ast->pid);
 	if (ast->left)
 		wait_ast(ms, ast->left);
 	if (ast->right)
