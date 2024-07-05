@@ -6,19 +6,12 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 17:57:24 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/05 18:26:18 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/05 19:36:54 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 #include "../include/environment.h"
-
-int	is_executable(char *path)
-{
-	if (access(path, F_OK) == 0 && access(path, X_OK) == 0)
-		return (1);
-	return (0);
-}
 
 int	set_shlvl(t_ms *ms)
 {

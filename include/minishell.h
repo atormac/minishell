@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 15:36:13 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/05 18:44:26 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/05 19:25:47 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct t_ms
 #include "../source/prsr/prsr.h"
 #include "../source/expd/expd.h"
 
+int		check_cmd(char *cmd);
 void	error_print(char *s, char *error_str);
 void	error_builtin(char *builtin, char *s, char *error_str);
 char	**get_args(char *str);

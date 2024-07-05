@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:18 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/05 17:36:42 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/05 19:40:01 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <sys/stat.h>
 
 void	error_cmd(char *s);
+int		check_path_cmd(t_ms *ms, char *cmd, char *cmd_path);
 
 char	*path_join(char *path, char *bin)
 {
@@ -78,21 +79,11 @@ static char	*path_search(t_ms *ms, char *cmd)
 	return (cmd_path);
 }
 
-char	*path_abs_or_relative(char *cmd)
+char	*path_abs_or_relative(t_ms *ms, char *cmd)
 {
-	struct stat file_stat;
-
-	if (access(cmd, F_OK) != 0 || access(cmd, X_OK) != 0)
-	{
-		error_print(cmd, NULL);
+	ms->exit_code = check_cmd(cmd);
+	if (ms->exit_code != 0)
 		return (NULL);
-	}
-	stat(cmd, &file_stat);
-	if (S_ISDIR(file_stat.st_mode))
-	{
-		error_print(cmd, "Is a directory");
-		return (0);
-	}
 	return (ft_strdup(cmd));
 }
 
@@ -100,25 +91,21 @@ char	*path_find_bin(t_ms *ms, char *cmd)
 {
 	char	*cmd_path;
 
-	if (cmd[0] == '\0')
-		return (NULL);
 	if (cmd[0] == '.' && cmd[1] == '\0')
 	{
 		error_print(cmd, "filename argument required\n.: usage: . filename [arguments]");
+		ms->exit_code = 2;
 		return (NULL);
 	}
 	if (ft_strchr(cmd, '/'))
-		cmd_path = path_abs_or_relative(cmd);
+		cmd_path = path_abs_or_relative(ms, cmd);
 	else
 	{
 		cmd_path = path_search(ms, cmd);
-		if (!cmd_path)
-			error_cmd(cmd);
-		else if (cmd_path && access(cmd_path, X_OK) != 0)
+		if (!check_path_cmd(ms, cmd, cmd_path))
 		{
-			error_print(cmd_path, NULL);
 			free(cmd_path);
-			return NULL;
+			return (NULL);
 		}
 	}
 	return (cmd_path);
