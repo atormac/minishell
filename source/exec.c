@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:31 by atorma            #+#    #+#             */
-/*   Updated: 2024/06/26 20:35:32 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/05 18:45:12 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static pid_t exec_fork(t_ms *ms, t_ast *ast, int cmd_id, int *prev_fd, char **ar
 	{
 		if (redirect(ms, ast, cmd_id, prev_fd))
 			exec_bin(ms, args);
-		exit(0);
+		exit(ms->exit_code);
 	}
 	return (pid);
 }
@@ -83,8 +83,8 @@ int	exec_ast(t_ms *ms, t_ast *ast, int cmd_id)
 	pid_t	pid;
 
 	ret = 0;
-	args = ft_split(ast->str, ' ');
-	if (args[0] == NULL)
+	args = get_args(ast->str);
+	if (!args || args[0] == NULL)
 		return (0);
 	builtin = is_builtin(args[0]);
 	if (builtin != BUILTIN_NONE)

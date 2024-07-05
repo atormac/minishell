@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:18 by atorma            #+#    #+#             */
-/*   Updated: 2024/06/25 14:49:32 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/05 17:36:42 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ char	**path_get(char **envp)
 		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
 		{
 			arr = ft_split(envp[i] + 5, ':');
+			if (!arr)
+				error_print("malloc", NULL);
 			return (arr);
 		}
 		i++;

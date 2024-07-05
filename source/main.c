@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/04 20:53:58 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/07/05 18:25:38 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,11 @@ static	int	minishell_init(t_ms *ms, char **envp)
 	ms->prsr_err = 0;
 	ms->cwd = NULL;
 	ms->env = NULL;
-	if (envp)
-	{
-		ms->env = env_clone(envp);
-		if (!ms->env)
-		{
-			printf("Failed to initialize env\n");
-			return (0);
-		}
-		set_shlvl(ms);
-	}
+	ms->env = env_clone(envp);
+	if (!ms->env)
+		return (0);
+	if (!set_shlvl(ms))
+		return (0);
 	if (!set_cwd(ms))
 		return (0);
 	if (!init_signals())

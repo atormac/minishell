@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 14:21:15 by atorma            #+#    #+#             */
-/*   Updated: 2024/06/26 14:26:06 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/05 18:00:35 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	pid_wait(pid_t pid)
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
 	if (WIFSIGNALED(status))
-		return (WTERMSIG(status));
+		return (WTERMSIG(status) + 128);
 	return (EXIT_FAILURE);
 }
 
