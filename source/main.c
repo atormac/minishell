@@ -49,10 +49,12 @@ int		exec_ast(t_ms *ms, t_ast *ast, int cmd_id);
 int		pid_wait(pid_t pid);
 void	ft_expd_ast(t_ms *ms, t_ast *ast);
 
-void	recurse_ast(t_ms *ms, t_ast *ast, t_ast *prev)
+void	recurse_ast(t_ms *ms, t_ast *ast, t_ast *prev, int stop)
 {
 	int	cmd_id;
 
+	if (stop)
+		return ;
 	if (ast->type == 0)
 		ast->pid = -1;
 	if (ast->str && prev->type == 5)
@@ -66,14 +68,15 @@ void	recurse_ast(t_ms *ms, t_ast *ast, t_ast *prev)
 			cmd_id = CMD_LAST;
 		else
 			cmd_id = CMD_MIDDLE;
-		exec_ast(ms, ast, cmd_id);
+		if (exec_ast(ms, ast, cmd_id) == -1)
+			stop = 1;
 	}
 	else if (ast->str)
 		exec_ast(ms, ast, CMD_NOPIPE);
 	if (ast->left)
-		recurse_ast(ms, ast->left, ast);
+		recurse_ast(ms, ast->left, ast, stop);
 	if (ast->right)
-		recurse_ast(ms, ast->right, ast);
+		recurse_ast(ms, ast->right, ast, stop);
 }
 
 void	wait_ast(t_ms *ms, t_ast *ast)
@@ -98,7 +101,7 @@ void	process_line(t_ms *ms, char *line)
 	if (!ast)
 		return ;
 	ft_expd_ast(ms, ast);
-	recurse_ast(ms, ast, ast);
+	recurse_ast(ms, ast, ast, 0);
 	wait_ast(ms, ast);
 	ft_free_ast(ast);
 	ft_free_tkns(ms);
