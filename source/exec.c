@@ -18,15 +18,18 @@ int		pid_wait(pid_t pid);
 
 static int	exec_builtin(t_ms *ms, int id, char **args)
 {
+	int	ret;
+
+	ret = 0;
 	if (id == BUILTIN_ECHO)
 		builtin_echo(args);
 	else if (id == BUILTIN_PWD)
-		printf("%s\n", ms->cwd);
+		ret = printf("%s\n", ms->cwd);
 	else if (id == BUILTIN_ENV || id == BUILTIN_EXPORT || id == BUILTIN_UNSET)
-		builtin_env(ms, id, args);
+		ret = builtin_env(ms, id, args);
 	else if (id == BUILTIN_CD)
-		return builtin_cd(ms, args);
-	ms->exit_code = 0;
+		ret = builtin_cd(ms, args);
+	ms->exit_code = ret;
 	return (1);
 }
 
@@ -50,6 +53,13 @@ static pid_t exec_fork(t_ms *ms, t_ast *ast, int cmd_id, int *prev_fd, char **ar
 	int		builtin;
 
 	pid = fork();
+	if (pid == -1)
+	{
+		error_print("fork", NULL);
+		close(ms->pipe_read);
+		close(ms->pipe_write);
+		return (pid);
+	}
 	if (pid == 0)
 	{
 		builtin = is_builtin(args[0]);
@@ -73,7 +83,11 @@ static pid_t	exec_piped(t_ms *ms, t_ast *ast, int cmd_id, char **args)
 	prev_fd[1] = ms->pipe_write;
 	if (cmd_id < CMD_LAST)
 	{
-		pipe(pipefd);
+		if (pipe(pipefd) == -1)
+		{
+			error_print("pipe", NULL);
+			return (-1);
+		}
 		ms->pipe_read = pipefd[0];
 		ms->pipe_write = pipefd[1];
 	}

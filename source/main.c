@@ -100,12 +100,10 @@ void	process_line(t_ms *ms, char *line)
 	ft_expd_ast(ms, ast);
 	recurse_ast(ms, ast, ast);
 	wait_ast(ms, ast);
-	
-	//ft_print_ast(ms, ast);
 	ft_free_ast(ast);
 	ft_free_tkns(ms);
 }
-/*
+
 static	void	minishell(t_ms *ms)
 {
 	char	prompt[1024];
@@ -146,11 +144,11 @@ int main(int argc, char **argv, char **envp)
 	minishell_cleanup(&ms);
 	return (ms.exit_code);
 }
-*/
 
 //Parser testing main
 
 
+/*
 int main(int argc, char **argv, char **envp)
 {
 	
@@ -195,3 +193,4 @@ int main(int argc, char **argv, char **envp)
 
 	return (0);
 }
+*/

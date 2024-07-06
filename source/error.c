@@ -42,6 +42,18 @@ void error_builtin(char *builtin, char *s, char *error_str)
 	ft_putstr_fd(buffer, STDERR_FILENO);
 }
 
+void error_custom(char *s1, char *error_str)
+{
+	char	buffer[1024];
+
+	ft_strlcpy(buffer, "minishell: ", sizeof(buffer) - 1);
+	ft_strlcat(buffer, s1, sizeof(buffer) - 1);
+	ft_strlcat(buffer, ": ", sizeof(buffer) - 1);
+	ft_strlcat(buffer, error_str, sizeof(buffer) - 1);
+	ft_strlcat(buffer, "\n", sizeof(buffer));
+	ft_putstr_fd(buffer, STDERR_FILENO);
+}
+
 void	error_cmd(char *s)
 {
 	char	buffer[1024];

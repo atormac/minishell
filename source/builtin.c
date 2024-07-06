@@ -14,6 +14,8 @@
 #include "../include/builtin.h"
 #include "../include/environment.h"
 
+void	error_custom(char *s1, char *error_str);
+
 int	is_builtin(char	*cmd)
 {
 	if (ft_strcmp(cmd, "echo") == 0)
@@ -66,16 +68,19 @@ int	builtin_cd(t_ms *ms, char **args)
 	char	*dir;
 
 	if (args_count(args) != 1)
-		return (0);
+	{
+		error_custom("cd", "too many arguments");
+		return (1);
+	}
 	dir = args[0];
 	if (chdir(dir) == -1)
 	{
 		error_builtin("cd", dir, NULL);
-		return (0);
+		return (1);
 	}
 	if (!update_cwd(ms))
-		return (0);
-	return (1);
+		return (1);
+	return (0);
 }
 
 int	builtin_env(t_ms *ms, int id, char **args)
@@ -86,20 +91,20 @@ int	builtin_env(t_ms *ms, int id, char **args)
 	if (id == BUILTIN_ENV)
 	{
 		if (arg_cnt != 0)
-			return (0);
+			return (2);
 		env_print(ms->env);
 	}
 	else if (id == BUILTIN_EXPORT)
 	{
 		if (arg_cnt != 2)
-			return (0);
+			return (2);
 		return (env_var_set(ms, args[0], args[1]));
 	}
 	else if (id == BUILTIN_UNSET)
 	{
 		if (arg_cnt != 1)
-			return (0);
+			return (2);
 		env_var_unset(ms->env, args[0]);
 	}
-	return (1);
+	return (0);
 }
