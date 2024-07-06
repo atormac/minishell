@@ -13,12 +13,13 @@
 #include "../include/minishell.h"
 #include <fcntl.h>
 
-int	open_infile(char *file, int is_heredoc)
+int	heredoc_fd(void);
+int	open_infile(char *file, int type)
 {
 	int		fd;
 
-	if (is_heredoc)
-		file = "heredoc";
+	if (type == 6)
+		return (heredoc_fd());
 	if (access(file, F_OK) == 0 && access(file, R_OK) == -1)
 		return (-1);
 	fd = open(file, O_RDONLY, 0644);
@@ -55,7 +56,7 @@ static int	redirect_io(t_ast *ast)
 	}
 	else if (type == 3 || type == 6) // < || <<
 	{
-		file_fd = open_infile(ast->io->str, 0);
+		file_fd = open_infile(ast->io->str, type);
 	}
 	if (file_fd == -1)
 	{

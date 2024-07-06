@@ -37,8 +37,7 @@ typedef struct t_ms
 	int				is_first_cmd;
 	int				pipe_read;
 	int				pipe_write;
-	int				mid_pipe_read;
-	int				mid_pipe_write;
+	int				fd_heredoc;
 	int				cmd_error;
 	int				exit_code;
 	struct s_tkns	*tkns;

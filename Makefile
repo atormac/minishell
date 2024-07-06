@@ -19,7 +19,8 @@ LIBS = $(LIBDIR)/libft.a
 INCLUDE_DIR = ./include
 SOURCE_DIR = source
 SOURCES = main.c prompt.c builtin.c path.c exec.c environment.c \
-		  pid.c utils.c args.c signals.c redirect.c error.c check.c
+		  pid.c utils.c args.c signals.c redirect.c error.c check.c \
+		  heredoc.c
 
 TKNS_DIR = source/tkns
 TKNS_SRC = tkns_realloc.c tkns_utils.c get_tkns.c
