@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 20:23:03 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/04 20:33:30 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/07/06 12:58:44 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -52,5 +52,6 @@ void	ft_expd_dq(char **res, char *s, size_t *i, t_ms *ms)
 	tmp1 = ft_strjoin(*res, "\"");
 	if (!tmp1)
 		return (ft_free_null(res));
+	free(*res);
 	*res = tmp1;
 }

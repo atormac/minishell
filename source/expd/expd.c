@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 12:12:16 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/04 20:37:56 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/07/06 12:59:38 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -17,13 +17,15 @@ void	ft_free_null(char **s)
 	*s = NULL;
 }
 
-char	*expd_prep(char *s, t_ms *ms)
+void	expd_prep(t_ms *ms, t_ast *ast)
 {
 	size_t	i;
+	char	*s;
 	char	*res;
 
+	s = ast->str;
 	if (!s)
-		return (NULL);
+		return ;
 	res = ft_strdup("");
 	i = 0;
 	while (s[i] && res)
@@ -37,27 +39,24 @@ char	*expd_prep(char *s, t_ms *ms)
 		else
 			ft_expd_rglr(&res, s, &i);
 	}
-	return (res);
+	free(ast->str);
+	ast->str = res;
+	ft_rm_empty_substrs(ast->str);
 }
 
 void	ft_expd_ast(t_ms *ms, t_ast *ast)
 {
 	t_ast	*curr;
-	char	*tmp;
 
 	if (!ast)
 		return ;
 	if (ast->type == 0)
 	{
-		tmp = expd_prep(ast->str, ms);
-		free(ast->str);
-		ast->str = tmp;
+		expd_prep(ms, ast);
 		curr = ast->io;
 		while (curr)
 		{
-			tmp = expd_prep(curr->str, ms);
-			free(curr->str);
-			curr->str = tmp;
+			expd_prep(ms, curr);
 			curr = curr->io;
 		}
 	}
