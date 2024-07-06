@@ -4,12 +4,16 @@
 #include <sys/types.h>
 #include <readline/readline.h>
 
+#define HEREDOC_FILE "/tmp/heredoc_ms"
+
 int	heredoc_fd(void)
 {
 	int fd;
 
-	fd = open("heredoc", O_RDONLY, 0644);
-	unlink("heredoc");
+	fd = open(HEREDOC_FILE, O_RDONLY, 0644);
+	if (fd == -1)
+		error_print(HEREDOC_FILE, NULL);
+	unlink(HEREDOC_FILE);
 	return (fd);
 }
 
@@ -18,18 +22,16 @@ int	heredoc_prompt(char *eof)
 	int		fd;
 	char	*line;
 
-	fd = open("heredoc", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	fd = open(HEREDOC_FILE, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd == -1)
 	{
-		error_print("heredoc", NULL);
+		error_print(HEREDOC_FILE, NULL);
 		return (0);
 	}
 	while (1)
 	{
 		line = readline(">");
-		if (line == NULL)
-			break;
-		if (ft_strncmp(line, eof, ft_strlen(eof)) == 0)
+		if (!line || ft_strcmp(line, eof) == 0)
 			break ;
 		write(fd, line, ft_strlen(line));
 		write(fd, "\n", 1);
