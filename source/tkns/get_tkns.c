@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:15:59 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/02 18:16:59 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/06 13:29:00 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -24,7 +24,7 @@ void	ft_init_tkns(t_ms *ms)
 
 void	ft_quote_err(char c)
 {
-	ft_printf("minishell: unexpected EOF while");
+	ft_printf("minishell: unexpected EOF while ");
 	ft_printf("looking for matching `%c'\n", c);
 }
 

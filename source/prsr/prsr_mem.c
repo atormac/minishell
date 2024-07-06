@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 11:37:12 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/05 13:08:43 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/07/06 13:16:51 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -46,5 +46,7 @@ void	ft_free_ast(t_ast *ast)
 			free(tmp);
 		}
 	}
+	if (ast->expd_str)
+		ft_free_split_null(ast->expd_str);
 	free(ast);
 }

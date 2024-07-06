@@ -6,10 +6,23 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 11:32:37 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/05 13:09:00 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/07/06 13:22:38 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
+
+void	ft_print_expanded(t_ast *ast)
+{
+	int	i;
+
+	i = 0;
+	printf("Expanded cmnd:\n");
+	while (ast->expd_str[i])
+	{
+		printf("%s\n", ast->expd_str[i]);
+		i++;
+	}
+}
 
 void	ft_print_ast(t_ms *ms, t_ast *ast)
 {
@@ -30,6 +43,8 @@ void	ft_print_ast(t_ms *ms, t_ast *ast)
 		}
 		printf("\n");
 	}
+	if (ast->expd_str)
+		ft_print_expanded(ast);
 	if (ast->left)
 		ft_print_ast(ms, ast->left);
 	if (ast->right)

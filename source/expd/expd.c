@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 12:12:16 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/06 12:59:38 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/07/06 13:12:25 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -42,6 +42,7 @@ void	expd_prep(t_ms *ms, t_ast *ast)
 	free(ast->str);
 	ast->str = res;
 	ft_rm_empty_substrs(ast->str);
+	ast->expd_str = ft_expd_split_sub(ast->str, ' ', 1);
 }
 
 void	ft_expd_ast(t_ms *ms, t_ast *ast)

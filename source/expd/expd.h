@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 20:25:15 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/06 11:53:41 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/06 13:16:25 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ char	**ft_expd_split_sub(const char *str, char sep, int esc);
 
 // Utils
 void	ft_free_null(char **s);
+void	ft_free_split_null(char **arr);
 void	ft_rm_char(char *s, char c);
 char	**ft_free_split(char **arr, int i);
 #endif

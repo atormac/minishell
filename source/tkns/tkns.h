@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 16:36:42 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/04 19:50:38 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/06 13:09:32 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ typedef struct s_ast
 	int				type;
 	int				pid;
 	char			*str;
+	char			**expd_str;
 	struct s_ast	*left;
 	struct s_ast	*right;
 	struct s_ast	*io;
