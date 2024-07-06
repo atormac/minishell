@@ -81,6 +81,19 @@ int	builtin_cd(t_ms *ms, char **args)
 	return (0);
 }
 
+static int	builtin_export(t_ms *ms, char *str)
+{
+	char	*val;
+
+	val = ft_strchr(str, '=');
+	if (!val || val == str)
+		return (1);
+	*val = '\0';
+	val++;
+	env_var_set(ms, str, val);
+	return (0);
+}
+
 int	builtin_env(t_ms *ms, int id, char **args)
 {
 	size_t	arg_cnt;
@@ -94,9 +107,9 @@ int	builtin_env(t_ms *ms, int id, char **args)
 	}
 	else if (id == BUILTIN_EXPORT)
 	{
-		if (arg_cnt != 2)
+		if (arg_cnt != 1)
 			return (2);
-		return (env_var_set(ms, args[0], args[1]));
+		return (builtin_export(ms, args[0]));
 	}
 	else if (id == BUILTIN_UNSET)
 	{
