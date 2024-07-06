@@ -14,8 +14,6 @@
 #include "../include/builtin.h"
 #include "../include/environment.h"
 
-void	error_custom(char *s1, char *error_str);
-
 int	is_builtin(char	*cmd)
 {
 	if (ft_strcmp(cmd, "echo") == 0)
@@ -69,7 +67,7 @@ int	builtin_cd(t_ms *ms, char **args)
 
 	if (args_count(args) != 1)
 	{
-		error_custom("cd", "too many arguments");
+		error_print("cd", "too many arguments");
 		return (1);
 	}
 	dir = args[0];
