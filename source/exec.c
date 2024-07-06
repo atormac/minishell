@@ -46,10 +46,17 @@ static int	exec_bin(t_ms *ms, char **args)
 
 static pid_t exec_fork(t_ms *ms, t_ast *ast, int cmd_id, int *prev_fd, char **args)
 {
-	pid_t pid = fork();
+	pid_t	pid;
+	int		builtin;
+
+	pid = fork();
 	if (pid == 0)
 	{
-		if (redirect(ms, ast, cmd_id, prev_fd))
+		builtin = is_builtin(args[0]);
+		redirect(ms, ast, cmd_id, prev_fd);
+		if (builtin)
+			exec_builtin(ms, builtin, &args[1]);
+		else
 			exec_bin(ms, args);
 		exit(ms->exit_code);
 	}
@@ -58,9 +65,9 @@ static pid_t exec_fork(t_ms *ms, t_ast *ast, int cmd_id, int *prev_fd, char **ar
 
 static pid_t	exec_piped(t_ms *ms, t_ast *ast, int cmd_id, char **args)
 {
+	int		prev_fd[2];
+	int		pipefd[2];
 	pid_t	pid;
-	int	prev_fd[2];
-	int	pipefd[2];
 
 	prev_fd[0] = ms->pipe_read;
 	prev_fd[1] = ms->pipe_write;
@@ -82,23 +89,18 @@ int	exec_ast(t_ms *ms, t_ast *ast, int cmd_id)
 	int	ret;
 	int	builtin;
 	char	**args;
-	pid_t	pid;
 
 	ret = 0;
 	args = get_args(ast->str);
 	if (!args || args[0] == NULL)
 		return (0);
 	builtin = is_builtin(args[0]);
-	if (builtin != BUILTIN_NONE)
+	if (cmd_id == CMD_NOPIPE && builtin)
 		ret = exec_builtin(ms, builtin, &args[1]);
+	else if (cmd_id == CMD_NOPIPE)
+		ast->pid = exec_fork(ms, ast, cmd_id, NULL, args);
 	else
-	{
-		if (cmd_id == CMD_NOPIPE)
-			pid = exec_fork(ms, ast, cmd_id, NULL, args);
-		else
-			pid = exec_piped(ms, ast, cmd_id, args);
-		ast->pid = pid;
-	}
+		ast->pid = exec_piped(ms, ast, cmd_id, args);
 	free_array(args);
 	return (ret);
 }

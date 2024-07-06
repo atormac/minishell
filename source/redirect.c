@@ -70,6 +70,7 @@ static int	redirect_io(t_ast *ast)
 	}
 	if (dup2(file_fd, to_fd) == -1)
 		error_print("dup2", NULL);
+	close(file_fd);
 	return (1);
 }
 
@@ -77,6 +78,8 @@ int	redirect(t_ms *ms, t_ast *ast, int cmd_id, int *prev_fd)
 {
 	if (ast->io && !redirect_io(ast))
 		return (0);
+	if (cmd_id == CMD_NOPIPE)
+		return (1);
 	if (cmd_id == CMD_FIRST)
 	{
 		if (dup2(ms->pipe_write, STDOUT_FILENO) == -1)
@@ -91,7 +94,7 @@ int	redirect(t_ms *ms, t_ast *ast, int cmd_id, int *prev_fd)
 	}
 	close(ms->pipe_read);
 	close(ms->pipe_write);
-	if (cmd_id != CMD_NOPIPE && cmd_id < CMD_LAST)
+	if (cmd_id < CMD_LAST)
 		close(prev_fd[0]);
 	return (1);
 }
