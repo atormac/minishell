@@ -49,6 +49,7 @@ typedef struct t_ms
 #include "../source/prsr/prsr.h"
 #include "../source/expd/expd.h"
 
+void	heredoc_unlink(void);
 int		check_cmd(char *cmd);
 void	error_print(char *s, char *error_str);
 void	error_builtin(char *builtin, char *s, char *error_str);

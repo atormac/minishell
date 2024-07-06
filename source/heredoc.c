@@ -4,16 +4,43 @@
 #include <sys/types.h>
 #include <readline/readline.h>
 
-#define HEREDOC_FILE "/tmp/heredoc_ms"
+static void	heredoc_filepath(int new, char *out)
+{
+	static char	old[256];
+	static int	counter;
+	char		*tmp;
+
+	if (new)
+	{
+		ft_strlcpy(old, "/tmp/heredoc_ms_", 256);
+		counter++;
+		tmp = ft_itoa(counter);
+		if (tmp)
+			ft_strlcat(old, tmp, 256);
+		free(tmp);
+	}
+	ft_strlcpy(out, old, 256);
+}
+
+void	heredoc_unlink(void)
+{
+	char	filepath[256];
+
+	heredoc_filepath(0, filepath);
+	if (access(filepath, F_OK) == 0)
+		unlink(filepath);
+}
 
 int	heredoc_fd(void)
 {
 	int fd;
+	char	filepath[256];
 
-	fd = open(HEREDOC_FILE, O_RDONLY, 0644);
+	heredoc_filepath(0, filepath);
+	fd = open(filepath, O_RDONLY, 0644);
 	if (fd == -1)
-		error_print(HEREDOC_FILE, NULL);
-	unlink(HEREDOC_FILE);
+		error_print(filepath, NULL);
+	heredoc_unlink();
 	return (fd);
 }
 
@@ -21,11 +48,13 @@ int	heredoc_prompt(char *eof)
 {
 	int		fd;
 	char	*line;
+	char	filepath[256];
 
-	fd = open(HEREDOC_FILE, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	heredoc_filepath(1, filepath);
+	fd = open(filepath, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd == -1)
 	{
-		error_print(HEREDOC_FILE, NULL);
+		error_print(filepath, NULL);
 		return (0);
 	}
 	while (1)

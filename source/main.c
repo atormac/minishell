@@ -87,6 +87,7 @@ void	wait_ast(t_ms *ms, t_ast *ast)
 		wait_ast(ms, ast->left);
 	if (ast->right)
 		wait_ast(ms, ast->right);
+	heredoc_unlink();
 }
 
 void	process_line(t_ms *ms, char *line)
