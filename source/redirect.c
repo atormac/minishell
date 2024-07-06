@@ -25,13 +25,13 @@ int	open_infile(char *file, int is_heredoc)
 	return (fd);
 }
 
-int	open_outfile(char *file, int is_heredoc)
+int	open_outfile(char *file, int type)
 {
 	int		fd;
 	int		flags;
 
 	flags = O_CREAT | O_WRONLY | O_TRUNC;
-	if (is_heredoc)
+	if (type == 7)
 		flags = O_CREAT | O_WRONLY | O_APPEND;
 	if (access(file, F_OK) == 0 && access(file, W_OK) == -1)
 		return (-1);
@@ -43,15 +43,20 @@ static int	redirect_io(t_ast *ast)
 {
 	int	file_fd;
 	int	to_fd;
+	int	type;
 
+	type = ast->io->type;
 	to_fd = STDIN_FILENO;
-	if (ast->io->type == 4)
+	file_fd = -1;
+	if (type == 4 || type == 7) // > || >>
 	{
 		to_fd = STDOUT_FILENO;
-		file_fd = open_outfile(ast->io->str, 0);
+		file_fd = open_outfile(ast->io->str, type);
 	}
-	else
+	else if (type == 3 || type == 6) // < || <<
+	{
 		file_fd = open_infile(ast->io->str, 0);
+	}
 	if (file_fd == -1)
 	{
 		error_print(ast->io->str, NULL);
