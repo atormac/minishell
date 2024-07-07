@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 12:12:16 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/07 13:52:50 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/07/07 13:58:10 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -17,7 +17,7 @@ void	ft_free_null(char **s)
 	*s = NULL;
 }
 
-void	expd_prep(t_ms *ms, t_ast *ast)
+void	ft_expd_str(t_ms *ms, t_ast *ast)
 {
 	size_t	i;
 	char	*s;
@@ -56,11 +56,11 @@ void	ft_expd_ast(t_ms *ms, t_ast *ast)
 		return ;
 	if (ast->type == 0)
 	{
-		expd_prep(ms, ast);
+		ft_expd_str(ms, ast);
 		curr = ast->io;
 		while (curr)
 		{
-			expd_prep(ms, curr);
+			ft_expd_str(ms, curr);
 			curr = curr->io;
 		}
 	}
