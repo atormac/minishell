@@ -6,10 +6,10 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 21:53:19 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/06 23:01:56 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/07/07 11:33:18 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "include/minishell.h"
+#include "../../include/minishell.h"
 
 void	ft_ptrn_qtes(char **ptrn, char *qte)
 {
@@ -65,7 +65,7 @@ int	ft_wldcrd(char *s, char *ptrn)
 		if (*ptrn == '*' && !qte && ft_ptrn_strs(s, &ptrn, &wldcrd, &common))
 			return (1);
 		else if (!ft_ptrn_match(&s, &ptrn, &wldcrd, &common))
-			return (0);	
+			return (0);
 		ft_ptrn_qtes(&ptrn, &qte);
 	}
 	while (*ptrn == '*')
@@ -73,9 +73,9 @@ int	ft_wldcrd(char *s, char *ptrn)
 	ft_ptrn_qtes(&ptrn, &qte);
 	return (!*ptrn);
 }
-
-int main(int ac, char **av)
+/*
+int	main(int ac, char **av)
 {
 	printf("res = %d\n", ft_wldcrd(av[2], av[1]));
 	return (0);
-}
+}*/

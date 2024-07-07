@@ -6,18 +6,29 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 20:25:15 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/06 13:16:25 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/07/07 12:47:08 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXPD_H
 # define EXPD_H
 
+# include <dirent.h>
+
 typedef struct s_token
 {
 	const char	*start;
 	const char	*end;
 }	t_token;
+
+typedef struct s_glbr
+{
+	char	**arr;
+	size_t	size;
+	size_t	curr;
+	size_t	i;
+	size_t	to_add;
+}	t_glbr;
 
 // 1st Expansion stage top level functions
 void	ft_expd_ast(t_ms *ms, t_ast *ast);
@@ -32,6 +43,13 @@ void	ft_expd_dlr(char **res, char *s, size_t *i, t_ms *ms);
 // 2nd Expansion stage top level functions
 void	ft_rm_empty_substrs(char *s);
 char	**ft_expd_split_sub(const char *str, char sep, int esc);
+
+// 3rd Expansion stage top level function
+int		ft_wldcrd(char *s, char *ptrn);
+void	ft_init_glbr(t_glbr *glbr);
+void	ft_glbr_realloc(t_glbr *glbr);
+void	ft_glbr_add(t_glbr *glbr, char *s);
+void	ft_free_glbr(t_glbr *glbr);
 
 // Utils
 void	ft_free_null(char **s);
