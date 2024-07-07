@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 09:50:18 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/07 12:48:33 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/07/07 13:23:54 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -53,6 +53,8 @@ char	**ft_glbr(char **expd)
 	t_glbr			glbr;
 	size_t			i;
 
+	if (!expd || !expd[0])
+		return (NULL);
 	i = 0;
 	ft_init_glbr(&glbr);
 	while (expd[i] && glbr.arr)
@@ -63,22 +65,6 @@ char	**ft_glbr(char **expd)
 			ft_glbr_add_matches(&glbr, expd[i]);
 		i++;
 	}
+	ft_free_split_null(expd);
 	return (glbr.arr);
 }
-/*
-int main(int ac, char **av)
-{
-	(void) ac;
-	
-	char **arr = ft_split(av[1], ' ');
-	for (int i=0; arr[i]; i++)
-		printf("%s\n", arr[i]);
-
-	printf("\n");
-	char **globed = ft_glbr(arr);
-	if (!globed)
-		return (1);
-	for (int i=0; globed[i]; i++)
-		printf("%s\n", globed[i]);
-	return (0);
-}*/

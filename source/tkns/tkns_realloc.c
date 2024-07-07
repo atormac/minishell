@@ -6,10 +6,9 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:28:07 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/01 15:41:16 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/07 13:54:08 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-//#include "tokenizer.h"
 #include "../../include/minishell.h"
 
 void	ft_free_tkns(t_ms *ms)

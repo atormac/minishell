@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 20:25:15 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/07 12:47:08 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/07/07 13:25:56 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ char	**ft_expd_split_sub(const char *str, char sep, int esc);
 
 // 3rd Expansion stage top level function
 int		ft_wldcrd(char *s, char *ptrn);
+char	**ft_glbr(char **expd);
 void	ft_init_glbr(t_glbr *glbr);
 void	ft_glbr_realloc(t_glbr *glbr);
 void	ft_glbr_add(t_glbr *glbr, char *s);
