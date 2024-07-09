@@ -98,7 +98,7 @@ static pid_t	exec_piped(t_ms *ms, t_ast *ast, int cmd_id, char **args)
 	return (pid);
 }
 
-int	heredoc_prompt(char *eof);
+int	heredoc_prompt(t_ms *ms, char *eof);
 
 int	exec_ast(t_ms *ms, t_ast *ast, int cmd_id)
 {
@@ -109,12 +109,10 @@ int	exec_ast(t_ms *ms, t_ast *ast, int cmd_id)
 	ret = 0;
 	if (ast->io && ast->io->type == 6)
 	{
-		if (!heredoc_prompt(ast->io->str))
+		if (!heredoc_prompt(ms, ast->io->expd_str[0]))
 			return (0);
 	}
-	args = get_args(ast->str);
-	if (!args || args[0] == NULL)
-		return (0);
+	args = ast->expd_str;
 	builtin = is_builtin(args[0]);
 	if (cmd_id == CMD_NOPIPE && builtin)
 		ret = exec_builtin(ms, builtin, &args[1]);
@@ -122,6 +120,7 @@ int	exec_ast(t_ms *ms, t_ast *ast, int cmd_id)
 		ast->pid = exec_fork(ms, ast, cmd_id, NULL, args);
 	else
 		ast->pid = exec_piped(ms, ast, cmd_id, args);
-	free_array(args);
+	if (ms->fd_heredoc >= 0)
+		close(ms->fd_heredoc);
 	return (ret);
 }

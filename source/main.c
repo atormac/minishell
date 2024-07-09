@@ -21,6 +21,7 @@ static	int	minishell_init(t_ms *ms, char **envp)
 {
 	ms->exit_code = 0;
 	ms->cmd_error = 0;
+	ms->fd_heredoc = -1;
 	ms->prsr_err = 0;
 	ms->cwd = NULL;
 	ms->env = NULL;
@@ -57,7 +58,7 @@ void	recurse_ast(t_ms *ms, t_ast *ast, t_ast *prev, int stop)
 		return ;
 	if (ast->type == 0)
 		ast->pid = -1;
-	if (ast->str && prev->type == 5)
+	if (ast->expd_str && prev->type == 5)
 	{
 		if (ms->is_first_cmd)
 		{
@@ -71,7 +72,7 @@ void	recurse_ast(t_ms *ms, t_ast *ast, t_ast *prev, int stop)
 		if (exec_ast(ms, ast, cmd_id) == -1)
 			stop = 1;
 	}
-	else if (ast->str)
+	else if (ast->expd_str)
 		exec_ast(ms, ast, CMD_NOPIPE);
 	if (ast->left)
 		recurse_ast(ms, ast->left, ast, stop);
@@ -87,28 +88,30 @@ void	wait_ast(t_ms *ms, t_ast *ast)
 		wait_ast(ms, ast->left);
 	if (ast->right)
 		wait_ast(ms, ast->right);
-	heredoc_unlink();
 }
 
-void	process_line(t_ms *ms, char *line)
+static void	process_line(t_ms *ms, char *line)
 {
+	t_ast	*ast;
+
 	ms->is_first_cmd = 1;
 	ms->pipe_read = -1;
 	ms->pipe_write = -1;
 	ft_get_tokens(ms, line);
 	if (!ms->tkns)
 		return ;
-	t_ast *ast = ft_get_ast(ms->tkns, 1, ms);
-	if (!ast)
-		return ;
-	ft_expd_ast(ms, ast);
-	recurse_ast(ms, ast, ast, 0);
-	wait_ast(ms, ast);
+	ast = ft_prsr(ms->tkns, ms);
+	if (ast)
+	{
+		ft_expd_ast(ms, ast);
+		recurse_ast(ms, ast, ast, 0);
+		wait_ast(ms, ast);
+	}
 	ft_free_ast(ast);
 	ft_free_tkns(ms);
 }
 
-/*static	void	minishell(t_ms *ms)
+static	void	minishell(t_ms *ms)
 {
 	char	prompt[1024];
 	char	*line;
@@ -147,10 +150,11 @@ int main(int argc, char **argv, char **envp)
 	minishell(&ms);
 	minishell_cleanup(&ms);
 	return (ms.exit_code);
-}*/
+}
 
 //Parser testing main
 
+/*
 
 int main(int argc, char **argv, char **envp)
 {
@@ -182,7 +186,7 @@ int main(int argc, char **argv, char **envp)
 
 	printf("------------AST-------------- i=%ld curr=%ld\n", ms.tkns->i, ms.tkns->curr_tkn);
 	t_ast *ast = ft_prsr(ms.tkns, &ms);
-	printf("----------AST Error %d-----------------\n", ms.prsr_err);
+	printf("----------ast error %d-----------------\n", ms.prsr_err);
 	if (ast)
 	{
 		ft_expd_ast(&ms, ast);
@@ -196,3 +200,4 @@ int main(int argc, char **argv, char **envp)
 
 	return (0);
 }
+*/

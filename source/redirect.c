@@ -13,59 +13,47 @@
 #include "../include/minishell.h"
 #include <fcntl.h>
 
-int	heredoc_fd(void);
-int	open_infile(char *file, int type)
+int	open_infile(t_ms *ms, t_ast *io, int *to_fd)
 {
 	int		fd;
 
-	if (type == 6)
-		return (heredoc_fd());
-	if (access(file, F_OK) == 0 && access(file, R_OK) == -1)
-		return (-1);
-	fd = open(file, O_RDONLY, 0644);
+	*to_fd = STDIN_FILENO;
+	if (io->type == 6)
+		return (ms->fd_heredoc);
+	fd = open(io->expd_str[0], O_RDONLY, 0644);
 	return (fd);
 }
 
-int	open_outfile(char *file, int type)
+int	open_outfile(t_ast *io, int *to_fd)
 {
 	int		fd;
 	int		flags;
 
+	*to_fd = STDOUT_FILENO;
 	flags = O_CREAT | O_WRONLY | O_TRUNC;
-	if (type == 7)
+	if (io->type == 7)
 		flags = O_CREAT | O_WRONLY | O_APPEND;
-	if (access(file, F_OK) == 0 && access(file, W_OK) == -1)
-		return (-1);
-	fd = open(file, flags, 0644);
+	fd = open(io->expd_str[0], flags, 0644);
 	return (fd);
 }
 
-static int	redirect_io(t_ast *ast)
+static int	redirect_io(t_ms *ms, t_ast *ast)
 {
-	int	file_fd;
+	int	fd;
 	int	to_fd;
-	int	type;
 
-	type = ast->io->type;
-	to_fd = STDIN_FILENO;
-	file_fd = -1;
-	if (type == 4 || type == 7) // > || >>
+	if (ast->io->type == 6 || ast->io->type == 3)
+		fd = open_infile(ms, ast->io, &to_fd);
+	else
+		fd = open_outfile(ast->io, &to_fd);
+	if (fd == -1)
 	{
-		to_fd = STDOUT_FILENO;
-		file_fd = open_outfile(ast->io->str, type);
-	}
-	else if (type == 3 || type == 6) // < || <<
-	{
-		file_fd = open_infile(ast->io->str, type);
-	}
-	if (file_fd == -1)
-	{
-		error_print(ast->io->str, NULL);
+		error_print(ast->io->expd_str[0], NULL);
 		return (0);
 	}
-	if (dup2(file_fd, to_fd) == -1)
+	if (dup2(fd, to_fd) == -1)
 		error_print("dup2", NULL);
-	close(file_fd);
+	close(fd);
 	return (1);
 }
 
@@ -73,7 +61,7 @@ int	redirect(t_ms *ms, t_ast *ast, int cmd_id, int *prev_fd)
 {
 	int	ret;
 
-	if (ast->io && !redirect_io(ast))
+	if (ast->io && !redirect_io(ms, ast))
 		return (0);
 	if (cmd_id == CMD_NOPIPE)
 		return (1);
