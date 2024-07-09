@@ -4,31 +4,26 @@
 #include <sys/types.h>
 #include <readline/readline.h>
 
-static void	heredoc_filepath(int new, char *out)
+static void	heredoc_gen_path(char *out)
 {
-	static char	old[256];
 	static int	counter;
 	char		*tmp;
 
-	if (new)
-	{
-		ft_strlcpy(old, "/tmp/heredoc_ms_", 256);
-		counter++;
-		tmp = ft_itoa(counter);
-		if (tmp)
-			ft_strlcat(old, tmp, 256);
-		free(tmp);
-	}
-	ft_strlcpy(out, old, 256);
+	ft_strlcpy(out, "/tmp/heredoc_ms_", 256);
+	counter++;
+	tmp = ft_itoa(counter);
+	if (tmp)
+		ft_strlcat(out, tmp, 256);
+	free(tmp);
 }
 
-int heredoc_file(int *out_write, int *out_read)
+static int heredoc_file(int *out_write, int *out_read)
 {
 	int		fd_write;
 	int		fd_read;
 	char	filepath[256];
 
-	heredoc_filepath(1, filepath);
+	heredoc_gen_path(filepath);
 	fd_write = open(filepath, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	fd_read = open(filepath, O_RDONLY, 0644);
 	if (fd_write == -1 || fd_read == -1)

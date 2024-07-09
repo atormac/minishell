@@ -37,18 +37,18 @@ int	open_outfile(t_ast *io, int *to_fd)
 	return (fd);
 }
 
-static int	redirect_io(t_ms *ms, t_ast *ast)
+static int	redirect_io(t_ms *ms, t_ast *io)
 {
 	int	fd;
 	int	to_fd;
 
-	if (ast->io->type == 6 || ast->io->type == 3)
-		fd = open_infile(ms, ast->io, &to_fd);
+	if (io->type == 6 || io->type == 3)
+		fd = open_infile(ms, io, &to_fd);
 	else
-		fd = open_outfile(ast->io, &to_fd);
+		fd = open_outfile(io, &to_fd);
 	if (fd == -1)
 	{
-		error_print(ast->io->expd_str[0], NULL);
+		error_print(io->expd_str[0], NULL);
 		return (0);
 	}
 	if (dup2(fd, to_fd) == -1)
@@ -61,7 +61,7 @@ int	redirect(t_ms *ms, t_ast *ast, int cmd_id, int *prev_fd)
 {
 	int	ret;
 
-	if (ast->io && !redirect_io(ms, ast))
+	if (ast->io && !redirect_io(ms, ast->io))
 		return (0);
 	if (cmd_id == CMD_NOPIPE)
 		return (1);
