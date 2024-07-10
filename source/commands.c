@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 15:00:38 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/10 15:13:19 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/10 19:22:33 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,29 @@ void	commands_exec(t_ms *ms, t_ast *ast, t_ast *prev)
 {
 	int	id;
 
-	if (ast->type != t_cmnd || !ast->expd_str)
+	if (ast->type == t_cmnd && ast->expd_str)
 	{
-		if (ast->left)
-			commands_exec(ms, ast->left, ast);
-		if (ast->right)
-			commands_exec(ms, ast->right, ast);
-		return ;
+		id = command_id(ast, prev);
+		exec_cmd(ms, ast, id);
 	}
-	id = command_id(ast, prev);
-	exec_cmd(ms, ast, id);
+	if (ast->left)
+		commands_exec(ms, ast->left, ast);
+	if (ast->right)
+	{
+		if (prev->type == t_and)
+		{
+			if (prev->left->pid < 0 && ms->exit_code != 0) 
+				return ;
+			if (prev->left->pid >= 0 && pid_wait(prev->left->pid) != 0)
+				return ;
+		}
+		else if (prev->type == t_or)
+		{
+			if (prev->left->pid < 0 && ms->exit_code == 0)
+				return ;
+			if (prev->left->pid >= 0 && pid_wait(prev->left->pid) == 0)
+				return ;
+		}
+		commands_exec(ms, ast->right, ast);
+	}
 }
