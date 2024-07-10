@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:23 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/10 16:44:32 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/10 16:54:42 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,26 +103,22 @@ static int	builtin_export(t_ms *ms, char **args)
 
 int	builtin_env(t_ms *ms, int id, char **args)
 {
-	size_t	arg_cnt;
+	int		i;
 
-	arg_cnt = args_count(args);
+	i = -1;
 	if (id == BUILTIN_ENV)
 	{
-		if (arg_cnt != 0)
-			return (2);
 		env_print(ms->env);
+		return (0);
 	}
-	else if (id == BUILTIN_EXPORT)
-	{
-		if (arg_cnt == 0)
-			return (2);
+	if (args_count(args) == 0)
+		return (2);
+	if (id == BUILTIN_EXPORT)
 		return (builtin_export(ms, args));
-	}
 	else if (id == BUILTIN_UNSET)
 	{
-		if (arg_cnt != 1)
-			return (2);
-		env_var_unset(ms->env, args[0]);
+		while (args[++i])
+			env_var_unset(ms->env, args[i]);
 	}
 	return (0);
 }
