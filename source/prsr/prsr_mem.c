@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 11:37:12 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/06 13:16:51 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/10 17:04:55 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -42,6 +42,8 @@ void	ft_free_ast(t_ast *ast)
 		{
 			tmp = curr;
 			free(curr->str);
+			if (curr->expd_str)
+				ft_free_split_null(curr->expd_str);
 			curr = curr->io;
 			free(tmp);
 		}

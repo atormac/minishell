@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/10 15:02:31 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/10 17:09:45 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,10 +112,8 @@ int main(int argc, char **argv, char **envp)
 	return (ms.exit_code);
 }
 
-//Parser testing main
-
 /*
-
+Parser testing main
 int main(int argc, char **argv, char **envp)
 {
 	
@@ -159,5 +157,4 @@ int main(int argc, char **argv, char **envp)
 	minishell_cleanup(&ms);
 
 	return (0);
-}
-*/
+}*/
