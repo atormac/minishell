@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:23 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/10 16:32:04 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/10 16:44:32 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,16 +82,22 @@ int	builtin_cd(t_ms *ms, char **args, char *dir)
 	return (0);
 }
 
-static int	builtin_export(t_ms *ms, char *str)
+static int	builtin_export(t_ms *ms, char **args)
 {
+	int		i;
 	char	*val;
 
-	val = ft_strchr(str, '=');
-	if (!val || val == str)
-		return (1);
-	*val = '\0';
-	val++;
-	env_var_set(ms, str, val);
+	i = 0;
+	while (args[i])
+	{
+		val = ft_strchr(args[i], '=');
+		if (!val || val == args[i])
+			return (1);
+		*val = '\0';
+		val++;
+		env_var_set(ms, args[i], val);
+		i++;
+	}
 	return (0);
 }
 
@@ -108,9 +114,9 @@ int	builtin_env(t_ms *ms, int id, char **args)
 	}
 	else if (id == BUILTIN_EXPORT)
 	{
-		if (arg_cnt != 1)
+		if (arg_cnt == 0)
 			return (2);
-		return (builtin_export(ms, args[0]));
+		return (builtin_export(ms, args));
 	}
 	else if (id == BUILTIN_UNSET)
 	{
