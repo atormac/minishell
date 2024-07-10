@@ -6,23 +6,11 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 18:39:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/05 18:20:06 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/10 13:27:35 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-char	**get_args(char *str)
-{
-	char	**args;
-
-	if (!str)
-		return (NULL);
-	args = ft_split(str, ' ');
-	if (!args)
-		error_print("malloc", NULL);
-	return (args);
-}
 
 size_t	args_count(char **args)
 {
