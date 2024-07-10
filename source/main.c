@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/10 17:09:45 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/10 17:12:11 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,10 @@ void	minishell_cleanup(t_ms *ms)
 {
 	free_array(ms->env);
 	free(ms->cwd);
+	if (ms->pipe_read >= 0)
+		close(ms->pipe_read);
+	if (ms->pipe_write >= 0)
+		close(ms->pipe_read);
 }
 
 static void	process_line(t_ms *ms, char *line)

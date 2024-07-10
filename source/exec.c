@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:31 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/10 15:18:48 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/10 17:03:09 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	exec_builtin(t_ms *ms, int id, char **args)
 	else if (id == BUILTIN_ENV || id == BUILTIN_EXPORT || id == BUILTIN_UNSET)
 		ret = builtin_env(ms, id, args);
 	else if (id == BUILTIN_CD)
-		ret = builtin_cd(ms, args);
+		ret = builtin_cd(ms, args, args[0]);
 	ms->exit_code = ret;
 	return (1);
 }
@@ -71,6 +71,7 @@ static pid_t exec_fork(t_ms *ms, t_ast *ast, int cmd_id, int *prev_fd, char **ar
 			exec_builtin(ms, builtin, &args[1]);
 		else
 			exec_bin(ms, args);
+		minishell_cleanup(ms);
 		exit(ms->exit_code);
 	}
 	return (pid);

@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:23 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/10 16:10:56 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/10 16:54:42 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,17 +38,12 @@ void	builtin_echo(char **args)
 	int	i;
 	int	newline;
 
-	if (!args[0])
-	{
-		printf("\n");
-		return ;
-	}
 	i = 0;
 	newline = 1;
-	if (ft_strcmp(args[0], "-n") == 0)
+	while (args[i] && ft_strcmp(args[i], "-n") == 0)
 	{
 		newline = 0;
-		i = 1;
+		i++;
 	}
 	while (args[i])
 	{
@@ -61,12 +56,14 @@ void	builtin_echo(char **args)
 		printf("\n");
 }
 
-int	builtin_cd(t_ms *ms, char **args)
+int	builtin_cd(t_ms *ms, char **args, char *dir)
 {
-	char	*dir;
-
-	dir = args[0];
-	if (!args_count(args))
+	if (args_count(args) > 1)
+	{
+		error_print("cd", "too many arguments");
+		return (1);
+	}
+	if (!dir)
 	{
 		dir = env_var_get(ms->env, "HOME");
 		if (!dir)
@@ -74,11 +71,6 @@ int	builtin_cd(t_ms *ms, char **args)
 			error_builtin("cd", "HOME not set", "");
 			return (1);
 		}
-	}
-	if (args_count(args) > 1)
-	{
-		error_print("cd", "too many arguments");
-		return (1);
 	}
 	if (chdir(dir) == -1)
 	{
@@ -90,41 +82,43 @@ int	builtin_cd(t_ms *ms, char **args)
 	return (0);
 }
 
-static int	builtin_export(t_ms *ms, char *str)
+static int	builtin_export(t_ms *ms, char **args)
 {
+	int		i;
 	char	*val;
 
-	val = ft_strchr(str, '=');
-	if (!val || val == str)
-		return (1);
-	*val = '\0';
-	val++;
-	env_var_set(ms, str, val);
+	i = 0;
+	while (args[i])
+	{
+		val = ft_strchr(args[i], '=');
+		if (!val || val == args[i])
+			return (1);
+		*val = '\0';
+		val++;
+		env_var_set(ms, args[i], val);
+		i++;
+	}
 	return (0);
 }
 
 int	builtin_env(t_ms *ms, int id, char **args)
 {
-	size_t	arg_cnt;
+	int		i;
 
-	arg_cnt = args_count(args);
+	i = -1;
 	if (id == BUILTIN_ENV)
 	{
-		if (arg_cnt != 0)
-			return (2);
 		env_print(ms->env);
+		return (0);
 	}
-	else if (id == BUILTIN_EXPORT)
-	{
-		if (arg_cnt != 1)
-			return (2);
-		return (builtin_export(ms, args[0]));
-	}
+	if (args_count(args) == 0)
+		return (2);
+	if (id == BUILTIN_EXPORT)
+		return (builtin_export(ms, args));
 	else if (id == BUILTIN_UNSET)
 	{
-		if (arg_cnt != 1)
-			return (2);
-		env_var_unset(ms->env, args[0]);
+		while (args[++i])
+			env_var_unset(ms->env, args[i]);
 	}
 	return (0);
 }

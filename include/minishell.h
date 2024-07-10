@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 15:36:13 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/10 15:12:36 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/10 16:59:31 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,6 @@ int		update_cwd(t_ms *ms);
 void	prompt_update(t_ms *ms, char *prompt, size_t size);
 int		is_executable(char *path);
 int		init_signals(t_ms *ms);
+void	minishell_cleanup(t_ms *ms);
 
 #endif
