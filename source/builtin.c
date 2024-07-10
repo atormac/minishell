@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:23 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/10 16:03:42 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/10 16:10:56 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ int	builtin_cd(t_ms *ms, char **args)
 {
 	char	*dir;
 
+	dir = args[0];
 	if (!args_count(args))
 	{
 		dir = env_var_get(ms->env, "HOME");
@@ -79,7 +80,6 @@ int	builtin_cd(t_ms *ms, char **args)
 		error_print("cd", "too many arguments");
 		return (1);
 	}
-	dir = args[0];
 	if (chdir(dir) == -1)
 	{
 		error_builtin("cd", dir, NULL);

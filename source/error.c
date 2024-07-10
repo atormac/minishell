@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 18:15:45 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/10 15:58:18 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/10 16:08:43 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void error_builtin(char *builtin, char *s, char *error_str)
 	ft_strlcat(buffer, builtin, sizeof(buffer) - 1);
 	ft_strlcat(buffer, ": ", sizeof(buffer) - 1);
 	ft_strlcat(buffer, s, sizeof(buffer) - 1);
-	if (error_str[0] != '\0')
+	if (error_str && error_str[0] != '\0')
 	{
 		ft_strlcat(buffer, ": ", sizeof(buffer) - 1);
 		ft_strlcat(buffer, error_str, sizeof(buffer) - 1);
