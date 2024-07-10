@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 15:00:38 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/10 15:02:37 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/10 15:13:19 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	commands_wait(t_ms *ms, t_ast *ast)
 	if (ast->right)
 		commands_wait(ms, ast->right);
 }
+
 void	commands_exec(t_ms *ms, t_ast *ast, t_ast *prev)
 {
 	int	id;

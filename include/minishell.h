@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 15:36:13 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/10 14:53:51 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/10 15:12:36 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,6 @@ int		set_shlvl(t_ms *ms);
 int		set_cwd(t_ms *ms);
 int		update_cwd(t_ms *ms);
 void	prompt_update(t_ms *ms, char *prompt, size_t size);
-char	*path_join(char *path, char *bin);
-char	**path_get(char **envp);
-char	*path_find_bin(t_ms *ms, char *cmd);
 int		is_executable(char *path);
 int		init_signals(t_ms *ms);
 

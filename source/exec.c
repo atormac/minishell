@@ -6,13 +6,16 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:31 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/10 14:23:41 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/10 15:12:42 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 #include "../include/builtin.h"
 
+char	*path_join(char *path, char *bin);
+char	**path_get(char **envp);
+char	*path_find_bin(t_ms *ms, char *cmd);
 int		redirect(t_ms *ms, t_ast *ast, int cmd_id, int *prev_fd);
 int		heredoc_prompt(t_ms *ms, char *eof);
 
