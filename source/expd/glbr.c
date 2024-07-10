@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 09:50:18 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/07 13:23:54 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/10 16:03:34 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -36,16 +36,23 @@ void	ft_glbr_add_matches(t_glbr *glbr, char *s)
 {
 	DIR				*dir;
 	struct dirent	*fl;
+	int				count;
 
+	count = 0;
 	dir = opendir(".");
 	fl = readdir(dir);
 	while (fl && glbr->arr)
 	{
 		if (ft_wldcrd(fl->d_name, s) && ft_visib(fl->d_name, s))
+		{
 			ft_glbr_add(glbr, fl->d_name);
+			count++;
+		}
 		fl = readdir(dir);
 	}
 	closedir(dir);
+	if (!count)
+		ft_glbr_add(glbr, s);
 }
 
 char	**ft_glbr(char **expd)
