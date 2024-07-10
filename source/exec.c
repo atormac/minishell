@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:31 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/05 20:02:31 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/10 13:44:20 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ int	exec_ast(t_ms *ms, t_ast *ast, int cmd_id)
 	}
 	args = ast->expd_str;
 	builtin = is_builtin(args[0]);
-	if (cmd_id == CMD_NOPIPE && builtin)
+	if (cmd_id == CMD_NOPIPE && builtin && !ast->io)
 		ret = exec_builtin(ms, builtin, &args[1]);
 	else if (cmd_id == CMD_NOPIPE)
 		ast->pid = exec_fork(ms, ast, cmd_id, NULL, args);
