@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:31 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/10 15:12:42 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/10 15:18:48 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ void	exec_cmd(t_ms *ms, t_ast *ast, int cmd_id)
 	ast->pid = -2;
 	if (ms->cmd_error)
 		return ;
-	if (ast->io && ast->io->type == 6)
+	if (ast->io && ast->io->type == t_lwrlwr)
 	{
 		if (!heredoc_prompt(ms, ast->io->expd_str[0]))
 			return ;

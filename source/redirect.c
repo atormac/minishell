@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 18:14:21 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/05 19:48:14 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/10 15:18:29 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	open_infile(t_ms *ms, t_ast *io, int *to_fd)
 	int		fd;
 
 	*to_fd = STDIN_FILENO;
-	if (io->type == 6)
+	if (io->type == t_lwrlwr)
 		return (ms->fd_heredoc);
 	fd = open(io->expd_str[0], O_RDONLY, 0644);
 	return (fd);
@@ -31,7 +31,7 @@ int	open_outfile(t_ast *io, int *to_fd)
 
 	*to_fd = STDOUT_FILENO;
 	flags = O_CREAT | O_WRONLY | O_TRUNC;
-	if (io->type == 7)
+	if (io->type == t_bgrbgr)
 		flags = O_CREAT | O_WRONLY | O_APPEND;
 	fd = open(io->expd_str[0], flags, 0644);
 	return (fd);
@@ -42,7 +42,7 @@ static int	redirect_io(t_ms *ms, t_ast *io)
 	int	fd;
 	int	to_fd;
 
-	if (io->type == 6 || io->type == 3)
+	if (io->type == t_lwrlwr || io->type == t_lwr)
 		fd = open_infile(ms, io, &to_fd);
 	else
 		fd = open_outfile(io, &to_fd);
