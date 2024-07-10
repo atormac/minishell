@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/07 13:27:16 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/07/10 15:02:31 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,13 @@
 
 #include <readline/readline.h>
 #include <readline/history.h>
+
+void	commands_wait(t_ms *ms, t_ast *ast);
+void	commands_exec(t_ms *ms, t_ast *ast, t_ast *prev);
+void	ft_free_ast(t_ast *ast);
+t_ast	*ft_prsr(t_tkns *tkns, t_ms *ms);
+t_ast	*ft_get_ast(t_tkns *tkns, int tree_top, t_ms *ms);
+void	ft_expd_ast(t_ms *ms, t_ast *ast);
 
 static	int	minishell_init(t_ms *ms, char **envp)
 {
@@ -43,58 +50,11 @@ void	minishell_cleanup(t_ms *ms)
 	free(ms->cwd);
 }
 
-void	ft_free_ast(t_ast *ast);
-t_ast	*ft_prsr(t_tkns *tkns, t_ms *ms);
-t_ast	*ft_get_ast(t_tkns *tkns, int tree_top, t_ms *ms);
-int		exec_ast(t_ms *ms, t_ast *ast, int cmd_id);
-int		pid_wait(pid_t pid);
-void	ft_expd_ast(t_ms *ms, t_ast *ast);
-
-void	recurse_ast(t_ms *ms, t_ast *ast, t_ast *prev, int stop)
-{
-	int	cmd_id;
-
-	if (stop)
-		return ;
-	if (ast->type == 0)
-		ast->pid = -1;
-	if (ast->expd_str && prev->type == 5)
-	{
-		if (ms->is_first_cmd)
-		{
-			cmd_id = CMD_FIRST;
-			ms->is_first_cmd = 0;
-		}
-		else if (prev->right == ast && !ast->left && !ast->right)
-			cmd_id = CMD_LAST;
-		else
-			cmd_id = CMD_MIDDLE;
-		if (exec_ast(ms, ast, cmd_id) == -1)
-			stop = 1;
-	}
-	else if (ast->expd_str)
-		exec_ast(ms, ast, CMD_NOPIPE);
-	if (ast->left)
-		recurse_ast(ms, ast->left, ast, stop);
-	if (ast->right)
-		recurse_ast(ms, ast->right, ast, stop);
-}
-
-void	wait_ast(t_ms *ms, t_ast *ast)
-{
-	if (ast->type == 0 && ast->pid >= 0)
-		ms->exit_code = pid_wait(ast->pid);
-	if (ast->left)
-		wait_ast(ms, ast->left);
-	if (ast->right)
-		wait_ast(ms, ast->right);
-}
-
 static void	process_line(t_ms *ms, char *line)
 {
 	t_ast	*ast;
 
-	ms->is_first_cmd = 1;
+	ms->cmd_error = 0;
 	ms->pipe_read = -1;
 	ms->pipe_write = -1;
 	ft_get_tokens(ms, line);
@@ -104,8 +64,8 @@ static void	process_line(t_ms *ms, char *line)
 	if (ast)
 	{
 		ft_expd_ast(ms, ast);
-		recurse_ast(ms, ast, ast, 0);
-		wait_ast(ms, ast);
+		commands_exec(ms, ast, ast);
+		commands_wait(ms, ast);
 	}
 	ft_free_ast(ast);
 	ft_free_tkns(ms);

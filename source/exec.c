@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:31 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/10 13:44:20 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/10 14:23:41 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "../include/builtin.h"
 
 int		redirect(t_ms *ms, t_ast *ast, int cmd_id, int *prev_fd);
-int		pid_wait(pid_t pid);
+int		heredoc_prompt(t_ms *ms, char *eof);
 
 static int	exec_builtin(t_ms *ms, int id, char **args)
 {
@@ -58,7 +58,7 @@ static pid_t exec_fork(t_ms *ms, t_ast *ast, int cmd_id, int *prev_fd, char **ar
 		error_print("fork", NULL);
 		close(ms->pipe_read);
 		close(ms->pipe_write);
-		return (pid);
+		return (-1);
 	}
 	if (pid == 0)
 	{
@@ -98,29 +98,30 @@ static pid_t	exec_piped(t_ms *ms, t_ast *ast, int cmd_id, char **args)
 	return (pid);
 }
 
-int	heredoc_prompt(t_ms *ms, char *eof);
 
-int	exec_ast(t_ms *ms, t_ast *ast, int cmd_id)
+void	exec_cmd(t_ms *ms, t_ast *ast, int cmd_id)
 {
-	int	ret;
 	int	builtin;
 	char	**args;
 
-	ret = 0;
+	ast->pid = -2;
+	if (ms->cmd_error)
+		return ;
 	if (ast->io && ast->io->type == 6)
 	{
 		if (!heredoc_prompt(ms, ast->io->expd_str[0]))
-			return (0);
+			return ;
 	}
 	args = ast->expd_str;
 	builtin = is_builtin(args[0]);
-	if (cmd_id == CMD_NOPIPE && builtin && !ast->io)
-		ret = exec_builtin(ms, builtin, &args[1]);
+	if (builtin && !ast->io && cmd_id == CMD_NOPIPE)
+		exec_builtin(ms, builtin, &args[1]);
 	else if (cmd_id == CMD_NOPIPE)
 		ast->pid = exec_fork(ms, ast, cmd_id, NULL, args);
 	else
 		ast->pid = exec_piped(ms, ast, cmd_id, args);
 	if (ms->fd_heredoc >= 0)
 		close(ms->fd_heredoc);
-	return (ret);
+	if (ast->pid == -1)
+		ms->cmd_error = 1;
 }
