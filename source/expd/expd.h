@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 20:25:15 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/07 13:25:56 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/10 14:36:35 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	ft_init_glbr(t_glbr *glbr);
 void	ft_glbr_realloc(t_glbr *glbr);
 void	ft_glbr_add(t_glbr *glbr, char *s);
 void	ft_free_glbr(t_glbr *glbr);
+void	ft_strip_qtes(char *s);
 
 // Utils
 void	ft_free_null(char **s);

@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 12:41:33 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/07 12:44:21 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/07/10 14:56:30 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -43,8 +43,8 @@ void	ft_glbr_add(t_glbr *glbr, char *s)
 	glbr->arr[glbr->i] = ft_strdup(s);
 	if (!glbr->arr[glbr->i])
 		ft_free_glbr(glbr);
-	if (glbr->arr)
-		glbr->i++;
+	ft_strip_qtes(glbr->arr[glbr->i]);
+	glbr->i++;
 }
 
 void	ft_free_glbr(t_glbr *glbr)
