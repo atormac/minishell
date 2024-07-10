@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:18 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/10 15:37:42 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/10 15:38:39 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,6 @@ char	**path_get(char **envp)
 	char	**arr;
 
 	i = 0;
-	if (!envp)
-		return (NULL);
 	while (envp[i])
 	{
 		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
