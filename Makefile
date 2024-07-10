@@ -6,7 +6,7 @@
 #    By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/11 21:03:29 by atorma            #+#    #+#              #
-#    Updated: 2024/07/07 13:28:57 by lopoka           ###   ########.fr        #
+#    Updated: 2024/07/10 14:59:46 by lopoka           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ PRSR_OBJ = $(addprefix $(PRSR_DIR)/,$(PRSR_SRC:.c=.o))
 
 EXPD_DIR = source/expd
 EXPD_SRC = expd.c expd_rglr.c expd_sq.c expd_dq.c expd_dlr.c expd_rm_empty_substrs.c expd_split_sub.c expd_split_sub_utils.c glbr.c glbr_mem.c \
-		   wldcrd.c 
+		   wldcrd.c expd_strip_qtes.c 
 EXPD_OBJ = $(addprefix $(EXPD_DIR)/,$(EXPD_SRC:.c=.o))
 
 
