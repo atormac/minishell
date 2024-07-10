@@ -18,9 +18,8 @@ int	pid_wait(pid_t pid)
 {
 	int		status;
 
-	if (pid < 0)
-		return (EXIT_SUCCESS);
-	waitpid(pid, &status, 0);
+	if (waitpid(pid, &status, 0) < 0)
+		return (-1);
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
 	if (WIFSIGNALED(status))

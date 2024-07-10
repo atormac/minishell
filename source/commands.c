@@ -36,8 +36,14 @@ static int	command_id(t_ast *ast, t_ast *prev)
 
 void	commands_wait(t_ms *ms, t_ast *ast)
 {
-	if (ast->type == 0 && ast->pid >= 0)
-		ms->exit_code = pid_wait(ast->pid);
+	int	tmp;
+
+	if (ast->type == 0 && ast->pid > 0)
+	{
+		tmp = pid_wait(ast->pid);
+		if (tmp >= 0)
+			ms->exit_code = tmp;
+	}
 	if (ast->left)
 		commands_wait(ms, ast->left);
 	if (ast->right)

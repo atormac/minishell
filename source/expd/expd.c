@@ -56,6 +56,7 @@ void	ft_expd_ast(t_ms *ms, t_ast *ast)
 		return ;
 	if (ast->type == 0)
 	{
+		ast->pid = -2;
 		ft_expd_str(ms, ast);
 		curr = ast->io;
 		while (curr)

@@ -110,7 +110,6 @@ void	exec_cmd(t_ms *ms, t_ast *ast, int cmd_id)
 	int	builtin;
 	char	**args;
 
-	ast->pid = -2;
 	if (ms->cmd_error)
 		return ;
 	if (ast->io && ast->io->type == t_lwrlwr)
