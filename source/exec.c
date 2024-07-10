@@ -45,9 +45,8 @@ static int	exec_bin(t_ms *ms, char **args)
 
 	ret = 0;
 	cmd_path = path_find_bin(ms, args[0]);
-	if (!cmd_path)
-		return (0);
-	ret = execve(cmd_path, args, ms->env);
+	if (cmd_path)
+		ret = execve(cmd_path, args, ms->env);
 	free(cmd_path);
 	return (ret);
 }
