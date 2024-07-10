@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:18 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/05 19:40:01 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/10 15:37:42 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,10 @@ char	*path_join(char *path, char *bin)
 	bin_len = ft_strlen(bin);
 	ret = malloc(path_len + bin_len + 2);
 	if (!ret)
+	{
+		error_print("malloc", NULL);
 		return (NULL);
+	}
 	ft_strlcpy(ret, path, path_len + 1);
 	ft_strlcpy(ret + path_len, "/", 2);
 	ft_strlcpy(ret + path_len + 1, bin, bin_len + 1);
