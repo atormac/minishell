@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:31 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/10 16:15:50 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/10 17:03:09 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ static pid_t exec_fork(t_ms *ms, t_ast *ast, int cmd_id, int *prev_fd, char **ar
 			exec_builtin(ms, builtin, &args[1]);
 		else
 			exec_bin(ms, args);
+		minishell_cleanup(ms);
 		exit(ms->exit_code);
 	}
 	return (pid);
