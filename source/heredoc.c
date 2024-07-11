@@ -81,6 +81,8 @@ int	heredoc_prompt(t_ms *ms, char *eof)
 	}
 	free(line);
 	close(write_fd);
+	if (!success)
+		close(read_fd);
 	ms->fd_heredoc = read_fd;
 	return (success);
 }
