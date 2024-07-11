@@ -54,7 +54,7 @@ char	*ft_expd_heredoc(char *s, t_ms *ms)
 	char	*res;
 
 	if (!s)
-		return ;
+		return (NULL);
 	res = ft_strdup("");
 	i = 0;
 	while (s[i] && res)

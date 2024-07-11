@@ -4,6 +4,8 @@
 #include <sys/types.h>
 #include <readline/readline.h>
 
+char	*ft_expd_heredoc(char *s, t_ms *ms);
+
 static void	heredoc_gen_path(char *out)
 {
 	static int	counter;
@@ -39,11 +41,30 @@ static int heredoc_file(int *out_write, int *out_read)
 	return (1);
 }
 
+static int	heredoc_write(t_ms *ms, int fd, char *line)
+{
+	char	*expanded;
+
+	expanded = ft_expd_heredoc(line, ms);		
+	if (!expanded)
+		return (0);
+	if (write(fd, expanded, ft_strlen(expanded)) == -1)
+	{
+		free(expanded);
+		return (0);
+	}
+	free(expanded);
+	if (write(fd, "\n", 1) == -1)
+		return (0);
+	return (1);
+}
+
 int	heredoc_prompt(t_ms *ms, char *eof)
 {
 	int		write_fd;
 	int		read_fd;
 	char	*line;
+	int		success;
 
 	ms->fd_heredoc = -1;
 	if (!heredoc_file(&write_fd, &read_fd))
@@ -53,12 +74,13 @@ int	heredoc_prompt(t_ms *ms, char *eof)
 		line = readline(">");
 		if (!line || ft_strcmp(line, eof) == 0)
 			break ;
-		write(write_fd, line, ft_strlen(line));
-		write(write_fd, "\n", 1);
+		success = heredoc_write(ms, write_fd, line);
+		if (!success)
+			break;
 		free(line);
 	}
 	free(line);
 	close(write_fd);
 	ms->fd_heredoc = read_fd;
-	return (1);
+	return (success);
 }
