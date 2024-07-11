@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 12:12:16 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/07 13:58:10 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/07/11 16:57:11 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -46,6 +46,30 @@ void	ft_expd_str(t_ms *ms, t_ast *ast)
 	free(ast->str);
 	ast->str = NULL;
 	ast->expd_str = ft_glbr(ast->expd_str);
+}
+
+char	*ft_expd_heredoc(char *s, t_ms *ms)
+{
+	size_t	i;
+	char	*res;
+
+	if (!s)
+		return ;
+	res = ft_strdup("");
+	i = 0;
+	while (s[i] && res)
+	{
+		if (s[i] == '$')
+			ft_expd_dlr(&res, s, &i, ms);
+		else if (s[i] == '\'')
+			ft_expd_sq(&res, s, &i);
+		else if (s[i] == '"')
+			ft_expd_dq(&res, s, &i, ms);
+		else
+			ft_expd_rglr(&res, s, &i);
+	}
+	ft_rm_empty_substrs(res);
+	return (res);
 }
 
 void	ft_expd_ast(t_ms *ms, t_ast *ast)

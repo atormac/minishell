@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 20:25:15 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/10 14:36:35 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/07/11 16:59:03 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct s_glbr
 }	t_glbr;
 
 // 1st Expansion stage top level functions
+char	*ft_expd_heredoc(char *s, t_ms *ms);
 void	ft_expd_ast(t_ms *ms, t_ast *ast);
 void	expd_prep(t_ms *ms, t_ast *ast);
 
