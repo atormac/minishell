@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 12:12:16 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/11 16:57:11 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/12 16:58:58 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -15,6 +15,15 @@ void	ft_free_null(char **s)
 {
 	free(*s);
 	*s = NULL;
+}
+
+void	ft_post_expd(t_ast *ast)
+{
+	ft_rm_empty_substrs(ast->str);
+	ast->expd_str = ft_expd_split_sub(ast->str, ' ', 1);
+	free(ast->str);
+	ast->str = NULL;
+	ast->expd_str = ft_glbr(ast->expd_str);
 }
 
 void	ft_expd_str(t_ms *ms, t_ast *ast)
@@ -41,11 +50,7 @@ void	ft_expd_str(t_ms *ms, t_ast *ast)
 	}
 	free(ast->str);
 	ast->str = res;
-	ft_rm_empty_substrs(ast->str);
-	ast->expd_str = ft_expd_split_sub(ast->str, ' ', 1);
-	free(ast->str);
-	ast->str = NULL;
-	ast->expd_str = ft_glbr(ast->expd_str);
+	ft_post_expd(ast);
 }
 
 char	*ft_expd_heredoc(char *s, t_ms *ms)
