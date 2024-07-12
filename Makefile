@@ -6,7 +6,7 @@
 #    By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/11 21:03:29 by atorma            #+#    #+#              #
-#    Updated: 2024/07/10 15:05:40 by lopoka           ###   ########.fr        #
+#    Updated: 2024/07/12 14:55:37 by lucas            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ SOURCES = main.c prompt.c commands.c builtin.c path.c exec.c \
 		  error.c check.c heredoc.c
 
 TKNS_DIR = source/tkns
-TKNS_SRC = tkns_realloc.c tkns_utils.c get_tkns.c
+TKNS_SRC = tkns.c tkns_mem.c tkns_utils.c
 TKNS_OBJ = $(addprefix $(TKNS_DIR)/,$(TKNS_SRC:.c=.o))
 
 PRSR_DIR = source/prsr
