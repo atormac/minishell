@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/12 16:42:30 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/12 17:31:38 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,8 @@ int main(int argc, char **argv, char **envp)
 	ft_get_tokens(&ms, line);
 	if (!ms.tkns)
 	{
-		minishell_cleanup(&ms);
+		free_array(ms.env);
+		free(ms.cwd);
 		return (1);
 	}
 	printf("--------------TOKENS----------------\n");
@@ -164,7 +165,9 @@ int main(int argc, char **argv, char **envp)
 	if (ms.tkns)
 		ft_free_tkns(&ms);
 	
-	minishell_cleanup(&ms);
+	free_array(ms.env);
+	free(ms.cwd);
+
 
 	return (0);
 }

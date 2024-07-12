@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 11:37:12 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/10 17:04:55 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/12 17:32:45 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -24,31 +24,14 @@ t_ast	*ft_get_ast_node(int type)
 
 void	ft_free_ast(t_ast *ast)
 {
-	t_ast	*curr;
-	t_ast	*tmp;
-
 	if (!ast)
 		return ;
-	if (ast->left)
-		ft_free_ast(ast->left);
-	if (ast->right)
-		ft_free_ast(ast->right);
 	if (ast->str)
 		free(ast->str);
-	if (ast->io)
-	{
-		curr = ast->io;
-		while (curr)
-		{
-			tmp = curr;
-			free(curr->str);
-			if (curr->expd_str)
-				ft_free_split_null(curr->expd_str);
-			curr = curr->io;
-			free(tmp);
-		}
-	}
 	if (ast->expd_str)
 		ft_free_split_null(ast->expd_str);
+	ft_free_ast(ast->io);
+	ft_free_ast(ast->left);
+	ft_free_ast(ast->right);
 	free(ast);
 }
