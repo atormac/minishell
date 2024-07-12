@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/10 19:22:42 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/12 16:42:30 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	minishell_cleanup(t_ms *ms)
 		close(ms->pipe_read);
 }
 
-static void	process_line(t_ms *ms, char *line)
+/*static void	process_line(t_ms *ms, char *line)
 {
 	t_ast	*ast;
 
@@ -114,10 +114,10 @@ int main(int argc, char **argv, char **envp)
 	minishell(&ms);
 	minishell_cleanup(&ms);
 	return (ms.exit_code);
-}
+}*/
 
-/*
-Parser testing main
+
+//Parser testing main
 int main(int argc, char **argv, char **envp)
 {
 	
@@ -151,8 +151,14 @@ int main(int argc, char **argv, char **envp)
 	printf("----------ast error %d-----------------\n", ms.prsr_err);
 	if (ast)
 	{
+		printf("\nPRE EXPANSION\n");
+		ft_print_ast(&ms, ast, 0);
+		
 		ft_expd_ast(&ms, ast);
-		ft_print_ast(&ms, ast);
+		
+		printf("\nEXPANDED\n");
+		ft_print_ast(&ms, ast, 1);
+		
 		ft_free_ast(ast);
 	}
 	if (ms.tkns)
@@ -161,4 +167,4 @@ int main(int argc, char **argv, char **envp)
 	minishell_cleanup(&ms);
 
 	return (0);
-}*/
+}

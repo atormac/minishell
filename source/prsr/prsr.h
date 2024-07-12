@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 10:30:53 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/05 11:30:10 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/12 16:43:09 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,6 @@ void	ft_free_ast(t_ast *ast);
 void	ft_set_prsr_err(t_ms *ms, int type);
 
 //Ast print
-void	ft_print_ast(t_ms *ms, t_ast *ast);
+void	ft_print_ast(t_ms *ms, t_ast *ast, int expd);
 
 #endif
