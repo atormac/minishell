@@ -67,11 +67,13 @@ static pid_t exec_fork(t_ms *ms, t_ast *ast, int cmd_id, int *prev_fd, char **ar
 	if (pid == 0)
 	{
 		builtin = is_builtin(args[0]);
-		redirect(ms, ast, cmd_id, prev_fd);
-		if (builtin)
-			exec_builtin(ms, builtin, &args[1]);
-		else
-			exec_bin(ms, args);
+		if (redirect(ms, ast, cmd_id, prev_fd))
+		{
+			if (builtin)
+				exec_builtin(ms, builtin, &args[1]);
+			else
+				exec_bin(ms, args);
+		}
 		minishell_cleanup(ms);
 		exit(ms->exit_code);
 	}
