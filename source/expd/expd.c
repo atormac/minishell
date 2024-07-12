@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 12:12:16 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/12 16:58:58 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/12 17:18:33 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -79,23 +79,12 @@ char	*ft_expd_heredoc(char *s, t_ms *ms)
 
 void	ft_expd_ast(t_ms *ms, t_ast *ast)
 {
-	t_ast	*curr;
-
 	if (!ast)
 		return ;
 	if (ast->type == 0)
-	{
 		ast->pid = -2;
-		ft_expd_str(ms, ast);
-		curr = ast->io;
-		while (curr)
-		{
-			ft_expd_str(ms, curr);
-			curr = curr->io;
-		}
-	}
-	if (ast->left)
-		ft_expd_ast(ms, ast->left);
-	if (ast->right)
-		ft_expd_ast(ms, ast->right);
+	ft_expd_str(ms, ast);
+	ft_expd_ast(ms, ast->io);
+	ft_expd_ast(ms, ast->left);
+	ft_expd_ast(ms, ast->right);
 }
