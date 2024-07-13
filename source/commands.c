@@ -50,7 +50,7 @@ void	commands_wait(t_ms *ms, t_ast *ast)
 		commands_wait(ms, ast->right);
 }
 
-int		command_andor_fail(t_ms *ms, t_ast *prev)
+static int	command_andor_fail(t_ms *ms, t_ast *prev)
 {
 	if (prev->type == t_and)
 	{
