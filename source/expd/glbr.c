@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 09:50:18 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/10 16:03:34 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/07/13 13:06:35 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -60,7 +60,7 @@ char	**ft_glbr(char **expd)
 	t_glbr			glbr;
 	size_t			i;
 
-	if (!expd || !expd[0])
+	if (!expd)
 		return (NULL);
 	i = 0;
 	ft_init_glbr(&glbr);
