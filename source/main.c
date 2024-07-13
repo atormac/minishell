@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/12 17:31:38 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/13 13:38:17 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	minishell_cleanup(t_ms *ms)
 		close(ms->pipe_read);
 }
 
-/*static void	process_line(t_ms *ms, char *line)
+static void	process_line(t_ms *ms, char *line)
 {
 	t_ast	*ast;
 
@@ -65,14 +65,15 @@ void	minishell_cleanup(t_ms *ms)
 	if (!ms->tkns)
 		return ;
 	ast = ft_prsr(ms->tkns, ms);
-	if (ast)
-	{
-		ft_expd_ast(ms, ast);
-		commands_exec(ms, ast, ast);
-		commands_wait(ms, ast);
-	}
-	ft_free_ast(ast);
 	ft_free_tkns(ms);
+	if (!ast)
+		return ;
+	ft_expd_ast(ms, ast);
+	if (ms->prsr_err)
+		return (ft_free_ast(ast));
+	commands_exec(ms, ast, ast);
+	commands_wait(ms, ast);
+	ft_free_ast(ast);
 }
 
 static	void	minishell(t_ms *ms)
@@ -114,9 +115,9 @@ int main(int argc, char **argv, char **envp)
 	minishell(&ms);
 	minishell_cleanup(&ms);
 	return (ms.exit_code);
-}*/
+}
 
-
+/*
 //Parser testing main
 int main(int argc, char **argv, char **envp)
 {
@@ -154,9 +155,11 @@ int main(int argc, char **argv, char **envp)
 	{
 		printf("\nPRE EXPANSION\n");
 		ft_print_ast(&ms, ast, 0);
-		
+		//--------------------
 		ft_expd_ast(&ms, ast);
-		
+		if (ms.prsr_err)
+			ft_free_ast(ast);
+		//--------------------
 		printf("\nEXPANDED\n");
 		ft_print_ast(&ms, ast, 1);
 		
@@ -164,10 +167,7 @@ int main(int argc, char **argv, char **envp)
 	}
 	if (ms.tkns)
 		ft_free_tkns(&ms);
-	
 	free_array(ms.env);
 	free(ms.cwd);
-
-
 	return (0);
-}
+}*/
