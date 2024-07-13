@@ -50,6 +50,24 @@ void	commands_wait(t_ms *ms, t_ast *ast)
 		commands_wait(ms, ast->right);
 }
 
+int		command_andor_fail(t_ms *ms, t_ast *prev)
+{
+	if (prev->type == t_and)
+	{
+		if (prev->left->pid < 0 && ms->exit_code != 0) 
+			return (1);
+		if (prev->left->pid >= 0 && pid_wait(prev->left->pid) != 0)
+			return (1);
+	}
+	else if (prev->type == t_or)
+	{
+		if (prev->left->pid < 0 && ms->exit_code == 0)
+			return (1);
+		if (prev->left->pid >= 0 && pid_wait(prev->left->pid) == 0)
+			return (1);
+	}
+	return (0);
+}
 void	commands_exec(t_ms *ms, t_ast *ast, t_ast *prev)
 {
 	int	id;
@@ -63,20 +81,8 @@ void	commands_exec(t_ms *ms, t_ast *ast, t_ast *prev)
 		commands_exec(ms, ast->left, ast);
 	if (ast->right)
 	{
-		if (prev->type == t_and)
-		{
-			if (prev->left->pid < 0 && ms->exit_code != 0) 
-				return ;
-			if (prev->left->pid >= 0 && pid_wait(prev->left->pid) != 0)
-				return ;
-		}
-		else if (prev->type == t_or)
-		{
-			if (prev->left->pid < 0 && ms->exit_code == 0)
-				return ;
-			if (prev->left->pid >= 0 && pid_wait(prev->left->pid) == 0)
-				return ;
-		}
+		if (command_andor_fail(ms, prev))
+			return ;
 		commands_exec(ms, ast->right, ast);
 	}
 }
