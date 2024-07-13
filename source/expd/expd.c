@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 12:12:16 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/12 17:18:33 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/13 12:49:21 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -19,34 +19,33 @@ void	ft_free_null(char **s)
 
 void	ft_post_expd(t_ast *ast)
 {
+	if (!ast->str)
+		return ;
 	ft_rm_empty_substrs(ast->str);
 	ast->expd_str = ft_expd_split_sub(ast->str, ' ', 1);
-	free(ast->str);
-	ast->str = NULL;
+	ft_free_null(&ast->str);
 	ast->expd_str = ft_glbr(ast->expd_str);
 }
 
 void	ft_expd_str(t_ms *ms, t_ast *ast)
 {
 	size_t	i;
-	char	*s;
 	char	*res;
 
-	s = ast->str;
-	if (!s)
+	if (!ast->str)
 		return ;
 	res = ft_strdup("");
 	i = 0;
-	while (s[i] && res)
+	while (ast->str[i] && res)
 	{
-		if (s[i] == '$')
-			ft_expd_dlr(&res, s, &i, ms);
-		else if (s[i] == '\'')
-			ft_expd_sq(&res, s, &i);
-		else if (s[i] == '"')
-			ft_expd_dq(&res, s, &i, ms);
+		if (ast->str[i] == '$')
+			ft_expd_dlr(&res, ast->str, &i, ms);
+		else if (ast->str[i] == '\'')
+			ft_expd_sq(&res, ast->str, &i);
+		else if (ast->str[i] == '"')
+			ft_expd_dq(&res, ast->str, &i, ms);
 		else
-			ft_expd_rglr(&res, s, &i);
+			ft_expd_rglr(&res, ast->str, &i);
 	}
 	free(ast->str);
 	ast->str = res;
