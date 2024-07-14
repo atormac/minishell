@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 15:00:38 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/14 17:03:17 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/14 17:08:54 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ static int	commands_can_proceed(t_ms *ms, t_ast *prev)
 {
 	if (prev->type == t_and)
 	{
-		printf("prev->left->pid: %d\n", prev->left->pid);
 		if (prev->left->pid <= 0 && ms->exit_code != 0) 
 			return (0);
 		if (prev->left->pid > 0 && pid_wait(prev->left->pid) != 0)
