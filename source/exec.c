@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:31 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/14 17:18:28 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/14 19:43:47 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,14 @@ static int	exec_builtin(t_ms *ms, int id, char **args)
 		ret = builtin_env(ms, id, args);
 	else if (id == BUILTIN_CD)
 		ret = builtin_cd(ms, args, args[0]);
-	ms->exit_code = ret;
 	if (id == BUILTIN_EXIT)
 	{
 		if (args[0])
 			ms->exit_code = ft_atoi(args[0]);
 		ms->do_exit = 1;
 	}
+	else
+		ms->exit_code = ret;
 	return (1);
 }
 
