@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 14:21:15 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/10 18:40:20 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/14 17:51:32 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ int	pid_wait(pid_t pid)
 {
 	int		status;
 
+	if (pid < 0)
+		return (-1);
 	if (waitpid(pid, &status, 0) < 0)
 		return (-1);
 	if (WIFEXITED(status))

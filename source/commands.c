@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 15:00:38 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/14 17:08:54 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/14 17:52:55 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,42 +50,48 @@ void	commands_wait(t_ms *ms, t_ast *ast)
 		commands_wait(ms, ast->right);
 }
 
-static int	commands_can_proceed(t_ms *ms, t_ast *prev)
+static int	commands_can_proceed(t_ms *ms, t_ast *last_cmd, int last_type)
 {
-	if (prev->type == t_and)
-	{
-		if (prev->left->pid <= 0 && ms->exit_code != 0) 
-			return (0);
-		if (prev->left->pid > 0 && pid_wait(prev->left->pid) != 0)
-			return (0);
-	}
-	else if (prev->type == t_or)
-	{
-		if (prev->left->pid <= 0 && ms->exit_code == 0)
-			return (0);
-		if (prev->left->pid > 0 && pid_wait(prev->left->pid) == 0)
-			return (0);
-	}
+	int	code;
+
+	if (!last_cmd)
+		return (1);
+	if (last_type != t_and && last_type != t_or)
+		return (1);
+	code = pid_wait(last_cmd->pid);
+	if (code >= 0)
+		ms->exit_code = code;
+	if (last_type == t_and && ms->exit_code != 0)
+		return (0);
+	else if (last_type == t_or && ms->exit_code == 0)
+		return (0);
 	return (1);
 }
 
 void	commands_exec(t_ms *ms, t_ast *ast, t_ast *prev)
 {
-	int	id;
+	static t_ast	*last_cmd;
+	static int		last_type;
+	int				id;
 
+	if (ast == prev)
+	{
+		last_cmd = NULL;
+		last_type = -1;
+	}
 	if (ast->type == t_cmnd && ast->expd_str)
 	{
 		id = command_id(ast, prev);
 		exec_cmd(ms, ast, id);
+		last_cmd = ast;
+		last_type = prev->type;
 	}
 	if (ast->left)
 		commands_exec(ms, ast->left, ast);
 	if (ast->right)
 	{
-		if (!commands_can_proceed(ms, prev))
-		{
+		if (!commands_can_proceed(ms, last_cmd, last_type))
 			return ;
-		}
 		commands_exec(ms, ast->right, ast);
 	}
 }
