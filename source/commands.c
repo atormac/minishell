@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 15:00:38 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/14 18:14:23 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/14 18:33:00 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,18 @@
 int		exec_cmd(t_ms *ms, t_ast *ast, int cmd_id);
 int		pid_wait(t_ast *cmd);
 
-static int	command_id(t_ast *ast, t_ast *prev)
+static int	command_id(t_ast *cmd, t_ast *prev, t_ast *last_cmd)
 {
 	static int	entry;
 
 	if (prev->type != t_pipe)
 		return (CMD_NOPIPE);
-	if (!entry)
+	if (!entry || !last_cmd)
 	{
 		entry = 1;
 		return (CMD_FIRST);
 	}
-	if (prev->right == ast && !ast->left && !ast->right)
+	if (prev->right == cmd && !cmd->left && !cmd->right)
 	{
 		entry = 0;
 		return (CMD_LAST);
@@ -75,23 +75,16 @@ void	commands_exec(t_ms *ms, t_ast *ast, t_ast *prev)
 	int				id;
 
 	if (ast == prev)
-	{
 		last_cmd = NULL;
-		last_type = -1;
-	}
 	if (ast->type == t_cmnd && ast->expd_str)
 	{
-		id = command_id(ast, prev);
+		id = command_id(ast, prev, last_cmd);
 		exec_cmd(ms, ast, id);
 		last_cmd = ast;
 		last_type = prev->type;
 	}
 	if (ast->left)
 		commands_exec(ms, ast->left, ast);
-	if (ast->right)
-	{
-		if (!commands_can_continue(ms, last_cmd, last_type))
-			return ;
+	if (ast->right && commands_can_continue(ms, last_cmd, last_type))
 		commands_exec(ms, ast->right, ast);
-	}
 }
