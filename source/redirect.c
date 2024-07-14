@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 18:14:21 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/14 16:13:49 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/14 16:17:59 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ static int	redirect_io(t_ms *ms, t_ast *io)
 	if (fd == -1)
 	{
 		error_print(io->expd_str[0], NULL);
+		ms->exit_code = 1;
 		return (0);
 	}
 	if (dup2(fd, to_fd) == -1)
