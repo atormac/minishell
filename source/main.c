@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/14 18:32:47 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/14 20:02:08 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-void	commands_wait(t_ms *ms, t_ast *ast);
+void	commands_wait(t_ms *ms, t_ast *ast, t_ast *limit);
 void	commands_exec(t_ms *ms, t_ast *ast, t_ast *prev);
 void	ft_free_ast(t_ast *ast);
 t_ast	*ft_prsr(t_tkns *tkns, t_ms *ms);
@@ -72,7 +72,7 @@ static void	process_line(t_ms *ms, char *line)
 	if (ms->prsr_err)
 		return (ft_free_ast(ast));
 	commands_exec(ms, ast, ast);
-	commands_wait(ms, ast);
+	commands_wait(ms, ast, NULL);
 	ms->exit_code = ms->exit_code & 0377; //Magic
 	ft_free_ast(ast);
 }

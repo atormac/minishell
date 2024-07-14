@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 15:00:38 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/14 19:41:38 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/14 20:01:43 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 int		exec_cmd(t_ms *ms, t_ast *ast, int cmd_id);
 int		pid_wait(t_ast *cmd);
 
-static int	command_id(t_ast *cmd, t_ast *prev, t_ast *last_cmd)
+static int	command_id(t_ast *cmd, t_ast *prev)
 {
 	static int	entry;
 
 	if (prev->type != t_pipe)
 		return (CMD_NOPIPE);
-	if (!entry || !last_cmd)
+	if (!entry)
 	{
 		entry = 1;
 		return (CMD_FIRST);
@@ -34,10 +34,12 @@ static int	command_id(t_ast *cmd, t_ast *prev, t_ast *last_cmd)
 	return (CMD_MIDDLE);
 }
 
-void	commands_wait(t_ms *ms, t_ast *ast)
+void	commands_wait(t_ms *ms, t_ast *ast, t_ast *limit)
 {
 	int	tmp;
 
+	if (ast == limit)
+		return ;
 	if (ast->type == t_cmnd)
 	{
 		tmp = pid_wait(ast);
@@ -45,20 +47,16 @@ void	commands_wait(t_ms *ms, t_ast *ast)
 			ms->exit_code = tmp;
 	}
 	if (ast->left)
-		commands_wait(ms, ast->left);
+		commands_wait(ms, ast->left, limit);
 	if (ast->right)
-		commands_wait(ms, ast->right);
+		commands_wait(ms, ast->right, limit);
 }
 
-static int	commands_can_continue(t_ms *ms, t_ast *last_cmd, int op)
+static int	commands_can_continue(t_ms *ms, t_ast *root, t_ast *limit, int op)
 {
-	int	code;
-
-	if (!last_cmd || (op != t_and && op != t_or))
+	if (op != t_and && op != t_or)
 		return (1);
-	code = pid_wait(last_cmd);
-	if (code >= 0)
-		ms->exit_code = code;
+	commands_wait(ms, root, limit);
 	if (op == t_and && ms->exit_code != 0)
 		return (0);
 	else if (op == t_or && ms->exit_code == 0)
@@ -68,19 +66,18 @@ static int	commands_can_continue(t_ms *ms, t_ast *last_cmd, int op)
 
 void	commands_exec(t_ms *ms, t_ast *ast, t_ast *prev)
 {
-	static t_ast	*last_cmd;
+	static t_ast	*root;
 	int				id;
 
 	if (ast == prev)
-		last_cmd = NULL;
+		root = ast;
 	if (ast->type == t_cmnd && ast->expd_str)
 	{
-		id = command_id(ast, prev, last_cmd);
+		id = command_id(ast, prev);
 		exec_cmd(ms, ast, id);
-		last_cmd = ast;
 	}
 	if (ast->left)
 		commands_exec(ms, ast->left, ast);
-	if (ast->right && commands_can_continue(ms, last_cmd, ast->type))
+	if (ast->right && commands_can_continue(ms, root, ast->right, ast->type))
 		commands_exec(ms, ast->right, ast);
 }
