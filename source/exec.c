@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:31 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/14 19:43:47 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/14 20:37:15 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static int	exec_bin(t_ms *ms, char **args)
 	return (ret);
 }
 
-static pid_t exec_fork(t_ms *ms, t_ast *ast, int cmd_id, int *prev_fd, char **args)
+static pid_t exec_fork(t_ms *ms, t_ast *ast, int cmd_id, int *prev_fd)
 {
 	pid_t	pid;
 	int		builtin;
@@ -71,13 +71,13 @@ static pid_t exec_fork(t_ms *ms, t_ast *ast, int cmd_id, int *prev_fd, char **ar
 	}
 	if (pid == 0)
 	{
-		builtin = is_builtin(args[0]);
+		builtin = is_builtin(ast->expd_str[0]);
 		if (redirect(ms, ast, cmd_id, prev_fd))
 		{
 			if (builtin)
-				exec_builtin(ms, builtin, &args[1]);
+				exec_builtin(ms, builtin, &ast->expd_str[1]);
 			else
-				exec_bin(ms, args);
+				exec_bin(ms, ast->expd_str);
 		}
 		minishell_cleanup(ms);
 		exit(ms->exit_code);
@@ -85,7 +85,7 @@ static pid_t exec_fork(t_ms *ms, t_ast *ast, int cmd_id, int *prev_fd, char **ar
 	return (pid);
 }
 
-static pid_t	exec_piped(t_ms *ms, t_ast *ast, int cmd_id, char **args)
+static pid_t	exec_piped(t_ms *ms, t_ast *ast, int cmd_id)
 {
 	int		prev_fd[2];
 	int		pipefd[2];
@@ -103,7 +103,7 @@ static pid_t	exec_piped(t_ms *ms, t_ast *ast, int cmd_id, char **args)
 		ms->pipe_read = pipefd[0];
 		ms->pipe_write = pipefd[1];
 	}
-	pid = exec_fork(ms, ast, cmd_id, prev_fd, args);
+	pid = exec_fork(ms, ast, cmd_id, prev_fd);
 	close(ms->pipe_write);
 	if (cmd_id > CMD_FIRST)
 		close(prev_fd[0]);
@@ -114,23 +114,19 @@ static pid_t	exec_piped(t_ms *ms, t_ast *ast, int cmd_id, char **args)
 void	exec_cmd(t_ms *ms, t_ast *ast, int cmd_id)
 {
 	int	builtin;
-	char	**args;
 
-	if (ms->cmd_error)
-		return ;
 	if (ast->io && ast->io->type == t_lwrlwr)
 	{
 		if (!heredoc_prompt(ms, ast->io->expd_str[0]))
 			return ;
 	}
-	args = ast->expd_str;
-	builtin = is_builtin(args[0]);
+	builtin = is_builtin(ast->expd_str[0]);
 	if (builtin && !ast->io && cmd_id == CMD_NOPIPE)
-		exec_builtin(ms, builtin, &args[1]);
+		exec_builtin(ms, builtin, &ast->expd_str[1]);
 	else if (cmd_id == CMD_NOPIPE)
-		ast->pid = exec_fork(ms, ast, cmd_id, NULL, args);
+		ast->pid = exec_fork(ms, ast, cmd_id, NULL);
 	else
-		ast->pid = exec_piped(ms, ast, cmd_id, args);
+		ast->pid = exec_piped(ms, ast, cmd_id);
 	if (ms->fd_heredoc >= 0)
 		close(ms->fd_heredoc);
 	if (ast->pid == -1)
