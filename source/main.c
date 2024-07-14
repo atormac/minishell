@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/14 15:45:57 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/14 16:36:36 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ static void	process_line(t_ms *ms, char *line)
 		return (ft_free_ast(ast));
 	commands_exec(ms, ast, ast);
 	commands_wait(ms, ast);
+	ms->exit_code = ms->exit_code & 0377; //Magic
 	ft_free_ast(ast);
 }
 
@@ -83,15 +84,18 @@ static	void	minishell(t_ms *ms)
 
 	while (1)
 	{
+		ms->do_exit = 0;
 		prompt_update(ms, prompt, sizeof(prompt));
 		line = readline(prompt);
-		if (line == NULL || is_builtin(line) == BUILTIN_EXIT)
+		if (line == NULL)
 			break;
 		if (*line)
 		{
 			add_history(line);
 			process_line(ms, line);
 		}
+		if (ms->do_exit)
+			break;
 		free(line);
 	}
 	printf("exit\n");

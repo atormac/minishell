@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 15:36:13 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/10 16:59:31 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/14 16:25:01 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct t_ms
 	int				fd_heredoc;
 	int				cmd_error;
 	int				exit_code;
+	int				do_exit;
 	struct s_tkns	*tkns;
 	int				prsr_err;
 }	t_ms;
