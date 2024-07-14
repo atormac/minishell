@@ -6,14 +6,14 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 15:00:38 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/14 18:06:44 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/14 18:14:23 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 int		exec_cmd(t_ms *ms, t_ast *ast, int cmd_id);
-int		pid_wait(pid_t pid);
+int		pid_wait(t_ast *cmd);
 
 static int	command_id(t_ast *ast, t_ast *prev)
 {
@@ -38,9 +38,9 @@ void	commands_wait(t_ms *ms, t_ast *ast)
 {
 	int	tmp;
 
-	if (ast->type == 0 && ast->pid > 0)
+	if (ast->type == t_cmnd)
 	{
-		tmp = pid_wait(ast->pid);
+		tmp = pid_wait(ast);
 		if (tmp >= 0)
 			ms->exit_code = tmp;
 	}
@@ -58,7 +58,7 @@ static int	commands_can_continue(t_ms *ms, t_ast *last_cmd, int last_type)
 		return (1);
 	if (last_type != t_and && last_type != t_or)
 		return (1);
-	code = pid_wait(last_cmd->pid);
+	code = pid_wait(last_cmd);
 	if (code >= 0)
 		ms->exit_code = code;
 	if (last_type == t_and && ms->exit_code != 0)
