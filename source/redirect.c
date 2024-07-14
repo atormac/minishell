@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 18:14:21 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/10 15:18:29 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/14 16:08:21 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,28 @@ static int	redirect_io(t_ms *ms, t_ast *io)
 	return (1);
 }
 
+static int redirect_io_inout(t_ms *ms, t_ast *ast)
+{
+	t_ast *io;
+
+	io = ast->io;
+	if (!io)
+		return (1);
+	if (!redirect_io(ms, io))
+		return (0);
+	io = io->io;
+	if (!io)
+		return (1);
+	if (!redirect_io(ms, io))
+		return (0);
+	return (1);
+}
+
 int	redirect(t_ms *ms, t_ast *ast, int cmd_id, int *prev_fd)
 {
 	int	ret;
 
-	if (ast->io && !redirect_io(ms, ast->io))
+	if (!redirect_io_inout(ms, ast))
 		return (0);
 	if (cmd_id == CMD_NOPIPE)
 		return (1);

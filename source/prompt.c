@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:14 by atorma            #+#    #+#             */
-/*   Updated: 2024/06/26 20:36:30 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/14 15:05:35 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	prompt_update(t_ms *ms, char *prompt, size_t size)
 		username = "unknown";
 	ft_strlcat(prompt, username, size);
 	ft_strlcat(prompt, "@", size);
-	ft_strlcat(prompt, "minishell ", size);
+	ft_strlcat(prompt, "minishell:", size);
 	prompt_set_dir(ms, prompt, size);
 	ft_strlcat(prompt, "$ ", size);
 }
