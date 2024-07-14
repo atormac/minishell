@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 15:00:38 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/14 17:52:55 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/14 18:06:44 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	commands_wait(t_ms *ms, t_ast *ast)
 		commands_wait(ms, ast->right);
 }
 
-static int	commands_can_proceed(t_ms *ms, t_ast *last_cmd, int last_type)
+static int	commands_can_continue(t_ms *ms, t_ast *last_cmd, int last_type)
 {
 	int	code;
 
@@ -90,7 +90,7 @@ void	commands_exec(t_ms *ms, t_ast *ast, t_ast *prev)
 		commands_exec(ms, ast->left, ast);
 	if (ast->right)
 	{
-		if (!commands_can_proceed(ms, last_cmd, last_type))
+		if (!commands_can_continue(ms, last_cmd, last_type))
 			return ;
 		commands_exec(ms, ast->right, ast);
 	}
