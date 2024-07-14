@@ -6,14 +6,14 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 18:14:21 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/14 16:08:21 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/14 16:13:49 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 #include <fcntl.h>
 
-int	open_infile(t_ms *ms, t_ast *io, int *to_fd)
+static int	open_infile(t_ms *ms, t_ast *io, int *to_fd)
 {
 	int		fd;
 
@@ -24,7 +24,7 @@ int	open_infile(t_ms *ms, t_ast *io, int *to_fd)
 	return (fd);
 }
 
-int	open_outfile(t_ast *io, int *to_fd)
+static int	open_outfile(t_ast *io, int *to_fd)
 {
 	int		fd;
 	int		flags;
