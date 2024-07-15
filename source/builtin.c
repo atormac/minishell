@@ -6,13 +6,15 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:23 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/10 16:54:42 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/15 16:45:27 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 #include "../include/builtin.h"
 #include "../include/environment.h"
+
+int		is_numeric(char *s);
 
 int	is_builtin(char	*cmd)
 {
@@ -31,6 +33,20 @@ int	is_builtin(char	*cmd)
 	if (ft_strcmp(cmd, "exit") == 0)
 		return (BUILTIN_EXIT);
 	return (BUILTIN_NONE);
+}
+
+int		builtin_exit(t_ms *ms, char **args)
+{
+	int	code;
+
+	ms->do_exit = 1;
+	if (args[0] && !is_numeric(args[0]))
+	{
+		error_builtin("exit", args[0], "numeric argument required");
+		return (2);
+	}
+	code = ft_atoi(args[0]);
+	return (code);
 }
 
 void	builtin_echo(char **args)

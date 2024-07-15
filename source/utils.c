@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 17:57:24 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/05 19:36:54 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/15 16:37:52 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,18 @@ int	update_cwd(t_ms *ms)
 	env_var_set(ms, "OLDPWD", ms->cwd);
 	free(ms->cwd);
 	ms->cwd = dir;
+	return (1);
+}
+
+int	is_numeric(char *s)
+{
+	if (*s == '-' && *(s + 1))
+		s++;
+	while (*s)
+	{
+		if (!ft_isdigit(*s))
+			return (0);
+		s++;
+	}
 	return (1);
 }

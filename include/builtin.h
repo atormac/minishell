@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 19:22:42 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/10 16:17:36 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/15 16:44:33 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ enum
 
 int		is_builtin(char	*cmd);
 int		builtin_cd(t_ms *ms, char **args, char *dir);
+int		builtin_exit(t_ms *ms, char **args);
 void	builtin_echo(char **args);
 int		builtin_env(t_ms *ms, int id, char **args);
 
