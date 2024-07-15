@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 18:14:21 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/15 20:30:02 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/15 20:53:31 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,15 +63,12 @@ static int	redirect_io_inout(t_ms *ms, t_ast *ast)
 	t_ast	*io;
 
 	io = ast->io;
-	if (!io)
-		return (1);
-	if (!redirect_io(ms, io))
-		return (0);
-	io = io->io;
-	if (!io)
-		return (1);
-	if (!redirect_io(ms, io))
-		return (0);
+	while (io)
+	{
+		if (!redirect_io(ms, io))
+			return (0);
+		io = io->io;
+	}
 	return (1);
 }
 
