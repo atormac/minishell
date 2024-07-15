@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:31 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/15 16:44:05 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/15 17:04:20 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	exec_builtin(t_ms *ms, int id, char **args)
 	if (id == BUILTIN_ECHO)
 		builtin_echo(args);
 	else if (id == BUILTIN_PWD)
-		ret = printf("%s\n", ms->cwd);
+		printf("%s\n", ms->cwd);
 	else if (id == BUILTIN_ENV || id == BUILTIN_EXPORT || id == BUILTIN_UNSET)
 		ret = builtin_env(ms, id, args);
 	else if (id == BUILTIN_CD)
