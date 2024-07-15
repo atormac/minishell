@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/14 20:02:08 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/15 15:30:14 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	ft_expd_ast(t_ms *ms, t_ast *ast);
 
 static	int	minishell_init(t_ms *ms, char **envp)
 {
+	ms->do_exit = 0;
 	ms->exit_code = 0;
 	ms->cmd_error = 0;
 	ms->fd_heredoc = -1;
@@ -39,7 +40,7 @@ static	int	minishell_init(t_ms *ms, char **envp)
 		return (0);
 	if (!set_cwd(ms))
 		return (0);
-	if (!init_signals(ms))
+	if (!init_signals_parent(ms))
 		return (0);
 	return (1);
 }
@@ -84,7 +85,6 @@ static	void	minishell(t_ms *ms)
 
 	while (1)
 	{
-		ms->do_exit = 0;
 		prompt_update(ms, prompt, sizeof(prompt));
 		line = readline(prompt);
 		if (line == NULL)

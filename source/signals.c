@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 19:53:10 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/15 14:56:47 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/15 15:33:48 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,17 @@ static void	sig_parent_handler(int signo)
 	if (signo == SIGINT)
 	{
 		ft_putstr_fd("\n", STDOUT_FILENO);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-		set_signal_exit(NULL);
+		if (errno == EINTR)
+		{
+			rl_on_new_line();
+			rl_replace_line("", 0);
+			rl_redisplay();
+			set_signal_exit(NULL);
+		}
 	}
 }
 
-int	init_signals(t_ms *ms)
+int	init_signals_parent(t_ms *ms)
 {
 	struct sigaction sa;
 
