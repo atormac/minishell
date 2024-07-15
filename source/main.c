@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/15 16:13:11 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/15 17:20:08 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,16 +55,18 @@ void	minishell_cleanup(t_ms *ms)
 		close(ms->pipe_read);
 }
 
-static void	process_line(t_ms *ms, char *line)
+static void	process_line(t_ms *ms, char **line)
 {
 	t_ast	*ast;
 
 	ms->cmd_error = 0;
 	ms->pipe_read = -1;
 	ms->pipe_write = -1;
-	ft_get_tokens(ms, line);
+	ft_get_tokens(ms, *line);
 	if (!ms->tkns)
 		return ;
+	free(*line);
+	*line = NULL;
 	ast = ft_prsr(ms->tkns, ms);
 	ft_free_tkns(ms);
 	if (!ast)
@@ -92,7 +94,7 @@ static	void	minishell(t_ms *ms)
 		if (*line)
 		{
 			add_history(line);
-			process_line(ms, line);
+			process_line(ms, &line);
 		}
 		if (ms->do_exit)
 			break;
