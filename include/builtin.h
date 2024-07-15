@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 19:22:42 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/15 16:44:33 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/15 18:20:47 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,6 @@ int		builtin_cd(t_ms *ms, char **args, char *dir);
 int		builtin_exit(t_ms *ms, char **args);
 void	builtin_echo(char **args);
 int		builtin_env(t_ms *ms, int id, char **args);
+int		builtin_export(t_ms *ms, char **args);
 
 #endif
