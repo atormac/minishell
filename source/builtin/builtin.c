@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:23 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/15 18:19:25 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/15 19:27:17 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	is_builtin(char	*cmd)
 	return (BUILTIN_NONE);
 }
 
-int		builtin_exit(t_ms *ms, char **args)
+int	builtin_exit(t_ms *ms, char **args)
 {
 	int	code;
 
@@ -99,7 +99,6 @@ int	builtin_cd(t_ms *ms, char **args, char *dir)
 		return (1);
 	return (0);
 }
-
 
 int	builtin_env(t_ms *ms, int id, char **args)
 {
