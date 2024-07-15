@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 19:53:10 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/05 19:53:11 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/15 14:41:09 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	sig_handler(int signo)
 {
 	if (signo == SIGINT)
 	{
-		printf("\n");
+		ft_putstr_fd("\n", STDIN_FILENO);
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
