@@ -6,7 +6,7 @@
 #    By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/11 21:03:29 by atorma            #+#    #+#              #
-#    Updated: 2024/07/15 20:10:05 by atorma           ###   ########.fr        #
+#    Updated: 2024/07/15 20:36:17 by atorma           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,8 +18,7 @@ LIBDIR = ./libft
 LIBS = $(LIBDIR)/libft.a
 INCLUDE_DIR = ./include
 SOURCE_DIR = source
-SOURCES = main.c prompt.c pid.c args.c signals.c \
-		  error.c check.c
+SOURCES = main.c prompt.c pid.c args.c signals.c error.c 
 
 ENV_DIR = source/environment
 ENV_SRC = env.c env_var.c env_update.c
@@ -30,7 +29,7 @@ BUILTIN_SRC = builtin.c export.c exit.c
 BUILTIN_OBJ = $(addprefix $(BUILTIN_DIR)/,$(BUILTIN_SRC:.c=.o))
 
 EXEC_DIR = source/execution
-EXEC_SRC = commands.c exec.c path.c
+EXEC_SRC = commands.c exec.c path.c check.c
 EXEC_OBJ = $(addprefix $(EXEC_DIR)/,$(EXEC_SRC:.c=.o))
 
 REDIR_DIR = source/redirect
