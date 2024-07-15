@@ -6,39 +6,13 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 18:19:33 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/15 18:52:59 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/15 19:22:36 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 #include "../../include/builtin.h"
 #include "../../include/environment.h"
-
-static void	env_sort(char **env)
-{
-	size_t	i;
-	size_t	j;
-	size_t	size;
-	char	*tmp;
-
-	i = 0;
-	size = args_count(env);
-	while (i < size)
-	{
-		j = i + 1;
-		while (j < size)
-		{
-			if (ft_strcmp(env[i], env[j]) > 0)
-			{
-				tmp = env[i];
-				env[i] = env[j];
-				env[j] = tmp;
-			}
-			j++;
-		}
-		i++;
-	}
-}
 
 static int	export_print(char **env)
 {

@@ -6,7 +6,7 @@
 #    By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/11 21:03:29 by atorma            #+#    #+#              #
-#    Updated: 2024/07/15 19:01:43 by atorma           ###   ########.fr        #
+#    Updated: 2024/07/15 19:21:18 by atorma           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ SOURCES = main.c prompt.c commands.c path.c exec.c \
 		  error.c check.c heredoc.c
 
 ENV_DIR = source/environment
-ENV_SRC = env.c
+ENV_SRC = env.c env_var.c
 ENV_OBJ = $(addprefix $(ENV_DIR)/,$(ENV_SRC:.c=.o))
 
 BUILTIN_DIR = source/builtin
