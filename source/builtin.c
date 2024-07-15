@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:23 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/15 16:45:27 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/15 16:48:55 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,9 @@ int		builtin_exit(t_ms *ms, char **args)
 	int	code;
 
 	ms->do_exit = 1;
-	if (args[0] && !is_numeric(args[0]))
+	if (args[0] == NULL)
+		return (0);
+	if (!is_numeric(args[0]))
 	{
 		error_builtin("exit", args[0], "numeric argument required");
 		return (2);
