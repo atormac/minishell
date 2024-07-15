@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:23 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/15 18:06:12 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/15 18:08:20 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,9 +113,7 @@ static void	export_print(char **env)
 		{
 			ft_putstr_fd("declare -x ", STDOUT_FILENO);
 			write(STDOUT_FILENO, env[i], (eq - env[i]) + 1);
-			ft_putstr_fd("\"", STDOUT_FILENO);
-			ft_putstr_fd(eq + 1, STDOUT_FILENO);
-			ft_putstr_fd("\"\n", STDOUT_FILENO);
+			printf("\"%s\"\n", eq + 1);
 		}
 		i++;
 	}
