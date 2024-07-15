@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:23 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/15 16:48:55 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/15 17:54:19 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,12 +100,37 @@ int	builtin_cd(t_ms *ms, char **args, char *dir)
 	return (0);
 }
 
+static void	export_print(char **env)
+{
+	size_t	i;
+	char	*eq;
+
+	i = 0;
+	while (env[i])
+	{
+		eq = ft_strchr(env[i], '=');
+		if (eq)
+		{
+			ft_putstr_fd("declare -x ", STDOUT_FILENO);
+			write(STDOUT_FILENO, env[i], (eq - env[i]) + 1);
+			ft_putstr_fd("\"", STDOUT_FILENO);
+			ft_putstr_fd(eq + 1, STDOUT_FILENO);
+			ft_putstr_fd("\"\n", STDOUT_FILENO);
+		}
+		i++;
+	}
+}
 static int	builtin_export(t_ms *ms, char **args)
 {
 	int		i;
 	char	*val;
 
 	i = 0;
+	if (args[0] == NULL)
+	{
+		export_print(ms->env);
+		return (0);
+	}
 	while (args[i])
 	{
 		val = ft_strchr(args[i], '=');
@@ -129,10 +154,10 @@ int	builtin_env(t_ms *ms, int id, char **args)
 		env_print(ms->env);
 		return (0);
 	}
-	if (args_count(args) == 0)
-		return (2);
 	if (id == BUILTIN_EXPORT)
 		return (builtin_export(ms, args));
+	if (args_count(args) == 0)
+		return (2);
 	else if (id == BUILTIN_UNSET)
 	{
 		while (args[++i])
