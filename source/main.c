@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/15 17:20:08 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/15 19:00:54 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	minishell_cleanup(t_ms *ms)
 	if (ms->pipe_write >= 0)
 		close(ms->pipe_read);
 }
-
+/*
 static void	process_line(t_ms *ms, char **line)
 {
 	t_ast	*ast;
@@ -121,9 +121,9 @@ int main(int argc, char **argv, char **envp)
 	minishell(&ms);
 	minishell_cleanup(&ms);
 	return (ms.exit_code);
-}
+}*/
 
-/*
+
 //Parser testing main
 int main(int argc, char **argv, char **envp)
 {
@@ -157,6 +157,8 @@ int main(int argc, char **argv, char **envp)
 	printf("------------AST-------------- i=%ld curr=%ld\n", ms.tkns->i, ms.tkns->curr_tkn);
 	t_ast *ast = ft_prsr(ms.tkns, &ms);
 	printf("----------ast error %d-----------------\n", ms.prsr_err);
+	if (ms.prsr_err == 2)
+		printf("Error %d, current: %ld, token type: %d\n", ms.prsr_err, ms.tkns->curr_tkn - 1, ms.tkns->arr[ms.tkns->curr_tkn - 1].type);
 	if (ast)
 	{
 		printf("\nPRE EXPANSION\n");
@@ -176,4 +178,4 @@ int main(int argc, char **argv, char **envp)
 	free_array(ms.env);
 	free(ms.cwd);
 	return (0);
-}*/
+}
