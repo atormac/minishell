@@ -6,12 +6,12 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:31 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/15 17:04:20 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/15 19:34:27 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
-#include "../include/builtin.h"
+#include "../../include/minishell.h"
+#include "../../include/builtin.h"
 
 char	*path_join(char *path, char *bin);
 char	**path_get(char **envp);

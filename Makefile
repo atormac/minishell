@@ -6,7 +6,7 @@
 #    By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/11 21:03:29 by atorma            #+#    #+#              #
-#    Updated: 2024/07/15 19:21:18 by atorma           ###   ########.fr        #
+#    Updated: 2024/07/15 19:33:54 by atorma           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,8 +18,7 @@ LIBDIR = ./libft
 LIBS = $(LIBDIR)/libft.a
 INCLUDE_DIR = ./include
 SOURCE_DIR = source
-SOURCES = main.c prompt.c commands.c path.c exec.c \
-		  pid.c utils.c args.c signals.c redirect.c \
+SOURCES = main.c prompt.c pid.c utils.c args.c signals.c redirect.c \
 		  error.c check.c heredoc.c
 
 ENV_DIR = source/environment
@@ -29,6 +28,10 @@ ENV_OBJ = $(addprefix $(ENV_DIR)/,$(ENV_SRC:.c=.o))
 BUILTIN_DIR = source/builtin
 BUILTIN_SRC = builtin.c export.c
 BUILTIN_OBJ = $(addprefix $(BUILTIN_DIR)/,$(BUILTIN_SRC:.c=.o))
+
+EXEC_DIR = source/execution
+EXEC_SRC = commands.c exec.c path.c
+EXEC_OBJ = $(addprefix $(EXEC_DIR)/,$(EXEC_SRC:.c=.o))
 
 TKNS_DIR = source/tkns
 TKNS_SRC = tkns.c tkns_mem.c tkns_utils.c
@@ -45,7 +48,7 @@ EXPD_OBJ = $(addprefix $(EXPD_DIR)/,$(EXPD_SRC:.c=.o))
 
 
 OBJECTS = $(addprefix $(SOURCE_DIR)/,$(SOURCES:.c=.o))
-OBJECTS += $(ENV_OBJ) $(BUILTIN_OBJ) $(TKNS_OBJ) $(PRSR_OBJ) $(EXPD_OBJ)
+OBJECTS += $(ENV_OBJ) $(BUILTIN_OBJ) $(EXEC_OBJ) $(TKNS_OBJ) $(PRSR_OBJ) $(EXPD_OBJ)
 
 target debug: CC = clang
 target debug: CFLAGS += -fsanitize=address,undefined -g 
