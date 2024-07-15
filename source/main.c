@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/15 19:05:24 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/15 19:46:11 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ static	int	minishell_init(t_ms *ms, char **envp)
 	ms->env = env_clone(envp);
 	if (!ms->env)
 		return (0);
-	if (!set_shlvl(ms))
+	if (!env_update_shlvl(ms))
 		return (0);
-	if (!set_cwd(ms))
+	if (!env_set_cwd(ms))
 		return (0);
 	if (!init_signals_parent(ms))
 		return (0);
