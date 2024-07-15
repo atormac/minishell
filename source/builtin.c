@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:23 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/15 17:54:19 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/15 18:06:12 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,8 +156,6 @@ int	builtin_env(t_ms *ms, int id, char **args)
 	}
 	if (id == BUILTIN_EXPORT)
 		return (builtin_export(ms, args));
-	if (args_count(args) == 0)
-		return (2);
 	else if (id == BUILTIN_UNSET)
 	{
 		while (args[++i])
