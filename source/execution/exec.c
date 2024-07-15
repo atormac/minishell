@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:31 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/15 19:34:27 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/15 19:36:38 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ static void	exec_piped(t_ms *ms, t_ast *ast, int cmd_id)
 	if (cmd_id > CMD_FIRST)
 		close(prev_fd[0]);
 }
-
 
 void	exec_cmd(t_ms *ms, t_ast *ast, int cmd_id)
 {

@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:18 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/15 19:34:36 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/15 19:37:35 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,9 @@ static char	*path_search(t_ms *ms, char *cmd)
 	{
 		cmd_path = path_join(path[i], cmd);
 		if (!cmd_path)
-			break;
+			break ;
 		if (access(cmd_path, F_OK) == 0)
-			break;
+			break ;
 		free(cmd_path);
 		cmd_path = NULL;
 		i++;
@@ -94,7 +94,8 @@ char	*path_find_bin(t_ms *ms, char *cmd)
 
 	if (cmd[0] == '.' && cmd[1] == '\0')
 	{
-		error_print(cmd, "filename argument required\n.: usage: . filename [arguments]");
+		error_print(cmd,
+			"filename argument required\n.: usage: . filename [arguments]");
 		ms->exit_code = 2;
 		return (NULL);
 	}
