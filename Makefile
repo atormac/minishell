@@ -6,7 +6,7 @@
 #    By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/11 21:03:29 by atorma            #+#    #+#              #
-#    Updated: 2024/07/15 18:19:54 by atorma           ###   ########.fr        #
+#    Updated: 2024/07/15 19:01:43 by atorma           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,8 +19,12 @@ LIBS = $(LIBDIR)/libft.a
 INCLUDE_DIR = ./include
 SOURCE_DIR = source
 SOURCES = main.c prompt.c commands.c path.c exec.c \
-		  environment.c pid.c utils.c args.c signals.c redirect.c \
+		  pid.c utils.c args.c signals.c redirect.c \
 		  error.c check.c heredoc.c
+
+ENV_DIR = source/environment
+ENV_SRC = env.c
+ENV_OBJ = $(addprefix $(ENV_DIR)/,$(ENV_SRC:.c=.o))
 
 BUILTIN_DIR = source/builtin
 BUILTIN_SRC = builtin.c export.c
@@ -41,7 +45,7 @@ EXPD_OBJ = $(addprefix $(EXPD_DIR)/,$(EXPD_SRC:.c=.o))
 
 
 OBJECTS = $(addprefix $(SOURCE_DIR)/,$(SOURCES:.c=.o))
-OBJECTS += $(BUILTIN_OBJ) $(TKNS_OBJ) $(PRSR_OBJ) $(EXPD_OBJ)
+OBJECTS += $(ENV_OBJ) $(BUILTIN_OBJ) $(TKNS_OBJ) $(PRSR_OBJ) $(EXPD_OBJ)
 
 target debug: CC = clang
 target debug: CFLAGS += -fsanitize=address,undefined -g 
