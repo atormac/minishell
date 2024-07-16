@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/16 13:28:29 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/07/16 23:55:56 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,9 +127,8 @@ int main(int argc, char **argv, char **envp)
 	return (ms.exit_code);
 }
 
-//Parser testing main
-
 /*
+//Parser testing main
 int main(int argc, char **argv, char **envp)
 {
 	
@@ -183,5 +182,4 @@ int main(int argc, char **argv, char **envp)
 	free_array(ms.env);
 	free(ms.cwd);
 	return (0);
-<<<<<<< HEAD
 }*/
