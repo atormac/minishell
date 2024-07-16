@@ -59,8 +59,8 @@ static void	exec_fork(t_ms *ms, t_ast *ast, int cmd_id, int *prev_fd)
 	if (ast->pid == -1)
 	{
 		error_print("fork", NULL);
-		close(ms->pipe_read);
-		close(ms->pipe_write);
+		close(ms->pipe[0]);
+		close(ms->pipe[1]);
 		return ;
 	}
 	if (ast->pid == 0)
@@ -84,8 +84,8 @@ static void	exec_piped(t_ms *ms, t_ast *ast, int cmd_id)
 	int		pipefd[2];
 
 	ast->pid = -1;
-	prev_fd[0] = ms->pipe_read;
-	prev_fd[1] = ms->pipe_write;
+	prev_fd[0] = ms->pipe[0];
+	prev_fd[1] = ms->pipe[1];
 	if (cmd_id < CMD_LAST)
 	{
 		if (pipe(pipefd) == -1)
@@ -93,11 +93,11 @@ static void	exec_piped(t_ms *ms, t_ast *ast, int cmd_id)
 			error_print("pipe", NULL);
 			return ;
 		}
-		ms->pipe_read = pipefd[0];
-		ms->pipe_write = pipefd[1];
+		ms->pipe[0] = pipefd[0];
+		ms->pipe[1] = pipefd[1];
 	}
 	exec_fork(ms, ast, cmd_id, prev_fd);
-	close(ms->pipe_write);
+	close(ms->pipe[1]);
 	if (cmd_id > CMD_FIRST)
 		close(prev_fd[0]);
 }

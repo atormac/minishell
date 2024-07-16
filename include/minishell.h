@@ -35,8 +35,7 @@ typedef struct t_ms
 	char			**path;
 	char			*cwd;
 	int				abort;
-	int				pipe_read;
-	int				pipe_write;
+	int				pipe[2];
 	int				fd_heredoc;
 	int				exit_code;
 	int				do_exit;

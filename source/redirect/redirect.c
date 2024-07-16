@@ -84,18 +84,18 @@ int	redirect(t_ms *ms, t_ast *ast, int cmd_id, int *prev_fd)
 	if (cmd_id == CMD_NOPIPE)
 		return (1);
 	ret = 1;
-	if (cmd_id > CMD_FIRST && redir_fd != STDIN_FILENO && dup2(prev_fd[0], STDIN_FILENO) == -1)
+	if (cmd_id > CMD_FIRST && redir_fd != 0 && dup2(prev_fd[0], STDIN_FILENO) == -1)
 	{
 		error_print("dup2", NULL);
 		ret = 0;
 	}
-	if (cmd_id < CMD_LAST && redir_fd != STDOUT_FILENO && dup2(ms->pipe_write, STDOUT_FILENO) == -1)
+	if (cmd_id < CMD_LAST && redir_fd != 1 && dup2(ms->pipe[1], STDOUT_FILENO) == -1)
 	{
 		error_print("dup2", NULL);
 		ret = 0;
 	}
-	close(ms->pipe_read);
-	close(ms->pipe_write);
+	close(ms->pipe[0]);
+	close(ms->pipe[1]);
 	if (cmd_id < CMD_LAST)
 		close(prev_fd[0]);
 	return (ret);

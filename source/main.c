@@ -49,10 +49,10 @@ void	minishell_cleanup(t_ms *ms)
 {
 	free_array(ms->env);
 	free(ms->cwd);
-	if (ms->pipe_read >= 0)
-		close(ms->pipe_read);
-	if (ms->pipe_write >= 0)
-		close(ms->pipe_read);
+	if (ms->pipe[0]>= 0)
+		close(ms->pipe[0]);
+	if (ms->pipe[1] >= 0)
+		close(ms->pipe[1]);
 }
 
 static void	process_line(t_ms *ms, char **line)
@@ -60,8 +60,8 @@ static void	process_line(t_ms *ms, char **line)
 	t_ast	*ast;
 
 	ms->abort = 0;
-	ms->pipe_read = -1;
-	ms->pipe_write = -1;
+	ms->pipe[0] = -1;
+	ms->pipe[1] = -1;
 	ft_get_tokens(ms, *line);
 	if (!ms->tkns)
 		return ;
