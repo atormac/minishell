@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:15:59 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/12 14:44:23 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/16 00:39:59 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -64,7 +64,7 @@ void	ft_add_tkn(t_ms *ms, char **line)
 		ft_get_cmnd_str(ms, line);
 	else
 	{
-		if (ms->tkns->arr[ms->tkns->i].type < 5)
+		if (ms->tkns->arr[ms->tkns->i].type <= 5)
 			*line += 1;
 		else
 			*line += 2;
