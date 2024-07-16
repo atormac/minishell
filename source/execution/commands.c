@@ -69,6 +69,8 @@ void	commands_exec(t_ms *ms, t_ast *ast, t_ast *prev)
 	static t_ast	*root;
 	int				id;
 
+	if (ms->abort == 1)
+		return ;
 	if (ast == prev)
 		root = ast;
 	if (ast->type == t_cmnd && ast->expd_str)

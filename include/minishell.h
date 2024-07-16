@@ -34,10 +34,10 @@ typedef struct t_ms
 	char			**env;
 	char			**path;
 	char			*cwd;
+	int				abort;
 	int				pipe_read;
 	int				pipe_write;
 	int				fd_heredoc;
-	int				cmd_error;
 	int				exit_code;
 	int				do_exit;
 	struct s_tkns	*tkns;

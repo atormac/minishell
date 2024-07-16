@@ -28,7 +28,7 @@ static	int	minishell_init(t_ms *ms, char **envp)
 {
 	ms->do_exit = 0;
 	ms->exit_code = 0;
-	ms->cmd_error = 0;
+	ms->abort = 0;
 	ms->fd_heredoc = -1;
 	ms->prsr_err = 0;
 	ms->cwd = NULL;
@@ -59,7 +59,7 @@ static void	process_line(t_ms *ms, char **line)
 {
 	t_ast	*ast;
 
-	ms->cmd_error = 0;
+	ms->abort = 0;
 	ms->pipe_read = -1;
 	ms->pipe_write = -1;
 	ft_get_tokens(ms, *line);
@@ -91,7 +91,18 @@ static	void	minishell(t_ms *ms)
 	while (1)
 	{
 		prompt_update(ms, prompt, sizeof(prompt));
-		line = readline(prompt);
+		if (isatty(STDIN_FILENO))
+			line = readline(prompt);
+		else
+		{
+			char *tmp;
+			tmp = get_next_line(STDIN_FILENO);
+			if (!tmp)
+				line = NULL;
+			else
+				line = ft_strtrim(tmp, "\n");
+			free(tmp);
+		}
 		if (line == NULL)
 			break;
 		if (*line)
@@ -99,11 +110,12 @@ static	void	minishell(t_ms *ms)
 			add_history(line);
 			process_line(ms, &line);
 		}
+		free(line);
+		line = NULL;
 		if (ms->do_exit)
 			break;
-		free(line);
 	}
-	printf("exit\n");
+	//printf("exit\n");
 	free(line);
 }
 

@@ -123,5 +123,5 @@ void	exec_cmd(t_ms *ms, t_ast *ast, int cmd_id)
 	if (ms->fd_heredoc >= 0)
 		close(ms->fd_heredoc);
 	if (ast->pid == -1)
-		ms->cmd_error = 1;
+		ms->abort = 1;
 }
