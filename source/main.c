@@ -91,18 +91,7 @@ static	void	minishell(t_ms *ms)
 	while (1)
 	{
 		prompt_update(ms, prompt, sizeof(prompt));
-		if (isatty(STDIN_FILENO))
-			line = readline(prompt);
-		else
-		{
-			char *tmp;
-			tmp = get_next_line(STDIN_FILENO);
-			if (!tmp)
-				line = NULL;
-			else
-				line = ft_strtrim(tmp, "\n");
-			free(tmp);
-		}
+		line = readline(prompt);
 		if (line == NULL)
 			break;
 		if (*line)
@@ -115,7 +104,7 @@ static	void	minishell(t_ms *ms)
 		if (ms->do_exit)
 			break;
 	}
-	//printf("exit\n");
+	printf("exit\n");
 	free(line);
 }
 
