@@ -1,55 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   environment.c                                      :+:      :+:    :+:   */
+/*   env_var.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/25 14:30:53 by atorma            #+#    #+#             */
-/*   Updated: 2024/06/26 20:36:54 by atorma           ###   ########.fr       */
+/*   Created: 2024/07/15 19:21:06 by atorma            #+#    #+#             */
+/*   Updated: 2024/07/15 19:25:59 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
+#include "../../include/environment.h"
 
-char	**env_clone(char **envp)
+static int	find_ptr_index(char **env, char *var)
 {
-	char	**ret;
 	int		i;
+	char	*ptr;
 
 	i = 0;
-	while (envp[i])
-		i++;
-	ret = ft_calloc(1, ((i + 1) * sizeof(char*)));
-	if (!ret)
-		return (NULL);
-	i = 0;
-	while (envp[i])
-	{
-		ret[i] = ft_strdup(envp[i]);
-		if (!ret[i])
-		{
-			free_array(ret);
-			return (0);
-		}
-		i++;
-	}
-	return (ret);
-}
-
-void	env_print(char **env)
-{
-	int	i;
-
-	if (!env)
-		return ;
-	i = 0;
+	ptr = env_var_get(env, var);
+	if (ptr)
+		ptr = ptr - ft_strlen(var) - 1;
 	while (env[i])
 	{
-		if (env[i][0] != '\0')
-			printf("%s\n", env[i]);
+		if (ptr && env[i] == ptr)
+			return (i);
+		else if (!ptr && env[i][0] == '\0')
+			return (i);
 		i++;
 	}
+	return (-1);
 }
 
 char	*env_var_get(char **env, char *var)
@@ -69,7 +50,6 @@ char	*env_var_get(char **env, char *var)
 	}
 	return (NULL);
 }
-
 
 void	env_var_unset(char **env, char *var)
 {
@@ -91,34 +71,14 @@ static int	env_var_add(t_ms *ms, char *var_str)
 	i = 0;
 	while (ms->env && ms->env[i])
 		i++;
-	new = ft_calloc(1, (i + 2) * sizeof(char*));
+	new = ft_calloc(1, (i + 2) * sizeof(char *));
 	if (!new)
 		return (0);
-	ft_memcpy(new, ms->env, i * sizeof(char*));
+	ft_memcpy(new, ms->env, i * sizeof(char *));
 	new[i] = var_str;
 	free(ms->env);
 	ms->env = new;
 	return (1);
-}
-
-static int find_ptr_index(char **env, char *var)
-{
-	int		i;
-	char	*ptr;
-
-	i = 0;
-	ptr = env_var_get(env, var);
-	if (ptr)
-		ptr = ptr - ft_strlen(var) - 1;
-	while (env[i])
-	{
-		if (ptr && env[i] == ptr)
-				return (i);
-		else if (!ptr && env[i][0] == '\0')
-				return (i);
-		i++;
-	}
-	return (-1);
 }
 
 int	env_var_set(t_ms *ms, char *var, char *val)

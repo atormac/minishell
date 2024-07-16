@@ -6,19 +6,19 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 19:36:35 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/05 19:38:17 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/15 20:38:32 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
-#include "../include/environment.h"
+#include "../../include/minishell.h"
+#include "../../include/environment.h"
 #include <sys/stat.h>
 
 void	error_cmd(char *s);
 
-int check_cmd(char *cmd)
+int	check_cmd(char *cmd)
 {
-	struct stat file_stat;
+	struct stat	file_stat;
 
 	if (access(cmd, F_OK) != 0)
 	{

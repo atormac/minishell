@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 18:15:45 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/10 16:08:43 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/15 20:27:41 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,18 @@ void	error_cmd(char *s)
 	ft_strlcat(buffer, ": ", sizeof(buffer) - 1);
 	ft_strlcat(buffer, "command not found", sizeof(buffer) - 1);
 	ft_strlcat(buffer, "\n", sizeof(buffer));
+	ft_putstr_fd(buffer, STDERR_FILENO);
+}
+
+void error_heredoc(char *eof)
+{
+	char		buffer[1024];
+	const char	*here_error;
+
+	here_error = "here-document at line 1 delimited by end-of-file (wanted `";
+	ft_strlcpy(buffer, "minishell: warning: ", sizeof(buffer) - 1);
+	ft_strlcat(buffer, here_error, sizeof(buffer) - 1);
+	ft_strlcat(buffer, eof, sizeof(buffer) - 1);
+	ft_strlcat(buffer, "')\n", sizeof(buffer));
 	ft_putstr_fd(buffer, STDERR_FILENO);
 }

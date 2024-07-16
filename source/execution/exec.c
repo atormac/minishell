@@ -6,12 +6,12 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:31 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/14 16:26:40 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/15 19:36:38 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
-#include "../include/builtin.h"
+#include "../../include/minishell.h"
+#include "../../include/builtin.h"
 
 char	*path_join(char *path, char *bin);
 char	**path_get(char **envp);
@@ -27,18 +27,14 @@ static int	exec_builtin(t_ms *ms, int id, char **args)
 	if (id == BUILTIN_ECHO)
 		builtin_echo(args);
 	else if (id == BUILTIN_PWD)
-		ret = printf("%s\n", ms->cwd);
+		printf("%s\n", ms->cwd);
 	else if (id == BUILTIN_ENV || id == BUILTIN_EXPORT || id == BUILTIN_UNSET)
 		ret = builtin_env(ms, id, args);
 	else if (id == BUILTIN_CD)
 		ret = builtin_cd(ms, args, args[0]);
+	else if (id == BUILTIN_EXIT)
+		ret = builtin_exit(ms, args);
 	ms->exit_code = ret;
-	if (id == BUILTIN_EXIT)
-	{
-		if (args[0])
-			ms->exit_code = ft_atoi(args[0]);
-		ms->do_exit = 1;
-	}
 	return (1);
 }
 
@@ -55,41 +51,39 @@ static int	exec_bin(t_ms *ms, char **args)
 	return (ret);
 }
 
-static pid_t exec_fork(t_ms *ms, t_ast *ast, int cmd_id, int *prev_fd, char **args)
+static void	exec_fork(t_ms *ms, t_ast *ast, int cmd_id, int *prev_fd)
 {
-	pid_t	pid;
 	int		builtin;
 
-	pid = fork();
-	if (pid == -1)
+	ast->pid = fork();
+	if (ast->pid == -1)
 	{
 		error_print("fork", NULL);
 		close(ms->pipe_read);
 		close(ms->pipe_write);
-		return (-1);
+		return ;
 	}
-	if (pid == 0)
+	if (ast->pid == 0)
 	{
-		builtin = is_builtin(args[0]);
+		builtin = is_builtin(ast->expd_str[0]);
 		if (redirect(ms, ast, cmd_id, prev_fd))
 		{
 			if (builtin)
-				exec_builtin(ms, builtin, &args[1]);
+				exec_builtin(ms, builtin, &ast->expd_str[1]);
 			else
-				exec_bin(ms, args);
+				exec_bin(ms, ast->expd_str);
 		}
 		minishell_cleanup(ms);
 		exit(ms->exit_code);
 	}
-	return (pid);
 }
 
-static pid_t	exec_piped(t_ms *ms, t_ast *ast, int cmd_id, char **args)
+static void	exec_piped(t_ms *ms, t_ast *ast, int cmd_id)
 {
 	int		prev_fd[2];
 	int		pipefd[2];
-	pid_t	pid;
 
+	ast->pid = -1;
 	prev_fd[0] = ms->pipe_read;
 	prev_fd[1] = ms->pipe_write;
 	if (cmd_id < CMD_LAST)
@@ -97,39 +91,33 @@ static pid_t	exec_piped(t_ms *ms, t_ast *ast, int cmd_id, char **args)
 		if (pipe(pipefd) == -1)
 		{
 			error_print("pipe", NULL);
-			return (-1);
+			return ;
 		}
 		ms->pipe_read = pipefd[0];
 		ms->pipe_write = pipefd[1];
 	}
-	pid = exec_fork(ms, ast, cmd_id, prev_fd, args);
+	exec_fork(ms, ast, cmd_id, prev_fd);
 	close(ms->pipe_write);
 	if (cmd_id > CMD_FIRST)
 		close(prev_fd[0]);
-	return (pid);
 }
-
 
 void	exec_cmd(t_ms *ms, t_ast *ast, int cmd_id)
 {
 	int	builtin;
-	char	**args;
 
-	if (ms->cmd_error)
-		return ;
 	if (ast->io && ast->io->type == t_lwrlwr)
 	{
 		if (!heredoc_prompt(ms, ast->io->expd_str[0]))
 			return ;
 	}
-	args = ast->expd_str;
-	builtin = is_builtin(args[0]);
+	builtin = is_builtin(ast->expd_str[0]);
 	if (builtin && !ast->io && cmd_id == CMD_NOPIPE)
-		exec_builtin(ms, builtin, &args[1]);
+		exec_builtin(ms, builtin, &ast->expd_str[1]);
 	else if (cmd_id == CMD_NOPIPE)
-		ast->pid = exec_fork(ms, ast, cmd_id, NULL, args);
+		exec_fork(ms, ast, cmd_id, NULL);
 	else
-		ast->pid = exec_piped(ms, ast, cmd_id, args);
+		exec_piped(ms, ast, cmd_id);
 	if (ms->fd_heredoc >= 0)
 		close(ms->fd_heredoc);
 	if (ast->pid == -1)

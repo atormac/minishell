@@ -6,13 +6,13 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:23 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/10 16:54:42 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/15 19:47:57 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
-#include "../include/builtin.h"
-#include "../include/environment.h"
+#include "../../include/minishell.h"
+#include "../../include/builtin.h"
+#include "../../include/environment.h"
 
 int	is_builtin(char	*cmd)
 {
@@ -77,27 +77,8 @@ int	builtin_cd(t_ms *ms, char **args, char *dir)
 		error_builtin("cd", dir, NULL);
 		return (1);
 	}
-	if (!update_cwd(ms))
+	if (!env_update_cwd(ms))
 		return (1);
-	return (0);
-}
-
-static int	builtin_export(t_ms *ms, char **args)
-{
-	int		i;
-	char	*val;
-
-	i = 0;
-	while (args[i])
-	{
-		val = ft_strchr(args[i], '=');
-		if (!val || val == args[i])
-			return (1);
-		*val = '\0';
-		val++;
-		env_var_set(ms, args[i], val);
-		i++;
-	}
 	return (0);
 }
 
@@ -111,8 +92,6 @@ int	builtin_env(t_ms *ms, int id, char **args)
 		env_print(ms->env);
 		return (0);
 	}
-	if (args_count(args) == 0)
-		return (2);
 	if (id == BUILTIN_EXPORT)
 		return (builtin_export(ms, args));
 	else if (id == BUILTIN_UNSET)

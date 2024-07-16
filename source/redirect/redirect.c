@@ -6,11 +6,11 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 18:14:21 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/14 16:17:59 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/15 20:53:31 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 #include <fcntl.h>
 
 static int	open_infile(t_ms *ms, t_ast *io, int *to_fd)
@@ -37,7 +37,7 @@ static int	open_outfile(t_ast *io, int *to_fd)
 	return (fd);
 }
 
-static int	redirect_io(t_ms *ms, t_ast *io)
+static int	redirect_io(t_ms *ms, t_ast *io, int *redir_fd)
 {
 	int	fd;
 	int	to_fd;
@@ -55,44 +55,44 @@ static int	redirect_io(t_ms *ms, t_ast *io)
 	if (dup2(fd, to_fd) == -1)
 		error_print("dup2", NULL);
 	close(fd);
+	*redir_fd = to_fd;
 	return (1);
 }
 
-static int redirect_io_inout(t_ms *ms, t_ast *ast)
+static int	redirect_io_inout(t_ms *ms, t_ast *ast, int *redir_fd)
 {
-	t_ast *io;
+	t_ast	*io;
 
 	io = ast->io;
-	if (!io)
-		return (1);
-	if (!redirect_io(ms, io))
-		return (0);
-	io = io->io;
-	if (!io)
-		return (1);
-	if (!redirect_io(ms, io))
-		return (0);
+	*redir_fd = -1;
+	while (io)
+	{
+		if (!redirect_io(ms, io, redir_fd))
+			return (0);
+		io = io->io;
+	}
 	return (1);
 }
 
 int	redirect(t_ms *ms, t_ast *ast, int cmd_id, int *prev_fd)
 {
 	int	ret;
+	int	redir_fd;
 
-	if (!redirect_io_inout(ms, ast))
+	if (!redirect_io_inout(ms, ast, &redir_fd))
 		return (0);
 	if (cmd_id == CMD_NOPIPE)
 		return (1);
 	ret = 1;
-	if (cmd_id > CMD_FIRST && dup2(prev_fd[0], STDIN_FILENO) == -1)
+	if (cmd_id > CMD_FIRST && redir_fd != STDIN_FILENO && dup2(prev_fd[0], STDIN_FILENO) == -1)
 	{
-			error_print("dup2", NULL);
-			ret = 0;
+		error_print("dup2", NULL);
+		ret = 0;
 	}
-	if (cmd_id < CMD_LAST && dup2(ms->pipe_write, STDOUT_FILENO) == -1)
+	if (cmd_id < CMD_LAST && redir_fd != STDOUT_FILENO && dup2(ms->pipe_write, STDOUT_FILENO) == -1)
 	{
-			error_print("dup2", NULL);
-			ret = 0;
+		error_print("dup2", NULL);
+		ret = 0;
 	}
 	close(ms->pipe_read);
 	close(ms->pipe_write);
@@ -100,4 +100,3 @@ int	redirect(t_ms *ms, t_ast *ast, int cmd_id, int *prev_fd)
 		close(prev_fd[0]);
 	return (ret);
 }
-

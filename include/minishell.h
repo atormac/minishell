@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 15:36:13 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/14 16:25:01 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/15 19:44:58 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,9 @@ int		check_cmd(char *cmd);
 void	error_print(char *s, char *error_str);
 void	error_builtin(char *builtin, char *s, char *error_str);
 size_t	args_count(char **args);
-int		set_shlvl(t_ms *ms);
-int		set_cwd(t_ms *ms);
-int		update_cwd(t_ms *ms);
 void	prompt_update(t_ms *ms, char *prompt, size_t size);
 int		is_executable(char *path);
-int		init_signals(t_ms *ms);
+int		init_signals_parent(t_ms *ms);
 void	minishell_cleanup(t_ms *ms);
 
 #endif

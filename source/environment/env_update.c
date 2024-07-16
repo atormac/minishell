@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   env_update.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/26 17:57:24 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/05 19:36:54 by atorma           ###   ########.fr       */
+/*   Created: 2024/07/15 19:41:56 by atorma            #+#    #+#             */
+/*   Updated: 2024/07/15 19:43:14 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
-#include "../include/environment.h"
+#include "../../include/minishell.h"
+#include "../../include/environment.h"
 
-int	set_shlvl(t_ms *ms)
+int	env_update_shlvl(t_ms *ms)
 {
 	char	*level;
 	int		new_lvl;
@@ -33,7 +33,7 @@ int	set_shlvl(t_ms *ms)
 	return (1);
 }
 
-int	set_cwd(t_ms *ms)
+int	env_set_cwd(t_ms *ms)
 {
 	char	*dir;
 
@@ -49,7 +49,7 @@ int	set_cwd(t_ms *ms)
 	return (1);
 }
 
-int	update_cwd(t_ms *ms)
+int	env_update_cwd(t_ms *ms)
 {
 	char	*dir;
 	char	*pwd_exists;

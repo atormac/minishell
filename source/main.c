@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/16 00:32:42 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/16 12:22:05 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-void	commands_wait(t_ms *ms, t_ast *ast);
+void	commands_wait(t_ms *ms, t_ast *ast, t_ast *limit);
 void	commands_exec(t_ms *ms, t_ast *ast, t_ast *prev);
 void	ft_free_ast(t_ast *ast);
 t_ast	*ft_prsr(t_tkns *tkns, t_ms *ms);
@@ -26,6 +26,7 @@ void	ft_expd_ast(t_ms *ms, t_ast *ast);
 
 static	int	minishell_init(t_ms *ms, char **envp)
 {
+	ms->do_exit = 0;
 	ms->exit_code = 0;
 	ms->cmd_error = 0;
 	ms->fd_heredoc = -1;
@@ -35,11 +36,11 @@ static	int	minishell_init(t_ms *ms, char **envp)
 	ms->env = env_clone(envp);
 	if (!ms->env)
 		return (0);
-	if (!set_shlvl(ms))
+	if (!env_update_shlvl(ms))
 		return (0);
-	if (!set_cwd(ms))
+	if (!env_set_cwd(ms))
 		return (0);
-	if (!init_signals(ms))
+	if (!init_signals_parent(ms))
 		return (0);
 	return (1);
 }
@@ -53,17 +54,20 @@ void	minishell_cleanup(t_ms *ms)
 	if (ms->pipe_write >= 0)
 		close(ms->pipe_read);
 }
+
 /*
-static void	process_line(t_ms *ms, char *line)
+static void	process_line(t_ms *ms, char **line)
 {
 	t_ast	*ast;
 
 	ms->cmd_error = 0;
 	ms->pipe_read = -1;
 	ms->pipe_write = -1;
-	ft_get_tokens(ms, line);
+	ft_get_tokens(ms, *line);
 	if (!ms->tkns)
 		return ;
+	free(*line);
+	*line = NULL;
 	ast = ft_prsr(ms->tkns, ms);
 	ft_free_tkns(ms);
 	if (!ast)
@@ -72,7 +76,7 @@ static void	process_line(t_ms *ms, char *line)
 	if (ms->prsr_err)
 		return (ft_free_ast(ast));
 	commands_exec(ms, ast, ast);
-	commands_wait(ms, ast);
+	commands_wait(ms, ast, NULL);
 	ms->exit_code = ms->exit_code & 0377; //Magic
 	ft_free_ast(ast);
 }
@@ -84,7 +88,6 @@ static	void	minishell(t_ms *ms)
 
 	while (1)
 	{
-		ms->do_exit = 0;
 		prompt_update(ms, prompt, sizeof(prompt));
 		line = readline(prompt);
 		if (line == NULL)
@@ -92,7 +95,7 @@ static	void	minishell(t_ms *ms)
 		if (*line)
 		{
 			add_history(line);
-			process_line(ms, line);
+			process_line(ms, &line);
 		}
 		if (ms->do_exit)
 			break;
@@ -121,8 +124,8 @@ int main(int argc, char **argv, char **envp)
 	return (ms.exit_code);
 }*/
 
-
 //Parser testing main
+
 int main(int argc, char **argv, char **envp)
 {
 	
@@ -155,6 +158,8 @@ int main(int argc, char **argv, char **envp)
 	printf("------------AST-------------- i=%ld curr=%ld\n", ms.tkns->i, ms.tkns->curr_tkn);
 	t_ast *ast = ft_prsr(ms.tkns, &ms);
 	printf("----------ast error %d-----------------\n", ms.prsr_err);
+	if (ms.prsr_err == 2)
+		printf("Error %d, current: %ld, token type: %d\n", ms.prsr_err, ms.tkns->curr_tkn - 1, ms.tkns->arr[ms.tkns->curr_tkn - 1].type);
 	if (ast)
 	{
 		printf("\nPRE EXPANSION\n");
