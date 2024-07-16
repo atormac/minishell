@@ -59,6 +59,8 @@ target debug: CFLAGS += -fsanitize=address,undefined -g
 
 all: $(NAME)
 
+bonus: $(NAME)
+
 export CC
 export CFLAGS
 
@@ -81,4 +83,4 @@ re: fclean all
 
 debug: re
 
-.PHONY: debug all clean fclean re
+.PHONY: debug all bonus clean fclean re
