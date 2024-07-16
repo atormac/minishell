@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/16 12:22:05 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/16 13:28:29 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ void	minishell_cleanup(t_ms *ms)
 		close(ms->pipe_read);
 }
 
-/*
 static void	process_line(t_ms *ms, char **line)
 {
 	t_ast	*ast;
@@ -69,9 +68,12 @@ static void	process_line(t_ms *ms, char **line)
 	free(*line);
 	*line = NULL;
 	ast = ft_prsr(ms->tkns, ms);
-	ft_free_tkns(ms);
-	if (!ast)
+	if (ms->prsr_err)
+	{
+		ft_prsr_err(ms, ast);
 		return ;
+	}	
+	ft_free_tkns(ms);
 	ft_expd_ast(ms, ast);
 	if (ms->prsr_err)
 		return (ft_free_ast(ast));
@@ -122,10 +124,10 @@ int main(int argc, char **argv, char **envp)
 	minishell(&ms);
 	minishell_cleanup(&ms);
 	return (ms.exit_code);
-}*/
+}
 
+/*
 //Parser testing main
-
 int main(int argc, char **argv, char **envp)
 {
 	
@@ -179,4 +181,4 @@ int main(int argc, char **argv, char **envp)
 	free_array(ms.env);
 	free(ms.cwd);
 	return (0);
-}
+}*/
