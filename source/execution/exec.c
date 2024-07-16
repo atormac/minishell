@@ -106,6 +106,8 @@ void	exec_cmd(t_ms *ms, t_ast *ast, int cmd_id)
 {
 	int	builtin;
 
+	if (ast->expd_str[0] == NULL)
+		return ;
 	if (ast->io && ast->io->type == t_lwrlwr)
 	{
 		if (!heredoc_prompt(ms, ast->io->expd_str[0]))
