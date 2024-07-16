@@ -81,20 +81,17 @@ static void	exec_fork(t_ms *ms, t_ast *ast, int cmd_id, int *prev_fd)
 static void	exec_piped(t_ms *ms, t_ast *ast, int cmd_id)
 {
 	int		prev_fd[2];
-	int		pipefd[2];
 
 	ast->pid = -1;
 	prev_fd[0] = ms->pipe[0];
 	prev_fd[1] = ms->pipe[1];
 	if (cmd_id < CMD_LAST)
 	{
-		if (pipe(pipefd) == -1)
+		if (pipe(ms->pipe) == -1)
 		{
 			error_print("pipe", NULL);
 			return ;
 		}
-		ms->pipe[0] = pipefd[0];
-		ms->pipe[1] = pipefd[1];
 	}
 	exec_fork(ms, ast, cmd_id, prev_fd);
 	close(ms->pipe[1]);
