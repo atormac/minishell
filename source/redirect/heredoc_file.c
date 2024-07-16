@@ -16,14 +16,14 @@ static void	convert_hex(char *src, char *dst, ssize_t size)
 	*dst = 0;
 }
 
-static int	generate_filename(char *out)
+static int	generate_filename(char *out, size_t out_size)
 {
 	char	tmp[32];
 	char	result[64];
 	int		fd;
 	ssize_t	size;
 
-	ft_strlcpy(out, "/tmp/tmp-", 256);
+	ft_strlcpy(out, "/tmp/tmp-", out_size);
 	fd = open("/dev/urandom", O_RDONLY);
 	if (fd == -1)
 		return (0);
@@ -32,7 +32,7 @@ static int	generate_filename(char *out)
 	if (size < 0)
 		return (0);
 	convert_hex(tmp, result, size);
-	ft_strlcat(out, result, 256);
+	ft_strlcat(out, result, out_size);
 	return (1);
 }
 
@@ -40,9 +40,9 @@ int	heredoc_file(int *out_write, int *out_read)
 {
 	int		fd_write;
 	int		fd_read;
-	char	filepath[256];
+	char	filepath[128];
 
-	if (!generate_filename(filepath))
+	if (!generate_filename(filepath, sizeof(filepath)))
 	{
 		error_print("Error generating heredoc filename!\n", "");
 		return (0);
