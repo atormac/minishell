@@ -60,18 +60,17 @@ static int	export_var(t_ms *ms, char *arg)
 	if (ft_isdigit(arg[0]))
 		return (1);
 	val = ft_strchr(arg, '=');
-	if (!val && !is_alnum(arg))
-		return (1);
-	if (val)
+	if (!val)
 	{
-		if (val == arg)
-			return (1);
-		*val = '\0';
 		if (!is_alnum(arg))
 			return (1);
-		val++;
-		env_var_set(ms, arg, val);
+		return (0);
 	}
+	*val = '\0';
+	if (!is_alnum(arg))
+		return (1);
+	val++;
+	env_var_set(ms, arg, val);
 	return (0);
 }
 

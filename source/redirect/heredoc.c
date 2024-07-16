@@ -11,48 +11,11 @@
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-#include <fcntl.h>
-#include <sys/stat.h>
-#include <sys/types.h>
 #include <readline/readline.h>
 
 char	*ft_expd_heredoc(char *s, t_ms *ms);
 void	error_heredoc(char *eof);
-
-static void	heredoc_gen_path(char *out)
-{
-	static int	counter;
-	char		*tmp;
-
-	ft_strlcpy(out, "/tmp/heredoc_ms_", 256);
-	counter++;
-	tmp = ft_itoa(counter);
-	if (tmp)
-		ft_strlcat(out, tmp, 256);
-	free(tmp);
-}
-
-static int	heredoc_file(int *out_write, int *out_read)
-{
-	int		fd_write;
-	int		fd_read;
-	char	filepath[256];
-
-	heredoc_gen_path(filepath);
-	fd_write = open(filepath, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	fd_read = open(filepath, O_RDONLY, 0644);
-	if (fd_write == -1 || fd_read == -1)
-	{
-		error_print("Error creating heredoc tmp file!\n", NULL);
-		close(fd_write);
-		close(fd_read);
-		return (0);
-	}
-	*out_write = fd_write;
-	*out_read = fd_read;
-	unlink(filepath);
-	return (1);
-}
+int		heredoc_file(int *out_write, int *out_read);
 
 static int	heredoc_write(t_ms *ms, int fd, char *line)
 {
