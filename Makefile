@@ -54,7 +54,7 @@ OBJECTS = $(addprefix $(SOURCE_DIR)/,$(SOURCES:.c=.o))
 OBJECTS += $(ENV_OBJ) $(BUILTIN_OBJ) $(EXEC_OBJ) $(REDIR_OBJ) \
 		   $(TKNS_OBJ) $(PRSR_OBJ) $(EXPD_OBJ)
 
-target debug: CC = clang
+target debug: CC = cc
 target debug: CFLAGS += -fsanitize=address,undefined -g 
 
 all: $(NAME)

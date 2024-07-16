@@ -30,13 +30,12 @@ static void	sig_parent_handler(int signo)
 	if (signo == SIGINT)
 	{
 		ft_putstr_fd("\n", STDOUT_FILENO);
-		if (errno == EINTR)
-		{
-			rl_on_new_line();
-			rl_replace_line("", 0);
-			rl_redisplay();
-			set_signal_exit(NULL);
-		}
+		if (!isatty(STDIN_FILENO) || errno != EINTR)
+			return ;
+		set_signal_exit(NULL);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
 	}
 }
 
