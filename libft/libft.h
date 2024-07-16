@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 17:37:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/06/15 19:59:27 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/16 22:30:53 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ void	print_ptr(struct t_write_state *ws, unsigned long long ptr);
 void	print_hex(struct t_write_state *ws, unsigned int n, int is_lower);
 void	hex_uint(struct t_write_state *ws, unsigned int n, int is_lower);
 void	print_hex_ptr(struct t_write_state *ws, unsigned long long n);
-int		ft_printf(int fd, const char *f, ...);
+int		ft_printf(const char *f, ...);
+int		ft_printf_fd(int fd, const char *f, ...);
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);
 int		ft_isalnum(int c);

@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 12:33:19 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/16 13:40:10 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/16 22:27:43 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -24,9 +24,9 @@ void	ft_prsr_err(t_ms *ms, t_ast *ast)
 			tkn_type = 10;
 		else
 			tkn_type = ms->tkns->arr[ms->tkns->curr_tkn].type;
-		ft_printf("minishell: syntax error near unexpected token `%s'\n",
+		ft_printf_fd(2, "minishell: syntax error near unexpected token `%s'\n",
 			tkns_arr[tkn_type]);
-		ms->exit_code = 258;
+		ms->exit_code = 2;
 	}
 	ft_free_tkns(ms);
 	ft_free_ast(ast);

@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 17:47:24 by atorma            #+#    #+#             */
-/*   Updated: 2024/05/01 12:50:41 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/16 22:26:23 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,36 @@ static void	format_print(struct t_write_state *ws, va_list ap, const char *f)
 		print_ptr(ws, va_arg(ap, unsigned long long));
 }
 
-int	ft_printf(int fd, const char *f, ...)
+int	ft_printf(const char *f, ...)
+{
+	va_list					ap;
+	struct t_write_state	ws;
+
+	ws.fd = 1;
+	ws.bytes_written = 0;
+	ws.ret_val = 0;
+	va_start(ap, f);
+	while (*f)
+	{
+		if (*f == '%' && ft_strchr("cspdiuxX%", *(f + 1)))
+		{
+			f++;
+			format_print(&ws, ap, f);
+		}
+		else
+			ft_write(&ws, (char *)f, 1);
+		if (ws.ret_val == -1)
+			break ;
+		f++;
+	}
+	va_end(ap);
+	if (ws.ret_val == -1)
+		return (-1);
+	return (ws.bytes_written);
+}
+
+
+int	ft_printf_fd(int fd, const char *f, ...)
 {
 	va_list					ap;
 	struct t_write_state	ws;
