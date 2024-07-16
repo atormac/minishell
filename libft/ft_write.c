@@ -18,7 +18,7 @@ void	ft_write(struct t_write_state *ws, char *buf, size_t buf_size)
 
 	if (buf_size == 0 || ws->ret_val == -1)
 		return ;
-	ret = write(1, buf, buf_size);
+	ret = write(ws->fd, buf, buf_size);
 	if (ret < 0)
 		ws->ret_val = -1;
 	ws->bytes_written += ret;

@@ -28,6 +28,7 @@ typedef struct s_list
 
 typedef struct t_write_state
 {
+	int		fd;
 	ssize_t	bytes_written;
 	ssize_t	ret_val;
 }	t_write_state;
@@ -49,7 +50,7 @@ void	print_ptr(struct t_write_state *ws, unsigned long long ptr);
 void	print_hex(struct t_write_state *ws, unsigned int n, int is_lower);
 void	hex_uint(struct t_write_state *ws, unsigned int n, int is_lower);
 void	print_hex_ptr(struct t_write_state *ws, unsigned long long n);
-int		ft_printf(const char *f, ...);
+int		ft_printf(int fd, const char *f, ...);
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);
 int		ft_isalnum(int c);

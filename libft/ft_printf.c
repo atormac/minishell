@@ -33,11 +33,12 @@ static void	format_print(struct t_write_state *ws, va_list ap, const char *f)
 		print_ptr(ws, va_arg(ap, unsigned long long));
 }
 
-int	ft_printf(const char *f, ...)
+int	ft_printf(int fd, const char *f, ...)
 {
 	va_list					ap;
 	struct t_write_state	ws;
 
+	ws.fd = fd;
 	ws.bytes_written = 0;
 	ws.ret_val = 0;
 	va_start(ap, f);
