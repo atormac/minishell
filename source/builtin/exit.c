@@ -34,15 +34,15 @@ int	builtin_exit(t_ms *ms, char **args)
 	ms->do_exit = 1;
 	if (args[0] == NULL)
 		return (0);
-	if (args_count(args) > 1)
-	{
-		error_print("exit", "too many arguments");
-		return (1);
-	}
 	if (!is_numeric(args[0]))
 	{
 		error_builtin("exit", args[0], "numeric argument required");
 		return (2);
+	}
+	if (args_count(args) > 1)
+	{
+		error_print("exit", "too many arguments");
+		return (1);
 	}
 	code = ft_atoi(args[0]);
 	return (code);
