@@ -126,8 +126,9 @@ int main(int argc, char **argv, char **envp)
 	return (ms.exit_code);
 }
 
-/*
 //Parser testing main
+
+/*
 int main(int argc, char **argv, char **envp)
 {
 	
@@ -181,4 +182,5 @@ int main(int argc, char **argv, char **envp)
 	free_array(ms.env);
 	free(ms.cwd);
 	return (0);
+<<<<<<< HEAD
 }*/

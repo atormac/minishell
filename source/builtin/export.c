@@ -40,22 +40,57 @@ static int	export_print(char **env)
 	return (0);
 }
 
+static int is_alnum(char *str)
+{
+	if (*str == '\0')
+		return (0);
+	while (*str)
+	{
+		if (!ft_isalnum(*str))
+			return (0);
+		str++;
+	}
+	return (1);
+}
+
+static int	export_var(t_ms *ms, char *arg)
+{
+	char	*val;
+
+	if (ft_isdigit(arg[0]))
+		return (1);
+	val = ft_strchr(arg, '=');
+	if (!val && !is_alnum(arg))
+		return (1);
+	if (val)
+	{
+		if (val == arg)
+			return (1);
+		*val = '\0';
+		if (!is_alnum(arg))
+			return (1);
+		val++;
+		env_var_set(ms, arg, val);
+	}
+	return (0);
+}
+
+void error_export(char *str);
+
 int	builtin_export(t_ms *ms, char **args)
 {
-	int		i;
-	char	*val;
+	int	i;
 
 	i = 0;
 	if (args[0] == NULL)
 		return (export_print(ms->env));
 	while (args[i])
 	{
-		val = ft_strchr(args[i], '=');
-		if (!val || val == args[i])
+		if (export_var(ms, args[i]) == 1)
+		{
+			error_export(args[i]);
 			return (1);
-		*val = '\0';
-		val++;
-		env_var_set(ms, args[i], val);
+		}
 		i++;
 	}
 	return (0);

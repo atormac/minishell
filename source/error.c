@@ -68,3 +68,13 @@ void error_heredoc(char *eof)
 	ft_strlcat(buffer, "')\n", sizeof(buffer));
 	ft_putstr_fd(buffer, STDERR_FILENO);
 }
+
+void error_export(char *str)
+{
+	char		buffer[1024];
+
+	ft_strlcpy(buffer, "minishell: export: `", sizeof(buffer) - 1);
+	ft_strlcat(buffer, str, sizeof(buffer) - 1);
+	ft_strlcat(buffer, "': not a valid identifier\n", sizeof(buffer));
+	ft_putstr_fd(buffer, STDERR_FILENO);
+}
