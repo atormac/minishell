@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 11:06:16 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/17 20:48:38 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/17 20:50:59 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -14,7 +14,8 @@
 static inline void	ft_find_substr(t_token *tk, const char **sp, int esc)
 {
 	char	*p;
-
+	
+	(void) tk;
 	p = ft_strchr(*sp + 1, **sp);
 	while (p && p[-1] == '\\' && esc)
 		p = ft_strchr(p + 1, **sp);
