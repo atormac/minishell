@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 11:06:16 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/17 20:50:59 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/17 21:29:14 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -47,7 +47,8 @@ static inline t_token	ft_get_token(const char **sp, char sep, int esc)
 			//if (token.end != NULL)
 			//	return (token);
 		}
-		(*sp)++;
+		if (**sp)
+			(*sp)++;
 	}
 	token.end = *sp;
 	return (token);
