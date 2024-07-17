@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 11:32:37 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/12 17:52:04 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/17 20:48:49 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -19,7 +19,7 @@ void	ft_print_expanded(t_ast *ast)
 	printf("Expanded cmnd: ");
 	while (ast->expd_str[i])
 	{
-		printf("%s ", ast->expd_str[i]);
+		printf("%s | ", ast->expd_str[i]);
 		i++;
 	}
 	printf("\n");

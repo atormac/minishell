@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 11:06:16 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/05 20:32:22 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/07/17 20:48:38 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -20,7 +20,7 @@ static inline void	ft_find_substr(t_token *tk, const char **sp, int esc)
 		p = ft_strchr(p + 1, **sp);
 	if (p)
 	{
-		tk->end = p + 1;
+		//tk->end = p + 1;
 		*sp = p + 1;
 	}
 }
@@ -43,8 +43,8 @@ static inline t_token	ft_get_token(const char **sp, char sep, int esc)
 		else if (**sp == '\'' || **sp == '"')
 		{
 			ft_find_substr(&token, sp, esc);
-			if (token.end != NULL)
-				return (token);
+			//if (token.end != NULL)
+			//	return (token);
 		}
 		(*sp)++;
 	}
