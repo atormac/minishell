@@ -6,24 +6,20 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 11:06:16 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/17 21:29:14 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/17 23:02:05 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
 
-static inline void	ft_find_substr(t_token *tk, const char **sp, int esc)
+static inline void	ft_find_substr(const char **sp, int esc)
 {
 	char	*p;
-	
-	(void) tk;
+
 	p = ft_strchr(*sp + 1, **sp);
 	while (p && p[-1] == '\\' && esc)
 		p = ft_strchr(p + 1, **sp);
 	if (p)
-	{
-		//tk->end = p + 1;
 		*sp = p + 1;
-	}
 }
 
 static inline t_token	ft_get_token(const char **sp, char sep, int esc)
@@ -42,11 +38,7 @@ static inline t_token	ft_get_token(const char **sp, char sep, int esc)
 		if (**sp == '\\' && esc)
 			(*sp)++;
 		else if (**sp == '\'' || **sp == '"')
-		{
-			ft_find_substr(&token, sp, esc);
-			//if (token.end != NULL)
-			//	return (token);
-		}
+			ft_find_substr(sp, esc);
 		if (**sp)
 			(*sp)++;
 	}
