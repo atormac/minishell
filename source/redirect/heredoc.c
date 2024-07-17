@@ -41,10 +41,12 @@ static int	heredoc_read(t_ms *ms, char *eof, int write_fd)
 	char	*line;
 
 	success = 1;
+
+	set_signals_heredoc();
 	while (1)
 	{
 		line = readline(">");
-		if (!line || ft_strcmp(line, eof) == 0)
+		if (!line || ms->stop_heredoc || ft_strcmp(line, eof) == 0)
 			break ;
 		success = heredoc_write(ms, write_fd, line);
 		if (!success)
@@ -52,9 +54,12 @@ static int	heredoc_read(t_ms *ms, char *eof, int write_fd)
 		free(line);
 		line = NULL;
 	}
+	set_signals_parent(ms);
 	if (!line)
 		error_heredoc(eof);
 	free(line);
+	if (ms->stop_heredoc)
+		return (0);
 	return (success);
 }
 

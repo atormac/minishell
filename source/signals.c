@@ -20,9 +20,35 @@ static void set_signal_exit(t_ms *ms)
 	static t_ms *ms_struct;
 
 	if (!ms)
+	{
 		ms_struct->exit_code = 130;
+		ms_struct->stop_heredoc = 1;
+	}
 	else
 		ms_struct = ms;
+}
+
+void	sig_handler_heredoc(int signo)
+{
+	if (signo == SIGINT)
+	{
+		ft_putstr_fd("\n", STDOUT_FILENO);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_done = 1;
+		set_signal_exit(NULL);
+	}
+}
+
+int event(void)
+{
+	return (0);
+}
+
+void	set_signals_heredoc(void)
+{
+	rl_event_hook = event;
+	signal(SIGINT, sig_handler_heredoc);
 }
 
 static void	sig_parent_handler(int signo)
@@ -39,12 +65,14 @@ static void	sig_parent_handler(int signo)
 	}
 }
 
-int	init_signals_parent(t_ms *ms)
+int	set_signals_parent(t_ms *ms)
 {
 	struct sigaction sa;
 
 	set_signal_exit(ms);
 
+	rl_done = 0;
+	rl_event_hook = NULL;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_handler = sig_parent_handler;
 	sa.sa_flags = SA_RESTART;

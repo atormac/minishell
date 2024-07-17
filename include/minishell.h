@@ -37,6 +37,7 @@ typedef struct t_ms
 	int				abort;
 	int				pipe[2];
 	int				fd_heredoc;
+	int				stop_heredoc;
 	int				exit_code;
 	int				do_exit;
 	struct s_tkns	*tkns;
@@ -54,7 +55,8 @@ void	error_builtin(char *builtin, char *s, char *error_str);
 size_t	args_count(char **args);
 void	prompt_update(t_ms *ms, char *prompt, size_t size);
 int		is_executable(char *path);
-int		init_signals_parent(t_ms *ms);
+int		set_signals_parent(t_ms *ms);
+void	set_signals_heredoc(void);
 void	minishell_cleanup(t_ms *ms);
 
 #endif

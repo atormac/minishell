@@ -40,7 +40,7 @@ static	int	minishell_init(t_ms *ms, char **envp)
 		return (0);
 	if (!env_set_cwd(ms))
 		return (0);
-	if (!init_signals_parent(ms))
+	if (!set_signals_parent(ms))
 		return (0);
 	return (1);
 }
@@ -60,6 +60,7 @@ static void	process_line(t_ms *ms, char **line)
 	t_ast	*ast;
 
 	ms->abort = 0;
+	ms->stop_heredoc = 0;
 	ms->pipe[0] = -1;
 	ms->pipe[1] = -1;
 	ft_get_tokens(ms, *line);
