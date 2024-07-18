@@ -94,9 +94,8 @@ int	redirect(t_ms *ms, t_ast *ast, int cmd_id, int *prev_fd)
 		error_print("dup2", NULL);
 		ret = 0;
 	}
-	close(ms->pipe[0]);
-	close(ms->pipe[1]);
-	if (cmd_id < CMD_LAST)
+	minishell_close(ms->pipe);
+	if (cmd_id < CMD_LAST && prev_fd[0] >= 0)
 		close(prev_fd[0]);
 	return (ret);
 }

@@ -59,8 +59,7 @@ static void	exec_fork(t_ms *ms, t_ast *ast, int cmd_id, int *prev_fd)
 	if (ast->pid == -1)
 	{
 		error_print("fork", NULL);
-		close(ms->pipe[0]);
-		close(ms->pipe[1]);
+		minishell_close(ms->pipe);
 		return ;
 	}
 	if (ast->pid == 0)
@@ -90,11 +89,13 @@ static void	exec_piped(t_ms *ms, t_ast *ast, int cmd_id)
 		if (pipe(ms->pipe) == -1)
 		{
 			error_print("pipe", NULL);
+			minishell_close(prev_fd);
 			return ;
 		}
 	}
 	exec_fork(ms, ast, cmd_id, prev_fd);
 	close(ms->pipe[1]);
+	ms->pipe[1] = -1;
 	if (cmd_id > CMD_FIRST)
 		close(prev_fd[0]);
 }

@@ -49,6 +49,9 @@ typedef struct t_ms
 #include "../source/prsr/prsr.h"
 #include "../source/expd/expd.h"
 
+int		minishell_init(t_ms *ms, char **envp);
+void	minishell_close(int *fd);
+void	minishell_cleanup(t_ms *ms);
 int		check_cmd(char *cmd);
 void	error_print(char *s, char *error_str);
 void	error_builtin(char *builtin, char *s, char *error_str);
@@ -57,6 +60,5 @@ void	prompt_update(t_ms *ms, char *prompt, size_t size);
 int		is_executable(char *path);
 int		set_signals_parent(t_ms *ms);
 void	set_signals_heredoc(void);
-void	minishell_cleanup(t_ms *ms);
 
 #endif

@@ -18,7 +18,7 @@ LIBDIR = ./libft
 LIBS = $(LIBDIR)/libft.a
 INCLUDE_DIR = ./include
 SOURCE_DIR = source
-SOURCES = main.c prompt.c pid.c args.c signals.c error.c 
+SOURCES = main.c minishell.c prompt.c pid.c args.c signals.c error.c 
 
 ENV_DIR = source/environment
 ENV_SRC = env.c env_var.c env_update.c

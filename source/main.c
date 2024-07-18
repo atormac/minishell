@@ -24,45 +24,13 @@ t_ast	*ft_prsr(t_tkns *tkns, t_ms *ms);
 t_ast	*ft_get_ast(t_tkns *tkns, int tree_top, t_ms *ms);
 void	ft_expd_ast(t_ms *ms, t_ast *ast);
 
-static	int	minishell_init(t_ms *ms, char **envp)
-{
-	ms->do_exit = 0;
-	ms->exit_code = 0;
-	ms->abort = 0;
-	ms->fd_heredoc = -1;
-	ms->prsr_err = 0;
-	ms->cwd = NULL;
-	ms->env = NULL;
-	ms->env = env_clone(envp);
-	if (!ms->env)
-		return (0);
-	if (!env_update_shlvl(ms))
-		return (0);
-	if (!env_set_cwd(ms))
-		return (0);
-	if (!set_signals_parent(ms))
-		return (0);
-	return (1);
-}
-
-void	minishell_cleanup(t_ms *ms)
-{
-	free_array(ms->env);
-	free(ms->cwd);
-	if (ms->pipe[0]>= 0)
-		close(ms->pipe[0]);
-	if (ms->pipe[1] >= 0)
-		close(ms->pipe[1]);
-}
-
 static void	process_line(t_ms *ms, char **line)
 {
 	t_ast	*ast;
 
 	ms->abort = 0;
 	ms->stop_heredoc = 0;
-	ms->pipe[0] = -1;
-	ms->pipe[1] = -1;
+	minishell_close(ms->pipe);
 	ft_get_tokens(ms, *line);
 	if (!ms->tkns)
 		return ;
