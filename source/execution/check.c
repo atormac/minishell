@@ -14,14 +14,33 @@
 #include "../../include/environment.h"
 #include <sys/stat.h>
 
-void	error_cmd(char *s);
+void	error_cmd(int print_ms, char *s);
 
-int	check_cmd_is_dot(char *cmd)
+int	check_empty(char *cmd)
 {
+	char	*end;
+
+	end = cmd;
+	while (*end && *end == ' ')
+		end++;
+	if (cmd[0] == '\0' || *end == '\0')
+		return (1);
+	return (0);
+}
+
+int	check_cmd_initial(t_ms *ms, char *cmd)
+{
+	if (check_empty(cmd))
+	{
+		error_cmd(1, cmd);
+		ms->exit_code = 127;
+		return (1);
+	}
 	if (cmd[0] == '.' && cmd[1] == '\0')
 	{
 		error_print(cmd,
 			"filename argument required\n.: usage: . filename [arguments]");
+		ms->exit_code = 2;
 		return (1);
 	}
 	return (0);
@@ -50,11 +69,16 @@ int	check_cmd(char *cmd)
 	return (0);
 }
 
-int	check_path_cmd(t_ms *ms, char *cmd, char *cmd_path)
+int	check_path_cmd(t_ms *ms, char *cmd, char *cmd_path, int err)
 {
+	if (err)
+	{
+		ms->exit_code = 1;
+		return (0);
+	}
 	if (!cmd_path)
 	{
-		error_cmd(cmd);
+		error_cmd(0, cmd);
 		ms->exit_code = 127;
 		return (0);
 	}

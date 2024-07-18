@@ -13,11 +13,10 @@
 #include "../../include/minishell.h"
 #include <sys/stat.h>
 
-void	error_cmd(char *s);
-int		check_cmd_is_dot(char *cmd);
-int		check_path_cmd(t_ms *ms, char *cmd, char *cmd_path);
+int		check_cmd_initial(t_ms *ms, char *cmd);
+int		check_path_cmd(t_ms *ms, char *cmd, char *cmd_path, int err);
 
-char	*path_join(char *path, char *bin)
+char	*path_join(char *path, char *bin, int *err)
 {
 	char	*ret;
 	size_t	path_len;
@@ -28,6 +27,7 @@ char	*path_join(char *path, char *bin)
 	ret = malloc(path_len + bin_len + 2);
 	if (!ret)
 	{
+		*err = 1;
 		error_print("malloc", NULL);
 		return (NULL);
 	}
@@ -55,24 +55,19 @@ char	**path_get(char **envp, int *err)
 	return (arr);
 }
 
-static char	*path_search(t_ms *ms, char *cmd)
+static char	*path_search(t_ms *ms, char *cmd, int *err)
 {
-	int		i;
 	char	*cmd_path;
 	char	**path;
-	int		err;
+	size_t	i;
 
 	i = 0;
 	cmd_path = NULL;
-	path = path_get(ms->env, &err);
-	if (err)
-		return (NULL);
-	while (path && path[i])
+	path = path_get(ms->env, err);
+	while (!*err && path && path[i])
 	{
-		cmd_path = path_join(path[i], cmd);
-		if (!cmd_path)
-			break ;
-		if (access(cmd_path, F_OK) == 0)
+		cmd_path = path_join(path[i], cmd, err);
+		if (!cmd_path || access(cmd_path, F_OK) == 0)
 			break ;
 		free(cmd_path);
 		cmd_path = NULL;
@@ -93,22 +88,21 @@ char	*path_abs_or_relative(t_ms *ms, char *cmd)
 char	*path_find_bin(t_ms *ms, char *cmd)
 {
 	char	*cmd_path;
+	int		err;
 
-	if (check_cmd_is_dot(cmd))
-	{
-		ms->exit_code = 2;
+	err = 0;
+	if (check_cmd_initial(ms, cmd))
 		return (NULL);
-	}
 	if (ft_strchr(cmd, '/'))
-		cmd_path = path_abs_or_relative(ms, cmd);
-	else
 	{
-		cmd_path = path_search(ms, cmd);
-		if (!check_path_cmd(ms, cmd, cmd_path))
-		{
-			free(cmd_path);
-			return (NULL);
-		}
+		cmd_path = path_abs_or_relative(ms, cmd);
+		return (cmd_path);
+	}
+	cmd_path = path_search(ms, cmd, &err);
+	if (!check_path_cmd(ms, cmd, cmd_path, err))
+	{
+		free(cmd_path);
+		return (NULL);
 	}
 	return (cmd_path);
 }

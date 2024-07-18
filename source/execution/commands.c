@@ -69,7 +69,7 @@ void	commands_exec(t_ms *ms, t_ast *ast, t_ast *prev)
 	static t_ast	*root;
 	int				id;
 
-	if (ms->abort == 1)
+	if (!ast || ms->abort == 1)
 		return ;
 	if (ast == prev)
 		root = ast;
