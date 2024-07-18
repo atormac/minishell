@@ -32,6 +32,8 @@ int	builtin_exit(t_ms *ms, char **args)
 	int	code;
 
 	ms->do_exit = 1;
+	if (isatty(STDIN_FILENO))
+		ft_putstr_fd("exit\n", STDOUT_FILENO);
 	if (args[0] == NULL)
 		return (0);
 	if (!is_numeric(args[0]))

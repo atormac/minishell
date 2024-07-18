@@ -83,7 +83,8 @@ static	void	minishell(t_ms *ms)
 		if (ms->do_exit)
 			break;
 	}
-	printf("exit\n");
+	if (!ms->do_exit)
+		ft_putstr_fd("exit\n", STDOUT_FILENO);
 	free(line);
 }
 
