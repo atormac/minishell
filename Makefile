@@ -18,7 +18,11 @@ LIBDIR = ./libft
 LIBS = $(LIBDIR)/libft.a
 INCLUDE_DIR = ./include
 SOURCE_DIR = source
-SOURCES = main.c minishell.c prompt.c pid.c args.c signals.c error.c 
+SOURCES = main.c
+
+MS_DIR = source/minishell
+MS_SRC = minishell.c prompt.c signals.c error.c utils.c
+MS_OBJ = $(addprefix $(MS_DIR)/,$(MS_SRC:.c=.o))
 
 ENV_DIR = source/environment
 ENV_SRC = env.c env_var.c env_update.c
@@ -51,7 +55,7 @@ EXPD_OBJ = $(addprefix $(EXPD_DIR)/,$(EXPD_SRC:.c=.o))
 
 
 OBJECTS = $(addprefix $(SOURCE_DIR)/,$(SOURCES:.c=.o))
-OBJECTS += $(ENV_OBJ) $(BUILTIN_OBJ) $(EXEC_OBJ) $(REDIR_OBJ) \
+OBJECTS += $(MS_OBJ) $(ENV_OBJ) $(BUILTIN_OBJ) $(EXEC_OBJ) $(REDIR_OBJ) \
 		   $(TKNS_OBJ) $(PRSR_OBJ) $(EXPD_OBJ)
 
 target debug: CC = cc

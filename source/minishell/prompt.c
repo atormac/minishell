@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
-#include "../include/environment.h"
+#include "../../include/minishell.h"
+#include "../../include/environment.h"
 
 static void	prompt_set_dir(t_ms *ms, char *prompt, size_t size)
 {

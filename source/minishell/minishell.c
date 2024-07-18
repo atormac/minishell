@@ -1,4 +1,4 @@
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 int	minishell_init(t_ms *ms, char **envp)
 {
