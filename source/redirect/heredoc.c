@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+#include "../../include/signals.h"
 #include <readline/readline.h>
 
 char	*ft_expd_heredoc(char *s, t_ms *ms);
@@ -41,7 +42,7 @@ static int	heredoc_read(t_ms *ms, char *eof, int write_fd)
 	char	*line;
 
 	success = 1;
-	set_signals_heredoc();
+	set_signals(ms, SIGNALS_HEREDOC);
 	while (1)
 	{
 		line = readline(">");
@@ -53,7 +54,7 @@ static int	heredoc_read(t_ms *ms, char *eof, int write_fd)
 		free(line);
 		line = NULL;
 	}
-	set_signals_parent(ms);
+	set_signals(ms, SIGNALS_PARENT);
 	if (!line)
 		error_heredoc(eof);
 	free(line);

@@ -12,6 +12,7 @@
 
 #include "../../include/minishell.h"
 #include "../../include/builtin.h"
+#include "../../include/signals.h"
 
 char	*path_join(char *path, char *bin);
 char	**path_get(char **envp);
@@ -65,6 +66,7 @@ static void	exec_fork(t_ms *ms, t_ast *ast, int cmd_id, int *prev_fd)
 	}
 	if (ast->pid == 0)
 	{
+		set_signals(ms, SIGNALS_DEFAULT);
 		builtin = is_builtin(ast->expd_str[0]);
 		if (redirect(ms, ast, cmd_id, prev_fd))
 		{

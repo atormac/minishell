@@ -58,7 +58,5 @@ void	error_builtin(char *builtin, char *s, char *error_str);
 size_t	args_count(char **args);
 void	prompt_update(t_ms *ms, char *prompt, size_t size);
 int		is_executable(char *path);
-int		set_signals_parent(t_ms *ms);
-void	set_signals_heredoc(void);
 
 #endif

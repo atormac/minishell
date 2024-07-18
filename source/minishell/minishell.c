@@ -1,4 +1,5 @@
 #include "../../include/minishell.h"
+#include "../../include/signals.h"
 
 int	minishell_init(t_ms *ms, char **envp)
 {
@@ -18,7 +19,7 @@ int	minishell_init(t_ms *ms, char **envp)
 		return (0);
 	if (!env_set_cwd(ms))
 		return (0);
-	if (!set_signals_parent(ms))
+	if (!set_signals(ms, SIGNALS_PARENT))
 		return (0);
 	return (1);
 }

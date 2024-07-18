@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+#include "../../include/signals.h"
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <signal.h>
@@ -42,12 +43,6 @@ void	sig_handler_heredoc(int signo)
 	}
 }
 
-void	set_signals_heredoc(void)
-{
-	rl_event_hook = event;
-	signal(SIGINT, sig_handler_heredoc);
-}
-
 static void	sig_parent_handler(int signo)
 {
 	if (signo == SIGINT)
@@ -62,18 +57,31 @@ static void	sig_parent_handler(int signo)
 	}
 }
 
-int	set_signals_parent(t_ms *ms)
+int	set_signals(t_ms *ms, int type)
 {
 	struct sigaction	sa;
 
 	set_signal_exit(ms);
-	rl_done = 0;
-	rl_event_hook = NULL;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_handler = sig_parent_handler;
-	sa.sa_flags = SA_RESTART;
-	sigaction(SIGINT, &sa, NULL);
-	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
-		return (0);
+	if (type == SIGNALS_PARENT)
+	{
+		rl_done = 0;
+		rl_event_hook = NULL;
+		sigemptyset(&sa.sa_mask);
+		sa.sa_handler = sig_parent_handler;
+		sa.sa_flags = SA_RESTART;
+		sigaction(SIGINT, &sa, NULL);
+		signal(SIGQUIT, SIG_IGN);
+	}
+	else if (type == SIGNALS_HEREDOC)
+	{
+		rl_event_hook = event;
+		signal(SIGINT, sig_handler_heredoc);
+		signal(SIGQUIT, SIG_IGN);
+	}
+	else if (type == SIGNALS_DEFAULT)
+	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
+	}
 	return (1);
 }
