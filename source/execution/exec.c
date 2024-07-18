@@ -39,7 +39,7 @@ static int	exec_builtin(t_ms *ms, int id, char **args)
 }
 
 static int	exec_bin(t_ms *ms, char **args)
-{			
+{
 	int		ret;
 	char	*cmd_path;
 

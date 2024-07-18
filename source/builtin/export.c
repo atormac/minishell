@@ -40,7 +40,7 @@ static int	export_print(char **env)
 	return (0);
 }
 
-static int is_alnum(char *str)
+static int	is_alnum(char *str)
 {
 	if (*str == '\0')
 		return (0);
@@ -74,7 +74,7 @@ static int	export_var(t_ms *ms, char *arg)
 	return (0);
 }
 
-void error_export(char *str);
+void	error_export(char *str);
 
 int	builtin_export(t_ms *ms, char **args)
 {

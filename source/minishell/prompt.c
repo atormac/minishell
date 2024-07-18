@@ -26,7 +26,7 @@ static void	prompt_set_dir(t_ms *ms, char *prompt, size_t size)
 		{
 			ft_strlcat(prompt, "~", size);
 			ft_strlcat(prompt, ms->cwd + ft_strlen(home_dir), size);
-			return	;
+			return ;
 		}
 	}
 	ft_strlcat(prompt, ms->cwd, size);

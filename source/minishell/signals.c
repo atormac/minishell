@@ -15,9 +15,11 @@
 #include <readline/history.h>
 #include <signal.h>
 
-static void set_signal_exit(t_ms *ms)
+int	event(void);
+
+static void	set_signal_exit(t_ms *ms)
 {
-	static t_ms *ms_struct;
+	static t_ms	*ms_struct;
 
 	if (!ms)
 	{
@@ -38,11 +40,6 @@ void	sig_handler_heredoc(int signo)
 		rl_done = 1;
 		set_signal_exit(NULL);
 	}
-}
-
-int event(void)
-{
-	return (0);
 }
 
 void	set_signals_heredoc(void)
@@ -67,10 +64,9 @@ static void	sig_parent_handler(int signo)
 
 int	set_signals_parent(t_ms *ms)
 {
-	struct sigaction sa;
+	struct sigaction	sa;
 
 	set_signal_exit(ms);
-
 	rl_done = 0;
 	rl_event_hook = NULL;
 	sigemptyset(&sa.sa_mask);

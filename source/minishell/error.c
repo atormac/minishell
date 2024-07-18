@@ -12,7 +12,7 @@
 
 #include "../../include/minishell.h"
 
-void error_print(char *s, char *error_str)
+void	error_print(char *s, char *error_str)
 {
 	char	buffer[1024];
 
@@ -26,7 +26,7 @@ void error_print(char *s, char *error_str)
 	ft_putstr_fd(buffer, STDERR_FILENO);
 }
 
-void error_builtin(char *builtin, char *s, char *error_str)
+void	error_builtin(char *builtin, char *s, char *error_str)
 {
 	char	buffer[1024];
 
@@ -56,7 +56,7 @@ void	error_cmd(char *s)
 	ft_putstr_fd(buffer, STDERR_FILENO);
 }
 
-void error_heredoc(char *eof)
+void	error_heredoc(char *eof)
 {
 	char		buffer[1024];
 	const char	*here_error;
@@ -69,7 +69,7 @@ void error_heredoc(char *eof)
 	ft_putstr_fd(buffer, STDERR_FILENO);
 }
 
-void error_export(char *str)
+void	error_export(char *str)
 {
 	char		buffer[1024];
 

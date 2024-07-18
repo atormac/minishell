@@ -3,16 +3,17 @@
 
 static void	convert_hex(char *src, char *dst, ssize_t size)
 {
-    const unsigned char	table[] = "0123456789abcdef";
-	unsigned char		c;
+	char			*table;
+	unsigned char	c;
 
-    while (size-- > 0)
-    {
+	table = "0123456789abcdef";
+	while (size-- > 0)
+	{
 		c = *src;
-        *dst++ = table[c >> 4];
-        *dst++ = table[c & 0x0f];
+		*dst++ = table[c >> 4];
+		*dst++ = table[c & 0x0f];
 		src++;
-    }
+	}
 	*dst = 0;
 }
 

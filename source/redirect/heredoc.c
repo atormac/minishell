@@ -41,7 +41,6 @@ static int	heredoc_read(t_ms *ms, char *eof, int write_fd)
 	char	*line;
 
 	success = 1;
-
 	set_signals_heredoc();
 	while (1)
 	{

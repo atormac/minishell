@@ -2,9 +2,10 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
-size_t args_count(char **args)
+size_t	args_count(char **args)
 {
-	size_t  ret;
+	size_t	ret;
+
 	ret = 0;
 	if (!args)
 		return (ret);
@@ -32,4 +33,9 @@ int	pid_wait(t_ast *cmd)
 int	pid_kill(pid_t pid)
 {
 	return (kill(pid, SIGKILL));
+}
+
+int	event(void)
+{
+	return (0);
 }

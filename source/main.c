@@ -34,7 +34,7 @@ static int	parse_line(t_ms *ms, t_ast **ast, char *line)
 	{
 		ft_prsr_err(ms, *ast);
 		return (0);
-	}	
+	}
 	ft_free_tkns(ms);
 	ft_expd_ast(ms, *ast);
 	if (ms->prsr_err)
@@ -67,12 +67,12 @@ static	void	minishell(t_ms *ms)
 	char	prompt[1024];
 	char	*line;
 
-	while (1)
+	while (!ms->do_exit)
 	{
 		prompt_update(ms, prompt, sizeof(prompt));
 		line = readline(prompt);
 		if (line == NULL)
-			break;
+			break ;
 		if (*line)
 		{
 			add_history(line);
@@ -80,22 +80,18 @@ static	void	minishell(t_ms *ms)
 		}
 		free(line);
 		line = NULL;
-		if (ms->do_exit)
-			break;
 	}
 	if (!ms->do_exit)
 		ft_putstr_fd("exit\n", STDOUT_FILENO);
 	free(line);
 }
 
-
-int main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
 	t_ms	ms;
 
 	(void)argc;
 	(void)argv;
-
 	if (!minishell_init(&ms, envp))
 	{
 		ft_putstr_fd("Error initializing minishell\n", STDERR_FILENO);
