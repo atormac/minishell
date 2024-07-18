@@ -24,6 +24,27 @@ t_ast	*ft_prsr(t_tkns *tkns, t_ms *ms);
 t_ast	*ft_get_ast(t_tkns *tkns, int tree_top, t_ms *ms);
 void	ft_expd_ast(t_ms *ms, t_ast *ast);
 
+static int	parse_line(t_ms *ms, t_ast **ast, char *line)
+{
+	ft_get_tokens(ms, line);
+	if (!ms->tkns)
+		return (0);
+	*ast = ft_prsr(ms->tkns, ms);
+	if (ms->prsr_err)
+	{
+		ft_prsr_err(ms, *ast);
+		return (0);
+	}	
+	ft_free_tkns(ms);
+	ft_expd_ast(ms, *ast);
+	if (ms->prsr_err)
+	{
+		ft_free_ast(*ast);
+		return (0);
+	}
+	return (1);
+}
+
 static void	process_line(t_ms *ms, char **line)
 {
 	t_ast	*ast;
@@ -31,21 +52,10 @@ static void	process_line(t_ms *ms, char **line)
 	ms->abort = 0;
 	ms->stop_heredoc = 0;
 	minishell_close(ms->pipe);
-	ft_get_tokens(ms, *line);
-	if (!ms->tkns)
+	if (!parse_line(ms, &ast, *line))
 		return ;
 	free(*line);
 	*line = NULL;
-	ast = ft_prsr(ms->tkns, ms);
-	if (ms->prsr_err)
-	{
-		ft_prsr_err(ms, ast);
-		return ;
-	}	
-	ft_free_tkns(ms);
-	ft_expd_ast(ms, ast);
-	if (ms->prsr_err)
-		return (ft_free_ast(ast));
 	commands_exec(ms, ast, ast);
 	commands_wait(ms, ast, NULL);
 	ms->exit_code = ms->exit_code & 0377; //Magic
