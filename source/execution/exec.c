@@ -60,6 +60,7 @@ static void	exec_fork(t_ms *ms, t_ast *ast, int cmd_id, int *prev_fd)
 	{
 		error_print("fork", NULL);
 		minishell_close(ms->pipe);
+		minishell_close(prev_fd);
 		return ;
 	}
 	if (ast->pid == 0)
