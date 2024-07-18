@@ -18,12 +18,9 @@ void	error_cmd(int print_ms, char *s);
 
 int	check_empty(char *cmd)
 {
-	char	*end;
-
-	end = cmd;
-	while (*end && *end == ' ')
-		end++;
-	if (cmd[0] == '\0' || *end == '\0')
+	while (*cmd && *cmd == ' ')
+		cmd++;
+	if (cmd[0] == '\0')
 		return (1);
 	return (0);
 }
