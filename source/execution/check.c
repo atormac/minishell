@@ -16,6 +16,17 @@
 
 void	error_cmd(char *s);
 
+int	check_cmd_is_dot(char *cmd)
+{
+	if (cmd[0] == '.' && cmd[1] == '\0')
+	{
+		error_print(cmd,
+			"filename argument required\n.: usage: . filename [arguments]");
+		return (1);
+	}
+	return (0);
+}
+
 int	check_cmd(char *cmd)
 {
 	struct stat	file_stat;

@@ -14,6 +14,7 @@
 #include <sys/stat.h>
 
 void	error_cmd(char *s);
+int		check_cmd_is_dot(char *cmd);
 int		check_path_cmd(t_ms *ms, char *cmd, char *cmd_path);
 
 char	*path_join(char *path, char *bin)
@@ -36,24 +37,22 @@ char	*path_join(char *path, char *bin)
 	return (ret);
 }
 
-char	**path_get(char **envp)
+char	**path_get(char **envp, int *err)
 {
-	int		i;
 	char	**arr;
+	char	*path;
 
-	i = 0;
-	while (envp[i])
+	*err = 0;
+	path = env_var_get(envp, "PATH");
+	if (!path)
+		return (NULL);
+	arr = ft_split(path, ':');
+	if (!arr)
 	{
-		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
-		{
-			arr = ft_split(envp[i] + 5, ':');
-			if (!arr)
-				error_print("malloc", NULL);
-			return (arr);
-		}
-		i++;
+		*err = 1;
+		error_print("malloc", NULL);
 	}
-	return (NULL);
+	return (arr);
 }
 
 static char	*path_search(t_ms *ms, char *cmd)
@@ -61,10 +60,13 @@ static char	*path_search(t_ms *ms, char *cmd)
 	int		i;
 	char	*cmd_path;
 	char	**path;
+	int		err;
 
 	i = 0;
 	cmd_path = NULL;
-	path = path_get(ms->env);
+	path = path_get(ms->env, &err);
+	if (err)
+		return (NULL);
 	while (path && path[i])
 	{
 		cmd_path = path_join(path[i], cmd);
@@ -92,10 +94,8 @@ char	*path_find_bin(t_ms *ms, char *cmd)
 {
 	char	*cmd_path;
 
-	if (cmd[0] == '.' && cmd[1] == '\0')
+	if (check_cmd_is_dot(cmd))
 	{
-		error_print(cmd,
-			"filename argument required\n.: usage: . filename [arguments]");
 		ms->exit_code = 2;
 		return (NULL);
 	}
