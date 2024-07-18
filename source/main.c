@@ -58,7 +58,7 @@ static void	process_line(t_ms *ms, char **line)
 	*line = NULL;
 	commands_exec(ms, ast, ast);
 	commands_wait(ms, ast, NULL);
-	ms->exit_code = ms->exit_code & 0377; //Magic
+	ms->exit_code = ms->exit_code & 0377;
 	ft_free_ast(ast);
 }
 
@@ -105,60 +105,3 @@ int main(int argc, char **argv, char **envp)
 	minishell_cleanup(&ms);
 	return (ms.exit_code);
 }
-
-/*
-//Parser testing main
-int main(int argc, char **argv, char **envp)
-{
-	
-	(void) argc;
-	t_ms ms;
-	ms.prsr_err = 0;
-	ms.tkns = 0;
-	char *line = argv[1];
-
-	if (!minishell_init(&ms, envp))
-	{
-		ft_putstr_fd("Error initializing minishell\n", STDERR_FILENO);
-		minishell_cleanup(&ms);
-		return (EXIT_FAILURE);
-	}
-
-	ft_get_tokens(&ms, line);
-	if (!ms.tkns)
-	{
-		free_array(ms.env);
-		free(ms.cwd);
-		return (1);
-	}
-	printf("--------------TOKENS----------------\n");
-	for (size_t i = 0; i < ms.tkns->i; i++)
-	{
-		ft_printf("Type %d str |%s|\n", ms.tkns->arr[i].type, ms.tkns->arr[i].str);
-	}
-
-	printf("------------AST-------------- i=%ld curr=%ld\n", ms.tkns->i, ms.tkns->curr_tkn);
-	t_ast *ast = ft_prsr(ms.tkns, &ms);
-	printf("----------ast error %d-----------------\n", ms.prsr_err);
-	if (ms.prsr_err == 2)
-		printf("Error %d, current: %ld, token type: %d\n", ms.prsr_err, ms.tkns->curr_tkn - 1, ms.tkns->arr[ms.tkns->curr_tkn - 1].type);
-	if (ast)
-	{
-		printf("\nPRE EXPANSION\n");
-		ft_print_ast(&ms, ast, 0);
-		//--------------------
-		ft_expd_ast(&ms, ast);
-		if (ms.prsr_err)
-			ft_free_ast(ast);
-		//--------------------
-		printf("\nEXPANDED\n");
-		ft_print_ast(&ms, ast, 1);
-		
-		ft_free_ast(ast);
-	}
-	if (ms.tkns)
-		ft_free_tkns(&ms);
-	free_array(ms.env);
-	free(ms.cwd);
-	return (0);
-}*/
