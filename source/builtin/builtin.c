@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:23 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/19 17:42:00 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/19 18:15:45 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	builtin_echo(char **args)
 
 	i = 0;
 	newline = 1;
-	while (args[i] && ft_strcmp(args[i], "-n") == 0)
+	while (args[i] && ft_strncmp(args[i], "-n", 2) == 0)
 	{
 		newline = 0;
 		i++;
