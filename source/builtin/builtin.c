@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:23 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/15 19:47:57 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/19 15:27:59 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,11 @@ int	builtin_env(t_ms *ms, int id, char **args)
 	i = -1;
 	if (id == BUILTIN_ENV)
 	{
+		if (!env_var_get(ms->env, "PATH"))
+		{
+			error_print("env", "No such file or directory");
+			return (127);
+		}
 		env_print(ms->env);
 		return (0);
 	}
