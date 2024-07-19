@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:42:50 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/19 12:42:55 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/07/19 23:23:58 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -49,5 +49,9 @@ void	minishell_cleanup(t_ms *ms)
 {
 	free_array(ms->env);
 	free(ms->cwd);
+	if (ms->tkns)
+		ft_free_tkns(ms);
+	if (ms->ast)
+		ft_free_ast(ms->ast);
 	minishell_close(ms->pipe);
 }

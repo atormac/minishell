@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 13:08:25 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/19 13:27:56 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/07/19 22:57:36 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ typedef struct t_ms
 	int				exit_code;
 	int				do_exit;
 	struct s_tkns	*tkns;
+	struct s_ast	*ast;
 	int				prsr_err;
 }	t_ms;
 
