@@ -1,45 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expd_rglr.c                                        :+:      :+:    :+:   */
+/*   expd_tld.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/04 20:20:53 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/19 14:59:31 by lopoka           ###   ########.fr       */
+/*   Created: 2024/07/04 20:17:55 by lopoka            #+#    #+#             */
+/*   Updated: 2024/07/19 15:01:47 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
 
-void	ft_expd_rglr(char **res, char *s, size_t *i)
+static inline char	*ft_expd_tilde(t_ms *ms)
 {
 	char	*tmp1;
 	char	*tmp2;
-	size_t	bgn;
 
-	bgn = *i;
-	while (s[*i] && s[*i] != '\'' && s[*i] != '"' && s[*i] != '$'
-		&& s[*i] != '~')
-		(*i)++;
-	tmp1 = ft_substr(s, bgn, *i - bgn);
+	tmp1 = env_var_get(ms->env, "HOME");
 	if (!tmp1)
-		return (ft_free_null(res));
-	tmp2 = ft_strjoin(*res, tmp1);
-	free(*res);
-	free(tmp1);
-	*res = tmp2;
+		tmp2 = ft_strdup("");
+	else
+		tmp2 = ft_strdup(tmp1);
+	return (tmp2);
 }
 
-void	ft_expd_rglr_hrdc(char **res, char *s, size_t *i)
+void	ft_expd_tld(char **res, size_t *i, t_ms *ms)
 {
 	char	*tmp1;
 	char	*tmp2;
-	size_t	bgn;
 
-	bgn = *i;
-	while (s[*i] && s[*i] != '\'' && s[*i] != '"' && s[*i] != '$')
-		(*i)++;
-	tmp1 = ft_substr(s, bgn, *i - bgn);
+	(*i)++;
+	tmp1 = ft_expd_tilde(ms);
 	if (!tmp1)
 		return (ft_free_null(res));
 	tmp2 = ft_strjoin(*res, tmp1);
