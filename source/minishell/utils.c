@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:43:17 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/19 12:43:23 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/07/19 18:21:47 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -23,6 +23,19 @@ size_t	args_count(char **args)
 	while (args[ret])
 		ret++;
 	return (ret);
+}
+
+int	is_alnum(char *str)
+{
+	if (*str == '\0')
+		return (0);
+	while (*str)
+	{
+		if (!ft_isalnum(*str))
+			return (0);
+		str++;
+	}
+	return (1);
 }
 
 int	pid_wait(t_ast *cmd)
