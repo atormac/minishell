@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 12:12:16 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/16 21:56:14 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/07/19 15:00:42 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -45,6 +45,8 @@ void	ft_expd_str(t_ms *ms, t_ast *ast)
 	{
 		if (ast->str[i] == '$')
 			ft_expd_dlr(&res, ast->str, &i, ms);
+		else if (ast->str[i] == '~')
+			ft_expd_tld(&res, &i, ms);
 		else if (ast->str[i] == '\'')
 			ft_expd_sq(&res, ast->str, &i);
 		else if (ast->str[i] == '"')
@@ -75,7 +77,7 @@ char	*ft_expd_heredoc(char *s, t_ms *ms)
 		else if (s[i] == '"')
 			ft_expd_dq(&res, s, &i, ms);
 		else
-			ft_expd_rglr(&res, s, &i);
+			ft_expd_rglr_hrdc(&res, s, &i);
 	}
 	ft_rm_empty_substrs(res);
 	return (res);
