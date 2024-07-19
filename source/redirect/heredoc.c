@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 20:30:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/19 12:56:24 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/07/19 13:48:17 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -35,6 +35,8 @@ static int	heredoc_write(t_ms *ms, int fd, char *line)
 	return (1);
 }
 
+char	*line_read(char *prompt);
+
 static int	heredoc_read(t_ms *ms, char *eof, int write_fd)
 {
 	int		success;
@@ -44,7 +46,7 @@ static int	heredoc_read(t_ms *ms, char *eof, int write_fd)
 	set_signals(ms, SIGNALS_HEREDOC);
 	while (1)
 	{
-		line = readline(">");
+		line = line_read(">");
 		if (!line || ms->stop_heredoc || ft_strcmp(line, eof) == 0)
 			break ;
 		success = heredoc_write(ms, write_fd, line);
