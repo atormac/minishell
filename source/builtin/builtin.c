@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:23 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/19 15:27:59 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/19 17:42:00 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,32 +54,6 @@ void	builtin_echo(char **args)
 	}
 	if (newline)
 		printf("\n");
-}
-
-int	builtin_cd(t_ms *ms, char **args, char *dir)
-{
-	if (args_count(args) > 1)
-	{
-		error_print("cd", "too many arguments");
-		return (1);
-	}
-	if (!dir)
-	{
-		dir = env_var_get(ms->env, "HOME");
-		if (!dir)
-		{
-			error_builtin("cd", "HOME not set", "");
-			return (1);
-		}
-	}
-	if (chdir(dir) == -1)
-	{
-		error_builtin("cd", dir, NULL);
-		return (1);
-	}
-	if (!env_update_cwd(ms))
-		return (1);
-	return (0);
 }
 
 int	builtin_env(t_ms *ms, int id, char **args)

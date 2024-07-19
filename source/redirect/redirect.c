@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 18:14:21 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/15 20:53:31 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/19 16:23:02 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,12 @@ static int	redirect_io(t_ms *ms, t_ast *io, int *redir_fd)
 	int	fd;
 	int	to_fd;
 
+	if (!io->expd_str || !io->expd_str[0])
+	{
+		//FIXME, print before expansion
+		error_print("", "ambiguous redirect");
+		return (0);
+	}
 	if (io->type == t_lwrlwr || io->type == t_lwr)
 		fd = open_infile(ms, io, &to_fd);
 	else
@@ -49,7 +55,6 @@ static int	redirect_io(t_ms *ms, t_ast *io, int *redir_fd)
 	if (fd == -1)
 	{
 		error_print(io->expd_str[0], NULL);
-		ms->exit_code = 1;
 		return (0);
 	}
 	if (dup2(fd, to_fd) == -1)
@@ -68,7 +73,10 @@ static int	redirect_io_inout(t_ms *ms, t_ast *ast, int *redir_fd)
 	while (io)
 	{
 		if (!redirect_io(ms, io, redir_fd))
+		{
+			ms->exit_code = 1;
 			return (0);
+		}
 		io = io->io;
 	}
 	return (1);
