@@ -6,7 +6,7 @@
 #    By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/11 21:03:29 by atorma            #+#    #+#              #
-#    Updated: 2024/07/19 14:31:38 by lopoka           ###   ########.fr        #
+#    Updated: 2024/07/19 17:49:50 by atorma           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ ENV_SRC = env.c env_var.c env_update.c
 ENV_OBJ = $(addprefix $(ENV_DIR)/,$(ENV_SRC:.c=.o))
 
 BUILTIN_DIR = source/builtin
-BUILTIN_SRC = builtin.c export.c exit.c
+BUILTIN_SRC = builtin.c export.c exit.c cd.c
 BUILTIN_OBJ = $(addprefix $(BUILTIN_DIR)/,$(BUILTIN_SRC:.c=.o))
 
 EXEC_DIR = source/execution
