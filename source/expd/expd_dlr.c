@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 20:17:55 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/04 20:56:52 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/07/19 21:54:40 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -45,16 +45,12 @@ void	ft_expd_dlr(char **res, char *s, size_t *i, t_ms *ms)
 	char	*tmp2;
 
 	(*i)++;
-	if (ft_isdigit(s[*i]) || s[*i] == '@')
-	{
+	if (ft_isdigit(s[*i]) || s[*i] == '@' || s[*i] == '?')
 		(*i)++;
-		tmp1 = ft_strdup("");
-	}
+	if (s[*i] == '\'' || s[*i] == '"' || ft_isdigit(s[*i]) || s[*i] == '@')
+		return ;
 	else if (s[*i] == '?')
-	{
-		(*i)++;
 		tmp1 = ft_itoa(ms->exit_code);
-	}
 	else if (!ft_vld_var_chr(s[*i]))
 		tmp1 = ft_strdup("$");
 	else
