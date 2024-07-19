@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 20:25:15 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/11 16:59:03 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/19 13:20:46 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,6 @@
 # define EXPD_H
 
 # include <dirent.h>
-
-typedef struct s_token
-{
-	const char	*start;
-	const char	*end;
-}	t_token;
-
-typedef struct s_glbr
-{
-	char	**arr;
-	size_t	size;
-	size_t	curr;
-	size_t	i;
-	size_t	to_add;
-}	t_glbr;
 
 // 1st Expansion stage top level functions
 char	*ft_expd_heredoc(char *s, t_ms *ms);

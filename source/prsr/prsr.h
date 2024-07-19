@@ -6,19 +6,12 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 10:30:53 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/16 13:09:13 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/07/19 13:22:53 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PRSR_H
 # define PRSR_H
-
-typedef enum e_prsr_err
-{
-	e_none,
-	e_mem,
-	e_sntx
-}	t_prsr_err;
 
 //Top level functions
 t_ast	*ft_prsr(t_tkns *tkns, t_ms *ms);

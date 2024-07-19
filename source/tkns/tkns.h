@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 16:36:42 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/12 16:45:22 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/19 13:26:54 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,46 +14,6 @@
 # define TKNS_H
 
 # include "../../include/minishell.h"
-
-typedef struct s_ast
-{
-	int				type;
-	int				pid;
-	char			*str;
-	char			**expd_str;
-	struct s_ast	*left;
-	struct s_ast	*right;
-	struct s_ast	*io;
-}	t_ast;
-
-typedef enum e_tkn_type
-{
-	t_cmnd,
-	t_prnths_opn,
-	t_prnths_cls,
-	t_lwr,
-	t_bgr,
-	t_pipe,
-	t_lwrlwr,
-	t_bgrbgr,
-	t_or,
-	t_and
-}	t_tkn_type;
-
-typedef struct s_tkn
-{
-	t_tkn_type		type;
-	char			*str;
-}	t_tkn;
-
-typedef struct s_tkns
-{
-	t_tkn	*arr;
-	size_t	size;
-	size_t	curr_tkn;
-	size_t	i;
-	size_t	to_add;
-}	t_tkns;
 
 //Tkns
 void	ft_get_tokens(t_ms *ms, char *line);
