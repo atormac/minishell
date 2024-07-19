@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 19:36:35 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/15 20:38:32 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/19 13:01:07 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,24 @@ int	check_empty(char *cmd)
 
 int	check_cmd_initial(t_ms *ms, char *cmd)
 {
-	if (check_empty(cmd))
-	{
-		error_cmd(1, cmd);
-		ms->exit_code = 127;
-		return (1);
-	}
 	if (cmd[0] == '.' && cmd[1] == '\0')
 	{
 		error_print(cmd,
 			"filename argument required\n.: usage: . filename [arguments]");
 		ms->exit_code = 2;
+		return (1);
+	}
+	if (!env_var_get(ms->env, "PATH"))
+	{
+		error_print(cmd,
+			"No such file or directory");
+		ms->exit_code = 127;
+		return (1);
+	}
+	if (check_empty(cmd))
+	{
+		error_cmd(0, cmd);
+		ms->exit_code = 127;
 		return (1);
 	}
 	return (0);

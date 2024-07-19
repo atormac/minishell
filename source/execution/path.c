@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:18 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/15 19:37:35 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/19 13:03:04 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,18 @@ static char	*path_search(t_ms *ms, char *cmd, int *err)
 
 char	*path_abs_or_relative(t_ms *ms, char *cmd)
 {
+	char	*ret_cmd;
+
 	ms->exit_code = check_cmd(cmd);
 	if (ms->exit_code != 0)
 		return (NULL);
-	return (ft_strdup(cmd));
+	ret_cmd = ft_strdup(cmd);
+	if (!ret_cmd)
+	{
+		ms->exit_code = 1;
+		error_print("malloc", NULL);
+	}
+	return (ret_cmd);
 }
 
 char	*path_find_bin(t_ms *ms, char *cmd)
@@ -91,13 +99,10 @@ char	*path_find_bin(t_ms *ms, char *cmd)
 	int		err;
 
 	err = 0;
+	if (ft_strchr(cmd, '/'))
+		return (path_abs_or_relative(ms, cmd));
 	if (check_cmd_initial(ms, cmd))
 		return (NULL);
-	if (ft_strchr(cmd, '/'))
-	{
-		cmd_path = path_abs_or_relative(ms, cmd);
-		return (cmd_path);
-	}
 	cmd_path = path_search(ms, cmd, &err);
 	if (!check_path_cmd(ms, cmd, cmd_path, err))
 	{
