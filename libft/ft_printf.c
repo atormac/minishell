@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 17:47:24 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/16 22:26:23 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/07/19 12:41:42 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ int	ft_printf(const char *f, ...)
 		return (-1);
 	return (ws.bytes_written);
 }
-
 
 int	ft_printf_fd(int fd, const char *f, ...)
 {
