@@ -6,12 +6,12 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 12:33:19 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/16 22:27:43 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/07/19 23:29:37 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
 
-void	ft_prsr_err(t_ms *ms, t_ast *ast)
+void	ft_prsr_err(t_ms *ms)
 {
 	char	**tkns_arr;
 	int		tkn_type;
@@ -29,6 +29,7 @@ void	ft_prsr_err(t_ms *ms, t_ast *ast)
 		ms->exit_code = 2;
 	}
 	ft_free_tkns(ms);
-	ft_free_ast(ast);
+	ft_free_ast(ms->ast);
+	ms->ast = NULL;
 	ms->prsr_err = 0;
 }
