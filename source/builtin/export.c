@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 18:19:33 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/15 19:22:36 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/19 16:57:04 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,17 @@ static int	export_print(char **env)
 	env_sort(sorted);
 	while (sorted[i])
 	{
-		eq = ft_strchr(sorted[i], '=');
-		if (eq)
+		if (sorted[i][0] != '\0')
 		{
 			ft_putstr_fd("declare -x ", STDOUT_FILENO);
-			write(STDOUT_FILENO, sorted[i], (eq - sorted[i]) + 1);
-			printf("\"%s\"\n", eq + 1);
+			eq = ft_strchr(sorted[i], '=');
+			if (eq)
+			{
+				write(STDOUT_FILENO, sorted[i], (eq - sorted[i]) + 1);
+				printf("\"%s\"\n", eq + 1);
+			}
+			else
+				printf("%s\n", sorted[i]);
 		}
 		i++;
 	}
@@ -53,6 +58,16 @@ static int	is_alnum(char *str)
 	return (1);
 }
 
+static void	remove_eq(t_ms *ms, char *arg)
+{
+	char	*ptr;
+
+	ptr = env_var_get(ms->env, arg);
+	if (!ptr)
+		return ;
+	*(ptr - 1) = '\0';
+}
+
 static int	export_var(t_ms *ms, char *arg)
 {
 	char	*val;
@@ -64,6 +79,8 @@ static int	export_var(t_ms *ms, char *arg)
 	{
 		if (!is_alnum(arg))
 			return (1);
+		env_var_set(ms, arg, "");
+		remove_eq(ms, arg);
 		return (0);
 	}
 	*val = '\0';
