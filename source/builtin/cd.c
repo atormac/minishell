@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 17:41:27 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/19 17:52:18 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/19 17:55:31 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,11 @@ static void	trim_path(char *path)
 	char	*last;
 
 	last = ft_strrchr(path, '/');
-	if (last)
+	if (!last)
+		return ;
+	if (last == path)
+		*(last + 1) = 0;
+	else
 		*last = 0;
 }
 
