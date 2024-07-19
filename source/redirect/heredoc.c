@@ -6,10 +6,9 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 20:30:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/19 12:44:48 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/07/19 12:56:24 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "../../include/minishell.h"
 #include "../../include/signals.h"
 #include <readline/readline.h>
