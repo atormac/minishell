@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 20:30:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/19 14:32:37 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/19 14:33:39 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -74,10 +74,7 @@ int	heredoc_prompt(t_ms *ms, char *eof)
 	success = heredoc_read(ms, eof, write_fd);
 	close(write_fd);
 	if (!success)
-	{
 		close(read_fd);
-		ms->abort = 1;
-	}
 	ms->fd_heredoc = read_fd;
 	return (success);
 }
