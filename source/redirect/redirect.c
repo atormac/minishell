@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 18:14:21 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/21 15:41:46 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/21 16:04:02 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ static int	redirect_io(t_ms *ms, t_ast *io, int *redir_fd)
 
 	if (!io->expd_str || !io->expd_str[0])
 	{
-		fprintf(stderr, "io->str: %s\n", io->str);
 		error_print(io->str, "ambiguous redirect");
 		return (0);
 	}
