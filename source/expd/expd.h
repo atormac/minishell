@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 20:25:15 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/19 15:00:25 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/07/21 14:23:14 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	ft_expd_rglr_hrdc(char **res, char *s, size_t *i);
 void	ft_expd_sq(char **res, char *s, size_t *i);
 void	ft_expd_dq(char **res, char *s, size_t *i, t_ms *ms);
 void	ft_expd_dlr(char **res, char *s, size_t *i, t_ms *ms);
+void	ft_expd_dlr_sub(char **res, char *s, size_t *i, t_ms *ms);
 void	ft_expd_tld(char **res, size_t *i, t_ms *ms);
 
 // 2nd Expansion stage top level functions
