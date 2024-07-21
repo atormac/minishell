@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 15:00:38 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/21 16:41:39 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/21 17:46:25 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	commands_exec(t_ms *ms, t_ast *ast, t_ast *prev)
 	static t_ast	*root;
 	int				id;
 
-	if (!ast || ms->abort == 1)
+	if (!ast || !prev || ms->abort == 1)
 		return ;
 	if (ast == prev)
 	{

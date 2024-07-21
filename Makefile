@@ -6,13 +6,13 @@
 #    By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/11 21:03:29 by atorma            #+#    #+#              #
-#    Updated: 2024/07/21 16:22:27 by atorma           ###   ########.fr        #
+#    Updated: 2024/07/21 18:07:51 by atorma           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 CC = cc
-CFLAGS := -Wall -Wextra -Werror 
+CFLAGS := -Wall -Wextra -Werror
 LDFLAGS := -lreadline
 LIBDIR = ./libft
 LIBS = $(LIBDIR)/libft.a
@@ -62,6 +62,7 @@ target debug: CC = cc
 target debug: CFLAGS += -fsanitize=address,undefined -g 
 
 target fast: CFLAGS += -O2
+target symbols: CFLAGS += -g
 
 all: $(NAME)
 
@@ -88,6 +89,7 @@ fclean: clean
 re: fclean all
 
 fast: re
+symbols: re
 debug: re
 
-.PHONY: debug fast all bonus clean fclean re
+.PHONY: debug symbols fast all bonus clean fclean re

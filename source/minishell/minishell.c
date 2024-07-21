@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:42:50 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/19 23:23:58 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/21 18:03:58 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -14,6 +14,8 @@
 
 int	minishell_init(t_ms *ms, char **envp)
 {
+	ms->tkns = NULL;
+	ms->ast = NULL;
 	ms->do_exit = 0;
 	ms->exit_code = 0;
 	ms->abort = 0;
