@@ -6,7 +6,7 @@
 #    By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/11 21:03:29 by atorma            #+#    #+#              #
-#    Updated: 2024/07/19 17:49:50 by atorma           ###   ########.fr        #
+#    Updated: 2024/07/21 16:22:27 by atorma           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,6 +61,8 @@ OBJECTS += $(MS_OBJ) $(ENV_OBJ) $(BUILTIN_OBJ) $(EXEC_OBJ) $(REDIR_OBJ) \
 target debug: CC = cc
 target debug: CFLAGS += -fsanitize=address,undefined -g 
 
+target fast: CFLAGS += -O2
+
 all: $(NAME)
 
 bonus: $(NAME)
@@ -85,6 +87,7 @@ fclean: clean
 
 re: fclean all
 
+fast: re
 debug: re
 
-.PHONY: debug all bonus clean fclean re
+.PHONY: debug fast all bonus clean fclean re
