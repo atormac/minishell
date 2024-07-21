@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 19:53:10 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/15 16:24:17 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/21 16:16:52 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	set_signal_exit(t_ms *ms)
 		ms_struct = ms;
 }
 
-void	sig_handler_heredoc(int signo)
+static void	sig_handler_heredoc(int signo)
 {
 	if (signo == SIGINT)
 	{
