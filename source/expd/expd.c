@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 12:12:16 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/21 14:30:05 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/21 16:06:49 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -17,15 +17,16 @@ void	ft_free_null(char **s)
 	*s = NULL;
 }
 
-void	ft_post_expd(t_ms *ms, t_ast *ast)
+void	ft_post_expd(t_ms *ms, t_ast *ast, char *part_expd_str)
 {
-	if (!ast->str)
+	if (!part_expd_str)
 	{
 		ms->prsr_err = e_mem;
 		return ;
 	}
-	ft_rm_empty_substrs(ast->str);
-	ast->expd_str = ft_expd_split_sub(ast->str, ' ', 1);
+	ft_rm_empty_substrs(part_expd_str);
+	ast->expd_str = ft_expd_split_sub(part_expd_str, ' ', 1);
+	free(part_expd_str);
 	ast->expd_str = ft_glbr(ast->expd_str);
 	if (!ast->expd_str)
 		ms->prsr_err = e_mem;
@@ -53,9 +54,7 @@ void	ft_expd_str(t_ms *ms, t_ast *ast)
 		else
 			ft_expd_rglr(&res, ast->str, &i);
 	}
-	free(ast->str);
-	ast->str = res;
-	ft_post_expd(ms, ast);
+	ft_post_expd(ms, ast, res);
 }
 
 char	*ft_expd_heredoc(char *s, t_ms *ms)
