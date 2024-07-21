@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 15:00:38 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/15 19:34:13 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/21 17:46:25 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,15 @@
 int		exec_cmd(t_ms *ms, t_ast *ast, int cmd_id);
 int		pid_wait(t_ast *cmd);
 
-static int	command_id(t_ast *cmd, t_ast *prev)
+static int	command_id(t_ast *cmd, t_ast *prev, int reset)
 {
 	static int	entry;
 
+	if (reset)
+	{
+		entry = 0;
+		return (-1);
+	}
 	if (prev->type != t_pipe)
 		return (CMD_NOPIPE);
 	if (!entry)
@@ -69,13 +74,16 @@ void	commands_exec(t_ms *ms, t_ast *ast, t_ast *prev)
 	static t_ast	*root;
 	int				id;
 
-	if (!ast || ms->abort == 1)
+	if (!ast || !prev || ms->abort == 1)
 		return ;
 	if (ast == prev)
+	{
 		root = ast;
+		command_id(ast, prev, 1);
+	}
 	if (ast->type == t_cmnd && ast->expd_str)
 	{
-		id = command_id(ast, prev);
+		id = command_id(ast, prev, 0);
 		exec_cmd(ms, ast, id);
 	}
 	if (ast->left)
