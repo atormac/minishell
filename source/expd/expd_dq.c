@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 20:23:03 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/06 12:58:44 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/21 14:23:46 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -44,7 +44,7 @@ void	ft_expd_dq(char **res, char *s, size_t *i, t_ms *ms)
 	while (s[*i] != '"' && res)
 	{
 		if (s[*i] == '$')
-			ft_expd_dlr(res, s, i, ms);
+			ft_expd_dlr_sub(res, s, i, ms);
 		else
 			ft_expd_dq_sub(res, s, i);
 	}

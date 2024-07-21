@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 20:17:55 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/04 20:56:52 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/07/21 14:22:52 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -46,10 +46,36 @@ void	ft_expd_dlr(char **res, char *s, size_t *i, t_ms *ms)
 
 	(*i)++;
 	if (ft_isdigit(s[*i]) || s[*i] == '@')
+		(*i)++;
+	if (s[*i] == '\'' || s[*i] == '"' || ft_isdigit(s[*i]) || s[*i] == '@')
+		return ;
+	else if (s[*i] == '?')
 	{
 		(*i)++;
-		tmp1 = ft_strdup("");
+		tmp1 = ft_itoa(ms->exit_code);
 	}
+	else if (!ft_vld_var_chr(s[*i]))
+		tmp1 = ft_strdup("$");
+	else
+		tmp1 = ft_expd_var(s, i, ms);
+	if (!tmp1)
+		return (ft_free_null(res));
+	tmp2 = ft_strjoin(*res, tmp1);
+	free(*res);
+	free(tmp1);
+	*res = tmp2;
+}
+
+void	ft_expd_dlr_sub(char **res, char *s, size_t *i, t_ms *ms)
+{
+	char	*tmp1;
+	char	*tmp2;
+
+	(*i)++;
+	if (ft_isdigit(s[*i]) || s[*i] == '@')
+		(*i)++;
+	if (ft_isdigit(s[*i]) || s[*i] == '@')
+		return ;
 	else if (s[*i] == '?')
 	{
 		(*i)++;

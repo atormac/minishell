@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 10:30:53 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/19 13:22:53 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/07/19 23:33:17 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define PRSR_H
 
 //Top level functions
-t_ast	*ft_prsr(t_tkns *tkns, t_ms *ms);
+void	ft_prsr(t_ms *ms);
 t_ast	*ft_get_ast(t_tkns *tkns, int tree_top, t_ms *ms);
 t_ast	*ft_get_branch(t_tkns *tkns, t_ms *ms);
 t_ast	*ft_merge_branch(t_ast *ast, int op, t_ast *new_branch, t_ms *ms);
@@ -40,7 +40,7 @@ void	ft_free_ast(t_ast *ast);
 
 //Ast errors
 void	ft_set_prsr_err(t_ms *ms, int type);
-void	ft_prsr_err(t_ms *ms, t_ast *ast);
+void	ft_prsr_err(t_ms *ms);
 
 //Ast print
 void	ft_print_ast(t_ms *ms, t_ast *ast, int expd);
