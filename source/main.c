@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/21 18:02:26 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/22 18:39:03 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,10 @@ static void	process_line(t_ms *ms, char **line)
 	ms->stop_heredoc = 0;
 	minishell_close(ms->pipe);
 	if (!parse_line(ms, *line))
+	{
+		ms->abort = 1;
 		return ;
+	}
 	free(*line);
 	*line = NULL;
 	commands_exec(ms, ms->ast, ms->ast);
@@ -62,7 +65,7 @@ static	void	minishell(t_ms *ms)
 	char	prompt[1024];
 	char	*line;
 
-	while (!ms->do_exit)
+	while (!ms->do_exit && !ms->abort)
 	{
 		prompt_update(ms, prompt, sizeof(prompt));
 		line = readline(prompt);
@@ -76,7 +79,7 @@ static	void	minishell(t_ms *ms)
 		free(line);
 		line = NULL;
 	}
-	if (!ms->do_exit)
+	if (!ms->do_exit && !ms->abort)
 		ft_putstr_fd("exit\n", STDOUT_FILENO);
 	free(line);
 }
@@ -94,6 +97,11 @@ int	main(int argc, char **argv, char **envp)
 		return (EXIT_FAILURE);
 	}
 	minishell(&ms);
+	if (ms.abort)
+	{
+		ft_putstr_fd("Aborted, critical error encountered\n", STDERR_FILENO);
+		ms.exit_code = EXIT_FAILURE;
+	}
 	minishell_cleanup(&ms);
 	return (ms.exit_code);
 }
