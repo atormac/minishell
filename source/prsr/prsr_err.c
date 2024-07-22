@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 12:33:19 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/19 23:29:37 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/23 00:04:26 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -18,7 +18,7 @@ void	ft_prsr_err(t_ms *ms)
 
 	tkns_arr = (char *[]){"command", "(", ")", "<", ">", "|",
 		"<<", ">>", "||", "&&", "newline"};
-	if (ms->prsr_err == 2)
+	if (ms->prsr_err == 2 && ms->tkns)
 	{
 		if (!ft_is_tkn(ms->tkns))
 			tkn_type = 10;

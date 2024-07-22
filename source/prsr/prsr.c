@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 15:04:51 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/19 23:32:56 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/23 00:02:23 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -44,7 +44,7 @@ t_ast	*ft_get_ast(t_tkns *tkns, int tree_top, t_ms *ms)
 
 void	ft_prsr(t_ms *ms)
 {
-	if (!ms || !ms->tkns)
+	if (!ms || !ms->tkns || ms->prsr_err)
 	{
 		ms->ast = NULL;
 		return ;

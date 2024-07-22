@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:15:59 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/21 15:48:13 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/22 23:26:25 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -43,13 +43,13 @@ void	ft_get_cmnd_str(t_ms *ms, char **line)
 			if (q_end)
 				tmp_line = q_end;
 			else
-				return (ft_free_tkns(ms), ft_quote_err(tmp_line[0]));
+				return (ft_free_tkns(ms), ft_quote_err(tmp_line[0]), ft_set_prsr_err(ms, e_sntx));
 		}
 		tmp_line += 1;
 	}
 	cmnd_str = ft_substr(*line, 0, tmp_line - *line);
 	if (!cmnd_str)
-		return (ft_free_tkns(ms));
+		return (ft_free_tkns(ms), ft_set_prsr_err(ms, e_mem));
 	ms->tkns->arr[ms->tkns->i].str = cmnd_str;
 	*line = tmp_line;
 }
@@ -58,7 +58,7 @@ void	ft_add_tkn(t_ms *ms, char **line)
 {
 	ft_tkns_realloc(ms);
 	if (!ms->tkns)
-		return ;
+		return (ft_set_prsr_err(ms, e_mem));
 	ms->tkns->arr[ms->tkns->i].type = ft_is_opr(*line);
 	if (ms->tkns->arr[ms->tkns->i].type == 0)
 		ft_get_cmnd_str(ms, line);
@@ -80,10 +80,10 @@ void	ft_get_tokens(t_ms *ms, char *line)
 		return ;
 	ms->tkns = ft_calloc(1, sizeof(t_tkns));
 	if (!ms->tkns)
-		return ;
+		return (ft_set_prsr_err(ms, e_mem));
 	ft_init_tkns(ms);
-	if (!ms->tkns)
-		return ;
+	if (!ms->tkns)	
+		return (ft_set_prsr_err(ms, e_mem));
 	while (ms->tkns && *line)
 	{
 		ft_skip_whtspc(&line);
