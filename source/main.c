@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/22 18:39:03 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/22 18:44:38 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ static void	process_line(t_ms *ms, char **line)
 	minishell_close(ms->pipe);
 	if (!parse_line(ms, *line))
 	{
-		ms->abort = 1;
+		if (ms->prsr_err == e_mem)
+			ms->abort = 1;
 		return ;
 	}
 	free(*line);
