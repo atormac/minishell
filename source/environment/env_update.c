@@ -74,7 +74,6 @@ int	env_update_cwd(t_ms *ms)
 	if (!env_var_set(ms, "PWD", dir) || !env_var_set(ms, "OLDPWD", ms->cwd))
 	{
 		free(dir);
-		free(ms->cwd);
 		return (0);
 	}
 	free(ms->cwd);
