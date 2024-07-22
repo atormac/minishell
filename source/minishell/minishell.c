@@ -56,4 +56,6 @@ void	minishell_cleanup(t_ms *ms)
 	if (ms->ast)
 		ft_free_ast(ms->ast);
 	minishell_close(ms->pipe);
+	if (ms->fd_heredoc >= 0)
+		close(ms->fd_heredoc);
 }
