@@ -20,15 +20,22 @@ int	env_update_shlvl(t_ms *ms)
 
 	level = env_var_get(ms->env, "SHLVL");
 	if (!level)
-	{
-		env_var_set(ms, "SHLVL", "1");
-		return (1);
-	}
+		return (env_var_set(ms, "SHLVL", "1"));
 	new_lvl = ft_atoi(level) + 1;
+	if (new_lvl >= 1000)
+	{
+		ft_printf_fd(2, "%s: %s: shell level (%d) too high, resetting to 1\n",
+			"minishell", "warning", new_lvl);
+		new_lvl = 1;
+	}
 	level = ft_itoa(new_lvl);
 	if (!level)
 		return (0);
-	env_var_set(ms, "SHLVL", level);
+	if (!env_var_set(ms, "SHLVL", level))
+	{
+		free(level);
+		return (0);
+	}
 	free(level);
 	return (1);
 }
@@ -60,13 +67,16 @@ int	env_update_cwd(t_ms *ms)
 	pwd_exists = env_var_get(ms->env, "PWD");
 	if (!pwd_exists)
 	{
-		env_var_set(ms, "OLDPWD", "");
 		free(ms->cwd);
 		ms->cwd = dir;
-		return (1);
+		return (env_var_set(ms, "OLDPWD", ""));
 	}
-	env_var_set(ms, "PWD", dir);
-	env_var_set(ms, "OLDPWD", ms->cwd);
+	if (!env_var_set(ms, "PWD", dir) || !env_var_set(ms, "OLDPWD", ms->cwd))
+	{
+		free(dir);
+		free(ms->cwd);
+		return (0);
+	}
 	free(ms->cwd);
 	ms->cwd = dir;
 	return (1);
