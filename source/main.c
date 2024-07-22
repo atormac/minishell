@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/23 00:05:25 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/23 00:26:05 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,11 @@ static int	parse_line(t_ms *ms, char *line)
 	ft_get_tokens(ms, line);
 	ft_prsr(ms);
 	if (ms->prsr_err)
-	{
-		ft_prsr_err(ms);
-		return (0);
-	}
+		return (ft_prsr_err(ms), 0);
 	ft_free_tkns(ms);
 	ft_expd_ast(ms, ms->ast);
 	if (ms->prsr_err)
-	{
-		ft_free_ast(ms->ast);
-		return (0);
-	}
+		return (ft_free_ast(ms->ast), 0);
 	return (1);
 }
 
