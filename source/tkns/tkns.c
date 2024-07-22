@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:15:59 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/22 23:26:25 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/23 00:10:52 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -43,7 +43,8 @@ void	ft_get_cmnd_str(t_ms *ms, char **line)
 			if (q_end)
 				tmp_line = q_end;
 			else
-				return (ft_free_tkns(ms), ft_quote_err(tmp_line[0]), ft_set_prsr_err(ms, e_sntx));
+				return (ft_free_tkns(ms), ft_quote_err(tmp_line[0]),
+					ft_set_prsr_err(ms, e_sntx));
 		}
 		tmp_line += 1;
 	}
@@ -82,7 +83,7 @@ void	ft_get_tokens(t_ms *ms, char *line)
 	if (!ms->tkns)
 		return (ft_set_prsr_err(ms, e_mem));
 	ft_init_tkns(ms);
-	if (!ms->tkns)	
+	if (!ms->tkns)
 		return (ft_set_prsr_err(ms, e_mem));
 	while (ms->tkns && *line)
 	{
