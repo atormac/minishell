@@ -6,14 +6,15 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 15:04:51 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/23 17:21:18 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/07/23 17:48:19 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
 
 void	ft_set_prsr_err(t_ms *ms, int type)
 {
-	ms->prsr_err = type;
+	if (!ms->prsr_err)
+		ms->prsr_err = type;
 }
 
 t_ast	*ft_get_ast(t_tkns *tkns, int tree_top, t_ms *ms)
@@ -54,7 +55,6 @@ void	ft_prsr(t_ms *ms)
 	{
 		ft_free_ast(ms->ast);
 		ms->ast = NULL;
-		if (!ms->prsr_err)
-			ft_set_prsr_err(ms, e_sntx);
+		ft_set_prsr_err(ms, e_sntx);
 	}
 }
