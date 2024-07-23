@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 19:41:56 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/15 19:43:14 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/23 16:02:19 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,8 @@ int	env_update_cwd(t_ms *ms)
 	{
 		free(ms->cwd);
 		ms->cwd = dir;
-		return (env_var_set(ms, "OLDPWD", ""));
+		env_var_unset(ms->env, "OLDPWD");
+		return (1);
 	}
 	if (!env_var_set(ms, "PWD", dir) || !env_var_set(ms, "OLDPWD", ms->cwd))
 	{
