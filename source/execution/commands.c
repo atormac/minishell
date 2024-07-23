@@ -6,13 +6,13 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 15:00:38 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/21 17:46:25 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/21 18:29:37 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int		exec_cmd(t_ms *ms, t_ast *ast, int cmd_id);
+int		exec_cmd(t_ms *ms, t_ast *cmd, int cmd_id);
 int		pid_wait(t_ast *cmd);
 
 static int	command_id(t_ast *cmd, t_ast *prev, int reset)

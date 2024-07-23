@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:31 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/19 14:33:31 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/21 18:30:48 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,39 +52,39 @@ static int	exec_bin(t_ms *ms, char **args)
 	return (ret);
 }
 
-static void	exec_fork(t_ms *ms, t_ast *ast, int cmd_id, int *prev_fd)
+static void	exec_fork(t_ms *ms, t_ast *cmd, int cmd_id, int *prev_fd)
 {
 	int		builtin;
 
-	ast->pid = fork();
-	if (ast->pid == -1)
+	cmd->pid = fork();
+	if (cmd->pid == -1)
 	{
 		error_print("fork", NULL);
 		minishell_close(ms->pipe);
 		minishell_close(prev_fd);
 		return ;
 	}
-	if (ast->pid == 0)
+	if (cmd->pid == 0)
 	{
 		set_signals(ms, SIGNALS_DEFAULT);
-		builtin = is_builtin(ast->expd_str[0]);
-		if (redirect(ms, ast, cmd_id, prev_fd))
+		builtin = is_builtin(cmd->expd_str[0]);
+		if (redirect(ms, cmd, cmd_id, prev_fd))
 		{
 			if (builtin)
-				exec_builtin(ms, builtin, &ast->expd_str[1]);
+				exec_builtin(ms, builtin, &cmd->expd_str[1]);
 			else
-				exec_bin(ms, ast->expd_str);
+				exec_bin(ms, cmd->expd_str);
 		}
 		minishell_cleanup(ms);
 		exit(ms->exit_code);
 	}
 }
 
-static void	exec_piped(t_ms *ms, t_ast *ast, int cmd_id)
+static void	exec_piped(t_ms *ms, t_ast *cmd, int cmd_id)
 {
 	int		prev_fd[2];
 
-	ast->pid = -1;
+	cmd->pid = -1;
 	prev_fd[0] = ms->pipe[0];
 	prev_fd[1] = ms->pipe[1];
 	if (cmd_id < CMD_LAST)
@@ -96,36 +96,36 @@ static void	exec_piped(t_ms *ms, t_ast *ast, int cmd_id)
 			return ;
 		}
 	}
-	exec_fork(ms, ast, cmd_id, prev_fd);
+	exec_fork(ms, cmd, cmd_id, prev_fd);
 	close(ms->pipe[1]);
 	ms->pipe[1] = -1;
 	if (cmd_id > CMD_FIRST)
 		close(prev_fd[0]);
 }
 
-void	exec_cmd(t_ms *ms, t_ast *ast, int cmd_id)
+void	exec_cmd(t_ms *ms, t_ast *cmd, int cmd_id)
 {
 	int	builtin;
 
-	if (ast->expd_str[0] == NULL)
+	if (cmd->expd_str[0] == NULL)
 		return ;
-	if (ast->io && ast->io->type == t_lwrlwr)
+	if (cmd->io && cmd->io->type == t_lwrlwr)
 	{
-		if (!heredoc_prompt(ms, ast->io->expd_str[0]))
+		if (!heredoc_prompt(ms, cmd->io->expd_str[0]))
 		{
 			ms->abort = 1;
 			return ;
 		}
 	}
-	builtin = is_builtin(ast->expd_str[0]);
-	if (builtin && !ast->io && cmd_id == CMD_NOPIPE)
-		exec_builtin(ms, builtin, &ast->expd_str[1]);
+	builtin = is_builtin(cmd->expd_str[0]);
+	if (builtin && !cmd->io && cmd_id == CMD_NOPIPE)
+		exec_builtin(ms, builtin, &cmd->expd_str[1]);
 	else if (cmd_id == CMD_NOPIPE)
-		exec_fork(ms, ast, cmd_id, NULL);
+		exec_fork(ms, cmd, cmd_id, NULL);
 	else
-		exec_piped(ms, ast, cmd_id);
+		exec_piped(ms, cmd, cmd_id);
 	if (ms->fd_heredoc >= 0)
 		close(ms->fd_heredoc);
-	if (ast->pid == -1)
+	if (cmd->pid == -1)
 		ms->abort = 1;
 }
