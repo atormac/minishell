@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 19:53:10 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/21 16:16:52 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/23 17:54:52 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,31 +57,46 @@ static void	sig_parent_handler(int signo)
 	}
 }
 
-int	set_signals(t_ms *ms, int type)
+static int	set_parent(void)
 {
 	struct sigaction	sa;
 
+	rl_done = 0;
+	rl_event_hook = NULL;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_handler = sig_parent_handler;
+	sa.sa_flags = SA_RESTART;
+	if (sigaction(SIGINT, &sa, NULL) == -1)
+		return (0);
+	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
+		return (0);
+	return (1);
+}
+
+int	set_signals(t_ms *ms, int type)
+{
 	set_signal_exit(ms);
+	ms->abort = 1;
 	if (type == SIGNALS_PARENT)
 	{
-		rl_done = 0;
-		rl_event_hook = NULL;
-		sigemptyset(&sa.sa_mask);
-		sa.sa_handler = sig_parent_handler;
-		sa.sa_flags = SA_RESTART;
-		sigaction(SIGINT, &sa, NULL);
-		signal(SIGQUIT, SIG_IGN);
+		if (!set_parent())
+			return (0);
 	}
 	else if (type == SIGNALS_HEREDOC)
 	{
 		rl_event_hook = event;
-		signal(SIGINT, sig_handler_heredoc);
-		signal(SIGQUIT, SIG_IGN);
+		if (signal(SIGINT, sig_handler_heredoc) == SIG_ERR)
+			return (0);
+		if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
+			return (0);
 	}
 	else if (type == SIGNALS_DEFAULT)
 	{
-		signal(SIGINT, SIG_DFL);
-		signal(SIGQUIT, SIG_DFL);
+		if (signal(SIGINT, SIG_DFL) == SIG_ERR)
+			return (0);
+		if (signal(SIGQUIT, SIG_DFL) == SIG_ERR)
+			return (0);
 	}
+	ms->abort = 0;
 	return (1);
 }
