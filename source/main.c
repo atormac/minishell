@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/23 00:26:05 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/23 16:31:25 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,11 @@ void	commands_exec(t_ms *ms, t_ast *ast, t_ast *prev);
 
 static int	parse_line(t_ms *ms, char *line)
 {
+	ms->prsr_err = 0;
 	ft_get_tokens(ms, line);
+	//printf("ms->prsr_err %d\n", ms->prsr_err);
 	ft_prsr(ms);
+	//printf("ms->prsr_err %d\n", ms->prsr_err);
 	if (ms->prsr_err)
 		return (ft_prsr_err(ms), 0);
 	ft_free_tkns(ms);
