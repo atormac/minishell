@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:42:50 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/21 18:03:58 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/23 17:04:08 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -39,6 +39,8 @@ int	minishell_init(t_ms *ms, char **envp)
 
 void	minishell_close(int *fd)
 {
+	if (!fd)
+		return ;
 	if (fd[0] >= 0)
 		close(fd[0]);
 	if (fd[1] >= 0)
