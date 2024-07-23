@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 15:04:51 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/23 00:02:23 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/23 17:21:18 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -53,7 +53,8 @@ void	ft_prsr(t_ms *ms)
 	if (ft_is_tkn(ms->tkns))
 	{
 		ft_free_ast(ms->ast);
-		ft_set_prsr_err(ms, e_sntx);
 		ms->ast = NULL;
+		if (!ms->prsr_err)
+			ft_set_prsr_err(ms, e_sntx);
 	}
 }
