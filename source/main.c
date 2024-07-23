@@ -93,7 +93,7 @@ static	void	minishell(t_ms *ms)
 		line = NULL;
 	}
 	if (!ms->do_exit && !ms->abort)
-		ft_putstr_fd("exit\n", STDOUT_FILENO);
+		//ft_putstr_fd("exit\n", STDOUT_FILENO);
 	free(line);
 }
 
