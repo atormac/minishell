@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 20:30:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/24 16:06:48 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/24 17:01:32 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -15,24 +15,25 @@
 
 char	*ft_expd_heredoc(char *s, t_ms *ms);
 void	error_heredoc(char *eof);
+ssize_t	line_write(int fd, char *str);
 int		heredoc_file(int *out_write, int *out_read);
 
-static int	heredoc_write(t_ms *ms, int fd, char *line)
+static int	heredoc_write(t_ms *ms, int fd, char *line, int do_expand)
 {
-	char	*expanded;
+	ssize_t	ret;
+	char	*str;
 
-	expanded = ft_expd_heredoc(line, ms);
-	if (!expanded)
-		return (0);
-	if (write(fd, expanded, ft_strlen(expanded)) == -1)
+	str = line;
+	if (do_expand)
 	{
-		free(expanded);
-		return (0);
+		str = ft_expd_heredoc(line, ms);
+		if (!str)
+			return (0);
 	}
-	free(expanded);
-	if (write(fd, "\n", 1) == -1)
-		return (0);
-	return (1);
+	ret = line_write(fd, str);
+	if (do_expand)
+		free(str);
+	return (ret);
 }
 
 static int	heredoc_read(t_ms *ms, char *eof, int write_fd)
@@ -47,7 +48,7 @@ static int	heredoc_read(t_ms *ms, char *eof, int write_fd)
 		line = readline(">");
 		if (!line || ms->stop_heredoc || ft_strcmp(line, eof) == 0)
 			break ;
-		success = heredoc_write(ms, write_fd, line);
+		success = heredoc_write(ms, write_fd, line, 1);
 		if (!success)
 			break ;
 		free(line);

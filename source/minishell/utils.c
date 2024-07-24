@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:43:17 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/24 12:29:50 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/24 17:00:49 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -57,4 +57,13 @@ int	pid_wait(t_ast *cmd)
 int	event(void)
 {
 	return (0);
+}
+
+ssize_t	line_write(int fd, char *str)
+{
+	if (str && write(fd, str, ft_strlen(str)) == -1)
+		return (0);
+	if (write(fd, "\n", 1) == -1)
+		return (0);
+	return (1);
 }
