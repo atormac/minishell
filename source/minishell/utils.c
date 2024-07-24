@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:43:17 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/19 18:21:47 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/24 12:29:50 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -52,11 +52,6 @@ int	pid_wait(t_ast *cmd)
 	if (WIFSIGNALED(status))
 		return (WTERMSIG(status) + 128);
 	return (EXIT_FAILURE);
-}
-
-int	pid_kill(pid_t pid)
-{
-	return (kill(pid, SIGKILL));
 }
 
 int	event(void)
