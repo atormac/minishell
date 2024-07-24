@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 20:25:15 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/24 16:16:26 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/07/24 17:28:39 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <dirent.h>
 
 // 1st Expansion stage top level functions
+void	ft_expd_eof(t_ast *ast);
 char	*ft_expd_heredoc(char *s, t_ms *ms);
 void	ft_expd_ast(t_ms *ms, t_ast *ast);
 void	expd_prep(t_ms *ms, t_ast *ast);
