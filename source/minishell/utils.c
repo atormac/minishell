@@ -25,12 +25,17 @@ size_t	args_count(char **args)
 	return (ret);
 }
 
-int	is_alnum(char *str)
+int	is_export_valid(char *str)
 {
-	if (*str == '\0')
+	if (*str == '\0' || ft_isdigit(*str))
 		return (0);
-	while (*str)
+	while (*str && *str != '=')
 	{
+		if (*str == '_')
+		{
+			str++;
+			continue;
+		}
 		if (!ft_isalnum(*str))
 			return (0);
 		str++;

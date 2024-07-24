@@ -14,7 +14,7 @@
 #include "../../include/builtin.h"
 #include "../../include/environment.h"
 
-int		is_alnum(char *str);
+int		is_export_valid(char *str);
 void	error_export(char *str);
 
 static void	print_entry(char *entry)
@@ -66,20 +66,16 @@ static int	export_var(t_ms *ms, char *arg)
 {
 	char	*val;
 
-	if (ft_isdigit(arg[0]))
+	if (!is_export_valid(arg))
 		return (1);
 	val = ft_strchr(arg, '=');
 	if (!val)
 	{
-		if (!is_alnum(arg))
-			return (1);
 		env_var_set(ms, arg, "");
 		remove_eq(ms, arg);
 		return (0);
 	}
 	*val = '\0';
-	if (!is_alnum(arg))
-		return (1);
 	val++;
 	env_var_set(ms, arg, val);
 	return (0);
