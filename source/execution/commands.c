@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 15:00:38 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/21 18:29:37 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/24 14:08:56 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ void	commands_exec(t_ms *ms, t_ast *ast, t_ast *prev)
 	if (ast->type == t_cmnd && ast->expd_str)
 	{
 		id = command_id(ast, prev, 0);
+		if (id == CMD_LAST)
+			command_id(ast, prev, 1);
 		exec_cmd(ms, ast, id);
 	}
 	if (ast->left)
