@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 13:08:25 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/19 22:57:36 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/24 15:50:29 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ typedef struct t_ms
 	int				abort;
 	int				pipe[2];
 	int				fd_heredoc;
+	int				heredoc_done;
 	int				stop_heredoc;
 	int				exit_code;
 	int				do_exit;

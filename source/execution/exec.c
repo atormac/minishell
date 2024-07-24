@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:31 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/24 13:44:58 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/24 16:01:42 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*path_join(char *path, char *bin);
 char	**path_get(char **envp);
 char	*path_find_bin(t_ms *ms, char *cmd);
 int		redirect(t_ms *ms, t_ast *ast, int cmd_id, int *prev_fd);
-int		heredoc_prompt(t_ms *ms, char *eof);
+int		heredoc_prompt(t_ms *ms, t_ast *ast);
 
 static int	exec_builtin(t_ms *ms, int id, char **args)
 {
@@ -109,14 +109,6 @@ void	exec_cmd(t_ms *ms, t_ast *cmd, int cmd_id)
 
 	if (cmd->expd_str[0] == NULL)
 		return ;
-	if (cmd->io && cmd->io->type == t_lwrlwr)
-	{
-		if (!heredoc_prompt(ms, cmd->io->str))
-		{
-			ms->abort = 1;
-			return ;
-		}
-	}
 	builtin = is_builtin(cmd->expd_str[0]);
 	if (builtin && !cmd->io && cmd_id == CMD_NOPIPE)
 		exec_builtin(ms, builtin, &cmd->expd_str[1]);

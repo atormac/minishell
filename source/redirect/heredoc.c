@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 20:30:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/19 14:33:39 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/24 16:06:48 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -62,12 +62,32 @@ static int	heredoc_read(t_ms *ms, char *eof, int write_fd)
 	return (success);
 }
 
-int	heredoc_prompt(t_ms *ms, char *eof)
+static void	heredoc_prompt_empty(t_ms *ms, char *eof)
+{
+	char	*line;
+
+	set_signals(ms, SIGNALS_HEREDOC);
+	while (1)
+	{
+		line = readline(">");
+		if (!line || ms->stop_heredoc || ft_strcmp(line, eof) == 0)
+			break ;
+		free(line);
+		line = NULL;
+	}
+	set_signals(ms, SIGNALS_PARENT);
+	if (!line)
+		error_heredoc(eof);
+	free(line);
+}
+
+static int	heredoc_prompt(t_ms *ms, char *eof)
 {
 	int		write_fd;
 	int		read_fd;
 	int		success;
 
+	ms->abort = 1;
 	ms->fd_heredoc = -1;
 	if (!heredoc_file(&write_fd, &read_fd))
 		return (0);
@@ -76,5 +96,23 @@ int	heredoc_prompt(t_ms *ms, char *eof)
 	if (!success)
 		close(read_fd);
 	ms->fd_heredoc = read_fd;
+	if (success)
+		ms->abort = 0;
 	return (success);
+}
+
+int	heredoc_loop(t_ms *ms, t_ast *cmd)
+{
+	t_ast	*io;
+
+	io = cmd->io;
+	while (io && io->type == t_lwrlwr)
+	{
+		if (cmd->str && io->io == NULL)
+			return (heredoc_prompt(ms, io->str));
+		else
+			heredoc_prompt_empty(ms, io->str);
+		io = io->io;
+	}
+	return (1);
 }
