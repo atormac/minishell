@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 19:47:40 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/19 13:22:24 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/24 13:48:08 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int	builtin_exit(t_ms *ms, char **args)
 	}
 	if (args_count(args) > 1)
 	{
+		ms->do_exit = 0;
 		error_print("exit", "too many arguments");
 		return (1);
 	}
