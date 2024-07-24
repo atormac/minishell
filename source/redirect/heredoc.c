@@ -93,8 +93,11 @@ static int	heredoc_prompt(t_ms *ms, t_ast *io)
 		return (0);
 	success = heredoc_read(ms, io, write_fd);
 	close(write_fd);
-	if (!success)
+	if (!success || ms->stop_heredoc)
+	{
 		close(read_fd);
+		return (0);
+	}
 	ms->fd_heredoc = read_fd;
 	return (success);
 }
@@ -111,10 +114,8 @@ int	heredoc_loop(t_ms *ms, t_ast *cmd)
 		else
 			heredoc_prompt_empty(ms, io->str);
 		if (ms->stop_heredoc)
-			break ;
+			return (0);
 		io = io->io;
 	}
-	if (ms->stop_heredoc)
-		return (0);
 	return (1);
 }
