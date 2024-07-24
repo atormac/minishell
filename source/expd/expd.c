@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 12:12:16 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/24 16:47:44 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/07/24 17:21:44 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -31,6 +31,18 @@ void	ft_post_expd(t_ms *ms, t_ast *ast, char *part_expd_str)
 		ms->prsr_err = e_mem;
 }
 
+void	ft_expd_eof(t_ast *ast)
+{
+	int	pre;
+	int	aft;
+
+	pre = ft_strlen(ast->str);
+	ft_strip_qtes(ast->str);	
+	aft = ft_strlen(ast->str);
+	if (aft == pre)
+		ast->do_hrdc_exp = 1;
+}
+
 void	ft_expd_str(t_ms *ms, t_ast *ast)
 {
 	size_t	i;
@@ -39,7 +51,7 @@ void	ft_expd_str(t_ms *ms, t_ast *ast)
 	if (!ast->str)
 		return ;
 	if (ast->type == 6)
-		return (ft_strip_qtes(ast->str));
+		return (ft_expd_eof(ast));
 	res = ft_strdup("");
 	i = 0;
 	while (ast->str[i] && res)

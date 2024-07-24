@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 13:08:25 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/24 15:50:29 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/24 17:20:18 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef struct s_ast
 	struct s_ast	*left;
 	struct s_ast	*right;
 	struct s_ast	*io;
+	int				do_hrdc_exp;
 }	t_ast;
 
 typedef enum e_prsr_err
