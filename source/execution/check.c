@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 19:36:35 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/19 13:01:07 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/24 16:22:45 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	check_cmd_initial(t_ms *ms, char *cmd)
 		ms->exit_code = 127;
 		return (1);
 	}
-	if (check_empty(cmd))
+	if (ft_strcmp(cmd, "..") == 0 || check_empty(cmd))
 	{
 		error_cmd(0, cmd);
 		ms->exit_code = 127;
