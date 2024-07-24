@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 20:30:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/24 17:24:36 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/24 18:20:28 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -109,7 +109,7 @@ int	heredoc_loop(t_ms *ms, t_ast *cmd)
 	io = cmd->io;
 	while (io && io->type == t_lwrlwr)
 	{
-		if (cmd->str && io->io == NULL)
+		if (cmd->str && (io->io == NULL || io->io->type != t_lwrlwr))
 			return (heredoc_prompt(ms, io));
 		else
 			heredoc_prompt_empty(ms, io->str);
