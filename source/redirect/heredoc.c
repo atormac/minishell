@@ -58,8 +58,6 @@ static int	heredoc_read(t_ms *ms, t_ast *io, int write_fd)
 	if (!line)
 		error_heredoc(io->str);
 	free(line);
-	if (ms->stop_heredoc)
-		return (0);
 	return (success);
 }
 
@@ -90,11 +88,16 @@ static int	heredoc_prompt(t_ms *ms, t_ast *io)
 
 	ms->fd_heredoc = -1;
 	if (!heredoc_file(&write_fd, &read_fd))
+	{
+		ms->abort = 1;
 		return (0);
+	}
 	success = heredoc_read(ms, io, write_fd);
 	close(write_fd);
 	if (!success || ms->stop_heredoc)
 	{
+		if (!success)
+			ms->abort = 1;
 		close(read_fd);
 		return (0);
 	}
