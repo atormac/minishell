@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 20:30:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/24 17:01:32 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/24 17:24:36 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -36,7 +36,7 @@ static int	heredoc_write(t_ms *ms, int fd, char *line, int do_expand)
 	return (ret);
 }
 
-static int	heredoc_read(t_ms *ms, char *eof, int write_fd)
+static int	heredoc_read(t_ms *ms, t_ast *io, int write_fd)
 {
 	int		success;
 	char	*line;
@@ -46,9 +46,9 @@ static int	heredoc_read(t_ms *ms, char *eof, int write_fd)
 	while (1)
 	{
 		line = readline(">");
-		if (!line || ms->stop_heredoc || ft_strcmp(line, eof) == 0)
+		if (!line || ms->stop_heredoc || ft_strcmp(line, io->str) == 0)
 			break ;
-		success = heredoc_write(ms, write_fd, line, 1);
+		success = heredoc_write(ms, write_fd, line, io->do_hrdc_exp);
 		if (!success)
 			break ;
 		free(line);
@@ -56,7 +56,7 @@ static int	heredoc_read(t_ms *ms, char *eof, int write_fd)
 	}
 	set_signals(ms, SIGNALS_PARENT);
 	if (!line)
-		error_heredoc(eof);
+		error_heredoc(io->str);
 	free(line);
 	if (ms->stop_heredoc)
 		return (0);
@@ -82,7 +82,7 @@ static void	heredoc_prompt_empty(t_ms *ms, char *eof)
 	free(line);
 }
 
-static int	heredoc_prompt(t_ms *ms, char *eof)
+static int	heredoc_prompt(t_ms *ms, t_ast *io)
 {
 	int		write_fd;
 	int		read_fd;
@@ -92,7 +92,7 @@ static int	heredoc_prompt(t_ms *ms, char *eof)
 	ms->fd_heredoc = -1;
 	if (!heredoc_file(&write_fd, &read_fd))
 		return (0);
-	success = heredoc_read(ms, eof, write_fd);
+	success = heredoc_read(ms, io, write_fd);
 	close(write_fd);
 	if (!success)
 		close(read_fd);
@@ -110,7 +110,7 @@ int	heredoc_loop(t_ms *ms, t_ast *cmd)
 	while (io && io->type == t_lwrlwr)
 	{
 		if (cmd->str && io->io == NULL)
-			return (heredoc_prompt(ms, io->str));
+			return (heredoc_prompt(ms, io));
 		else
 			heredoc_prompt_empty(ms, io->str);
 		io = io->io;
