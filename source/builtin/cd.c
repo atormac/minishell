@@ -30,8 +30,10 @@ static void	trim_path(char *path)
 static int	change_up(t_ms *ms, char *dir)
 {
 	char	*new;
+	char	*original;
 	size_t	size;
 
+	original = dir;
 	while (*dir && *dir == '.')
 		dir++;
 	size = ft_strlen(ms->cwd) + ft_strlen(dir) + 1;
@@ -44,7 +46,7 @@ static int	change_up(t_ms *ms, char *dir)
 	if (chdir(new) == -1)
 	{
 		free(new);
-		error_builtin("cd", dir, NULL);
+		error_builtin("cd", original, NULL);
 		return (0);
 	}
 	free(new);
