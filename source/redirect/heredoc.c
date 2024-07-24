@@ -88,7 +88,6 @@ static int	heredoc_prompt(t_ms *ms, t_ast *io)
 	int		read_fd;
 	int		success;
 
-	ms->abort = 1;
 	ms->fd_heredoc = -1;
 	if (!heredoc_file(&write_fd, &read_fd))
 		return (0);
@@ -97,8 +96,6 @@ static int	heredoc_prompt(t_ms *ms, t_ast *io)
 	if (!success)
 		close(read_fd);
 	ms->fd_heredoc = read_fd;
-	if (success)
-		ms->abort = 0;
 	return (success);
 }
 
@@ -113,7 +110,11 @@ int	heredoc_loop(t_ms *ms, t_ast *cmd)
 			return (heredoc_prompt(ms, io));
 		else
 			heredoc_prompt_empty(ms, io->str);
+		if (ms->stop_heredoc)
+			break ;
 		io = io->io;
 	}
+	if (ms->stop_heredoc)
+		return (0);
 	return (1);
 }
