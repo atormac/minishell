@@ -34,7 +34,7 @@ int	is_export_valid(char *str)
 		if (*str == '_')
 		{
 			str++;
-			continue;
+			continue ;
 		}
 		if (!ft_isalnum(*str))
 			return (0);
