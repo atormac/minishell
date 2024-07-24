@@ -32,7 +32,7 @@ int	builtin_exit(t_ms *ms, char **args)
 	int	code;
 
 	ms->do_exit = 1;
-	if (isatty(STDIN_FILENO))
+	if (isatty(STDIN_FILENO) && isatty(STDOUT_FILENO))
 		ft_putstr_fd("exit\n", STDOUT_FILENO);
 	if (args[0] == NULL)
 		return (ms->exit_code);
