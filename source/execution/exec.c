@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:31 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/21 18:30:48 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/24 13:44:58 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ void	exec_cmd(t_ms *ms, t_ast *cmd, int cmd_id)
 		return ;
 	if (cmd->io && cmd->io->type == t_lwrlwr)
 	{
-		if (!heredoc_prompt(ms, cmd->io->expd_str[0]))
+		if (!heredoc_prompt(ms, cmd->io->str))
 		{
 			ms->abort = 1;
 			return ;
