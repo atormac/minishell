@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 13:59:48 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/07 13:49:19 by lucas            ###   ########.fr       */
+/*   Updated: 2024/07/24 11:34:56 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -15,6 +15,7 @@ void	ft_rm_empty_substrs(char *s)
 {
 	size_t	r;
 	size_t	w;
+	int		qte;
 
 	if (!s || !s[0] || !s[1])
 		return ;
@@ -26,6 +27,13 @@ void	ft_rm_empty_substrs(char *s)
 	{
 		if ((s[r] == 34 && s[r + 1] == 34) || (s[r] == 39 && s[r + 1] == 39))
 			r += 2;
+		else if (s[r] == '"' || s[r] == '\'')
+		{
+			qte = s[r];
+			s[w++] = s[r++];
+			while (s[r] && s[r] != qte)
+				s[w++] = s[r++];
+		}
 		else
 			s[w++] = s[r++];
 	}
