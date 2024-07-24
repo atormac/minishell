@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 12:12:16 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/24 16:17:00 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/07/24 16:47:44 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -38,6 +38,8 @@ void	ft_expd_str(t_ms *ms, t_ast *ast)
 
 	if (!ast->str)
 		return ;
+	if (ast->type == 6)
+		return (ft_strip_qtes(ast->str));
 	res = ft_strdup("");
 	i = 0;
 	while (ast->str[i] && res)
