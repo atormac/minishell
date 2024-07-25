@@ -6,11 +6,13 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 15:00:38 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/24 16:06:20 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/25 20:09:05 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+#include <sys/types.h>
+#include <sys/wait.h>
 
 int		exec_cmd(t_ms *ms, t_ast *cmd, int cmd_id);
 int		heredoc_loop(t_ms *ms, t_ast *ast);
