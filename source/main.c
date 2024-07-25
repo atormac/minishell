@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/25 19:07:48 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/25 20:37:41 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <sys/wait.h>
 
 void	commands_wait(t_ms *ms, t_ast *ast, t_ast *limit);
 void	commands_exec(t_ms *ms, t_ast *ast, t_ast *prev);
@@ -34,6 +35,19 @@ static int	parse_line(t_ms *ms, char *line)
 	return (1);
 }
 
+static void	print_signaled(t_ms *ms)
+{
+	int	sig;
+
+	if (ms->exit_type != 1)
+		return ;
+	sig = ms->exit_code - 128;
+	if (sig == SIGQUIT)
+		ft_putstr_fd("Quit: (core dumped)\n", STDERR_FILENO);
+	else if (sig == SIGSEGV)
+		ft_putstr_fd("Segmentation fault: (core dumped)\n", STDERR_FILENO);
+}
+
 static void	process_line(t_ms *ms, char **line)
 {
 	ms->abort = 0;
@@ -47,10 +61,12 @@ static void	process_line(t_ms *ms, char **line)
 	}
 	free(*line);
 	*line = NULL;
+	ms->exit_type = 0;
 	commands_exec(ms, ms->ast, ms->ast);
 	if (ms->fd_heredoc >= 0)
 		close(ms->fd_heredoc);
 	commands_wait(ms, ms->ast, NULL);
+	print_signaled(ms);
 	ms->exit_code = ms->exit_code & 0377;
 	ft_free_ast(ms->ast);
 	ms->ast = NULL;

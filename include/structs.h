@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 13:08:25 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/25 19:21:04 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/25 20:24:11 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ typedef struct t_ms
 	int				heredoc_done;
 	int				stop_heredoc;
 	int				exit_code;
+	int				exit_type;
 	int				do_exit;
 	struct s_tkns	*tkns;
 	struct s_ast	*ast;

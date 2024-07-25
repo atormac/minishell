@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:43:17 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/25 20:08:57 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/25 20:33:12 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -43,10 +43,9 @@ int	is_export_valid(char *str)
 	return (1);
 }
 
-int	pid_wait(t_ast *cmd)
+int	pid_wait(t_ast *cmd, int *exit_type)
 {
 	int		status;
-	int		sig;
 
 	if (cmd->pid < 0)
 		return (-1);
@@ -54,17 +53,14 @@ int	pid_wait(t_ast *cmd)
 		return (-1);
 	cmd->pid = -2;
 	if (WIFEXITED(status))
+	{
+		*exit_type = 0;
 		return (WEXITSTATUS(status));
+	}
 	if (WIFSIGNALED(status))
 	{
-		sig = WTERMSIG(status);
-		if (sig == SIGQUIT)
-			ft_putstr_fd("Quit: 3\n", STDERR_FILENO);
-		else if (sig == SIGSEGV)
-			ft_putstr_fd("Segmentation fault: 11\n", STDERR_FILENO);
-		else if (sig == SIGINT)
-			ft_putstr_fd("\n", STDERR_FILENO);
-		return (sig + 128);
+		*exit_type = 1;
+		return (WTERMSIG(status) + 128);
 	}
 	return (EXIT_FAILURE);
 }
