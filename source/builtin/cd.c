@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 17:41:27 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/19 17:55:31 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/25 19:41:06 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ int	builtin_cd(t_ms *ms, char **args, char *dir)
 		error_print("cd", "too many arguments");
 		return (1);
 	}
+	if (args_count(args) == 1 && args[0][0] == '\0')
+		return (0);
 	if (!dir)
 	{
 		dir = env_var_get(ms->env, "HOME");
