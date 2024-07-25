@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:31 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/24 16:01:42 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/25 19:10:48 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,11 @@ void	exec_cmd(t_ms *ms, t_ast *cmd, int cmd_id)
 	if (cmd->expd_str[0] == NULL)
 		return ;
 	builtin = is_builtin(cmd->expd_str[0]);
+	if (cmd_id == CMD_NOPIPE && builtin == BUILTIN_EXIT && cmd->io)
+	{
+		ft_putstr_fd("exit\n", STDERR_FILENO);
+		ms->do_exit = 1;
+	}
 	if (builtin && !cmd->io && cmd_id == CMD_NOPIPE)
 		exec_builtin(ms, builtin, &cmd->expd_str[1]);
 	else if (cmd_id == CMD_NOPIPE)

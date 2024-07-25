@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 19:47:40 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/24 13:48:08 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/25 18:58:02 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	builtin_exit(t_ms *ms, char **args)
 
 	ms->do_exit = 1;
 	if (isatty(STDIN_FILENO) && isatty(STDOUT_FILENO))
-		ft_putstr_fd("exit\n", STDOUT_FILENO);
+		ft_putstr_fd("exit\n", STDERR_FILENO);
 	if (args[0] == NULL)
 		return (ms->exit_code);
 	if (!is_numeric(args[0]))

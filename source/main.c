@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/24 16:18:01 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/25 19:07:48 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static	void	minishell(t_ms *ms)
 		line = NULL;
 	}
 	if (!ms->do_exit && !ms->abort)
-		ft_putstr_fd("exit\n", STDOUT_FILENO);
+		ft_putstr_fd("exit\n", STDERR_FILENO);
 	free(line);
 }
 
