@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/25 20:41:48 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/25 21:06:47 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ static void	process_line(t_ms *ms, char **line)
 	commands_wait(ms, ms->ast, NULL);
 	print_signaled(ms);
 	ms->exit_code = ms->exit_code & 0377;
+	if (ms->exit_code != 0)
+		ms->do_exit = 0;
 	ft_free_ast(ms->ast);
 	ms->ast = NULL;
 }
