@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 19:36:35 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/24 16:22:45 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/25 18:56:23 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,17 @@ int	check_empty(char *cmd)
 	while (*cmd && *cmd == ' ')
 		cmd++;
 	if (cmd[0] == '\0')
+		return (1);
+	return (0);
+}
+
+int	check_exists(char *filepath)
+{
+	struct stat	file_stat;
+
+	if (stat(filepath, &file_stat) == -1)
+		return (0);
+	if (S_ISREG(file_stat.st_mode))
 		return (1);
 	return (0);
 }

@@ -6,13 +6,14 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:18 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/19 13:03:04 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/25 18:55:14 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 #include <sys/stat.h>
 
+int		check_exists(char *filepath);
 int		check_cmd_initial(t_ms *ms, char *cmd);
 int		check_path_cmd(t_ms *ms, char *cmd, char *cmd_path, int err);
 
@@ -67,7 +68,7 @@ static char	*path_search(t_ms *ms, char *cmd, int *err)
 	while (!*err && path && path[i])
 	{
 		cmd_path = path_join(path[i], cmd, err);
-		if (!cmd_path || access(cmd_path, F_OK) == 0)
+		if (!cmd_path || check_exists(cmd_path))
 			break ;
 		free(cmd_path);
 		cmd_path = NULL;
