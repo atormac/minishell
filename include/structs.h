@@ -97,9 +97,11 @@ typedef struct t_ms
 	char			*cwd;
 	int				abort;
 	int				pipe[2];
+	int				std[2];
 	int				fd_heredoc;
 	int				heredoc_done;
 	int				stop_heredoc;
+	int				is_parent;
 	int				exit_code;
 	int				exit_type;
 	int				do_exit;

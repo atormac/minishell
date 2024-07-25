@@ -14,13 +14,14 @@
 
 int	minishell_init(t_ms *ms, char **envp)
 {
+	ms->is_parent = 1;
 	ms->tkns = NULL;
 	ms->ast = NULL;
 	ms->do_exit = 0;
 	ms->exit_code = 0;
 	ms->abort = 0;
-	ms->pipe[0] = -1;
-	ms->pipe[1] = -1;
+	ft_memset(ms->pipe, -1, sizeof(ms->pipe));
+	ft_memset(ms->std, -1, sizeof(ms->pipe));
 	ms->fd_heredoc = -1;
 	ms->prsr_err = 0;
 	ms->cwd = NULL;
@@ -58,6 +59,7 @@ void	minishell_cleanup(t_ms *ms)
 	if (ms->ast)
 		ft_free_ast(ms->ast);
 	minishell_close(ms->pipe);
+	minishell_close(ms->std);
 	if (ms->fd_heredoc >= 0)
 		close(ms->fd_heredoc);
 }

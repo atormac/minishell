@@ -81,7 +81,7 @@ void	commands_exec(t_ms *ms, t_ast *ast, t_ast *prev)
 	static t_ast	*root;
 	int				id;
 
-	if (!ast || ms->abort || ms->stop_heredoc)
+	if (!ast || ms->abort || ms->stop_heredoc || ms->do_exit)
 		return ;
 	if (ast == prev)
 	{

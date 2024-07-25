@@ -11,7 +11,7 @@
 # **************************************************************************** #
 
 NAME = minishell
-CC = cc
+CC = gcc
 CFLAGS := -Wall -Wextra -Werror
 LDFLAGS := -lreadline
 LIBDIR = ./libft
@@ -37,7 +37,7 @@ EXEC_SRC = commands.c exec.c path.c check.c
 EXEC_OBJ = $(addprefix $(EXEC_DIR)/,$(EXEC_SRC:.c=.o))
 
 REDIR_DIR = source/redirect
-REDIR_SRC = redirect.c heredoc.c heredoc_file.c
+REDIR_SRC = redirect.c std.c heredoc.c heredoc_file.c 
 REDIR_OBJ = $(addprefix $(REDIR_DIR)/,$(REDIR_SRC:.c=.o))
 
 TKNS_DIR = source/tkns

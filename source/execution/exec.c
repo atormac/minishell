@@ -19,6 +19,8 @@ char	**path_get(char **envp);
 char	*path_find_bin(t_ms *ms, char *cmd);
 int		redirect(t_ms *ms, t_ast *ast, int cmd_id, int *prev_fd);
 int		heredoc_prompt(t_ms *ms, t_ast *ast);
+void	std_save(t_ms *ms);
+void	std_reset(t_ms *ms);
 
 static int	exec_builtin(t_ms *ms, int id, char **args)
 {
@@ -66,6 +68,7 @@ static void	exec_fork(t_ms *ms, t_ast *cmd, int cmd_id, int *prev_fd)
 	}
 	if (cmd->pid == 0)
 	{
+		ms->is_parent = 0;
 		set_signals(ms, SIGNALS_DEFAULT);
 		builtin = is_builtin(cmd->expd_str[0]);
 		if (redirect(ms, cmd, cmd_id, prev_fd))
@@ -110,23 +113,13 @@ void	exec_cmd(t_ms *ms, t_ast *cmd, int cmd_id)
 	if (cmd->expd_str[0] == NULL)
 		return ;
 	builtin = is_builtin(cmd->expd_str[0]);
-	if (cmd_id == CMD_NOPIPE && builtin == BUILTIN_EXIT)
+	if (builtin && cmd_id == CMD_NOPIPE)
 	{
-		int std_in = dup(STDIN_FILENO);
-		int std_out = dup(STDOUT_FILENO);
+		std_save(ms);
 		if (redirect(ms, cmd, cmd_id, NULL))
-		{
-			if (exec_builtin(ms, builtin, &cmd->expd_str[1]))
-				ms->do_exit = 1;
-		}
-		dup2(std_in, STDIN_FILENO);
-		dup2(std_out, STDOUT_FILENO);
-		close(std_in);
-		close(std_out);
-		return ;
+			exec_builtin(ms, builtin, &cmd->expd_str[1]);
+		std_reset(ms);
 	}
-	if (builtin && !cmd->io && cmd_id == CMD_NOPIPE)
-		exec_builtin(ms, builtin, &cmd->expd_str[1]);
 	else if (cmd_id == CMD_NOPIPE)
 		exec_fork(ms, cmd, cmd_id, NULL);
 	else
