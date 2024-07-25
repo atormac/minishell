@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:43:17 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/25 20:33:12 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/25 20:44:31 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -27,7 +27,7 @@ size_t	args_count(char **args)
 
 int	is_export_valid(char *str)
 {
-	if (*str == '\0' || ft_isdigit(*str))
+	if (*str == '\0' || *str == '=' || ft_isdigit(*str))
 		return (0);
 	while (*str && *str != '=')
 	{
