@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 18:19:33 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/19 18:26:20 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/25 19:43:10 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,10 @@ static int	export_var(t_ms *ms, char *arg)
 int	builtin_export(t_ms *ms, char **args)
 {
 	int	i;
+	int	ret;
 
 	i = 0;
+	ret = 0;
 	if (args[0] == NULL)
 		return (export_print(ms->env));
 	while (args[i])
@@ -93,9 +95,9 @@ int	builtin_export(t_ms *ms, char **args)
 		if (export_var(ms, args[i]) == 1)
 		{
 			error_export(args[i]);
-			return (1);
+			ret = 1;
 		}
 		i++;
 	}
-	return (0);
+	return (ret);
 }
