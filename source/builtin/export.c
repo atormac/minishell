@@ -75,8 +75,8 @@ static int	export_var(t_ms *ms, char *arg)
 		remove_eq(ms, arg);
 		return (0);
 	}
-	*val = '\0';
-	val++;
+	*val++ = '\0';
+	env_var_unset(ms->env, arg);
 	env_var_set(ms, arg, val);
 	return (0);
 }

@@ -53,14 +53,25 @@ char	*env_var_get(char **env, char *var)
 
 void	env_var_unset(char **env, char *var)
 {
-	size_t	len;
-	char	*env_var;
+	int		i;
+	size_t	var_len;
 
-	env_var = env_var_get(env, var);
-	if (!env_var)
+	if (!env || !var || var[0] == '\0')
 		return ;
-	len = ft_strlen(var);
-	*(env_var - len - 1) = '\0';
+	i = 0;
+	var_len = ft_strlen(var);
+	while (env[i])
+	{
+		if (ft_strncmp(env[i], var, var_len) == 0)
+		{
+			if (*(env[i] + var_len) == '=' || *(env[i] + var_len) == '\0')
+			{
+				env[i][0] = '\0';
+				return ;
+			}
+		}
+		i++;
+	}
 }
 
 static int	env_var_add(t_ms *ms, char *var_str)
