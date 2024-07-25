@@ -21,7 +21,7 @@ int	minishell_init(t_ms *ms, char **envp)
 	ms->exit_code = 0;
 	ms->abort = 0;
 	ft_memset(ms->pipe, -1, sizeof(ms->pipe));
-	ft_memset(ms->std, -1, sizeof(ms->pipe));
+	ft_memset(ms->std, -1, sizeof(ms->std));
 	ms->fd_heredoc = -1;
 	ms->prsr_err = 0;
 	ms->cwd = NULL;
