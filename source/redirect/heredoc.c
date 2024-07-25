@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 20:30:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/24 18:20:28 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/25 17:00:53 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -17,6 +17,7 @@ char	*ft_expd_heredoc(char *s, t_ms *ms);
 void	error_heredoc(char *eof);
 ssize_t	line_write(int fd, char *str);
 int		heredoc_file(int *out_write, int *out_read);
+char	*line_read(char *prompt);
 
 static int	heredoc_write(t_ms *ms, int fd, char *line, int do_expand)
 {
@@ -45,7 +46,7 @@ static int	heredoc_read(t_ms *ms, t_ast *io, int write_fd)
 	set_signals(ms, SIGNALS_HEREDOC);
 	while (1)
 	{
-		line = readline(">");
+		line = line_read(">");
 		if (!line || ms->stop_heredoc || ft_strcmp(line, io->str) == 0)
 			break ;
 		success = heredoc_write(ms, write_fd, line, io->do_hrdc_exp);
@@ -68,7 +69,7 @@ static void	heredoc_prompt_empty(t_ms *ms, char *eof)
 	set_signals(ms, SIGNALS_HEREDOC);
 	while (1)
 	{
-		line = readline(">");
+		line = line_read(">");
 		if (!line || ms->stop_heredoc || ft_strcmp(line, eof) == 0)
 			break ;
 		free(line);

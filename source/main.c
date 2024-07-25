@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/24 16:18:01 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/25 17:00:18 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,24 @@ static void	process_line(t_ms *ms, char **line)
 	ms->ast = NULL;
 }
 
+char	*line_read(char *prompt)
+{
+	char *line;
+
+	line = NULL;
+	if (isatty(fileno(stdin)))
+		line = readline(prompt);
+	else
+	{
+		char *tmp;
+		tmp = get_next_line(fileno(stdin));
+		if (tmp)
+			line = ft_strtrim(tmp, "\n");
+		free(tmp);
+	}
+	return (line);
+}
+
 static	void	minishell(t_ms *ms)
 {
 	char	prompt[1024];
@@ -64,7 +82,7 @@ static	void	minishell(t_ms *ms)
 	while (!ms->do_exit && !ms->abort)
 	{
 		prompt_update(ms, prompt, sizeof(prompt));
-		line = readline(prompt);
+		line = line_read(prompt);
 		if (line == NULL)
 			break ;
 		if (*line)
@@ -75,8 +93,10 @@ static	void	minishell(t_ms *ms)
 		free(line);
 		line = NULL;
 	}
+	/*
 	if (!ms->do_exit && !ms->abort)
 		ft_putstr_fd("exit\n", STDOUT_FILENO);
+		*/
 	free(line);
 }
 
