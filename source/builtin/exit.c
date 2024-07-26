@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 19:47:40 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/25 21:52:24 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/26 17:05:01 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,23 @@ static int	is_numeric(char *s)
 static int	is_overflow(char *s)
 {
 	size_t	len;
-	int		res;
+	int		is_negative;
 
+	is_negative = 0;
 	if (*s == '-')
-		s++;
-	len = ft_strlen(s);
-	if (len >= (sizeof("9223372036854775807") - 1))
 	{
-		if (ft_strcmp(s, "9223372036854775807") > 0)
-		{
-			res = ft_atoi(s);
-			if (res == -1 || res == 0)
+		s++;
+		is_negative = 1;
+	}
+	len = ft_strlen(s);
+	if (len > (sizeof("9223372036854775807") - 1))
+		return (1);
+	if (len == (sizeof("9223372036854775807") - 1))
+	{
+		if (!is_negative && ft_strcmp(s, "9223372036854775807") > 0)
 				return (1);
-		}
+		if (is_negative && ft_strcmp(s, "9223372036854775808") > 0)
+			return (1);
 	}
 	return (0);
 }
