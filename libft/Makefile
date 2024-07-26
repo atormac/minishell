@@ -6,7 +6,7 @@
 #    By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/18 14:16:39 by atorma            #+#    #+#              #
-#    Updated: 2024/06/26 15:46:25 by atorma           ###   ########.fr        #
+#    Updated: 2024/07/26 17:24:42 by lopoka           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ SOURCES = ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c \
 		  ft_lstmap_bonus.c \
 		  get_next_line.c ft_strtok.c \
 		  ft_printf.c ft_print_utils.c ft_hex.c ft_write.c \
-		  file.c ft_atoi_base.c ft_strcmp.c free.c
+		  file.c ft_atoi_base.c ft_strcmp.c free.c ft_atoi_ll.c
 
 OBJECTS = $(SOURCES:.c=.o)
 

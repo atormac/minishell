@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 19:47:40 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/26 17:05:01 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/26 17:27:48 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,9 @@ static int	is_numeric(char *s)
 
 static int	is_overflow(char *s)
 {
-	size_t	len;
-	int		is_negative;
+	size_t		len;
+	long long	n;
+	/*int		is_negative;
 
 	is_negative = 0;
 	if (*s == '-')
@@ -48,6 +49,11 @@ static int	is_overflow(char *s)
 		if (is_negative && ft_strcmp(s, "9223372036854775808") > 0)
 			return (1);
 	}
+	return (0);*/
+	len = ft_strlen(s);
+	n = ft_atoi_ll(s);
+	if ((n == 0 && len != 1) || (n == -1 && len != 2))
+		return (1);
 	return (0);
 }
 
