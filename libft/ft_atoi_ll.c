@@ -6,11 +6,12 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 17:14:00 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/26 17:16:39 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/07/26 18:05:51 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
-
+#include <stdio.h>
+#include <limits.h>
 long long	ft_atoi_ll(const char *str)
 {
 	long long	res;
@@ -28,11 +29,11 @@ long long	ft_atoi_ll(const char *str)
 	}
 	while ('0' <= *str && *str <= '9')
 	{
-		res = res * 10 + *str - 48;
-		if (res < 0 && sign == 1)
+		if (sign == 1 && ((LLONG_MAX - (*str - 48)) < res * 10))
 			return (-1);
-		if (res < 0 && sign == -1)
+		if (sign == -1 && ((LLONG_MAX - (*str - 48)) < res * 10 - 1))
 			return (0);
+		res = res * 10 + *str - 48;
 		str++;
 	}
 	return (res * sign);
