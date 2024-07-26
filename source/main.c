@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/26 16:06:20 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/26 16:34:26 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static void	print_signaled(t_ms *ms)
 	else if (sig == SIGSEGV)
 		ft_putstr_fd("Segmentation fault: (core dumped)\n", STDERR_FILENO);
 }
-void	heredoc_exec(t_ms *ms, t_ast *ast);
+void	redirect_heredoc(t_ms *ms, t_ast *ast);
 
 static void	process_line(t_ms *ms, char **line)
 {
@@ -63,7 +63,7 @@ static void	process_line(t_ms *ms, char **line)
 	free(*line);
 	*line = NULL;
 	ms->exit_type = 0;
-	heredoc_exec(ms, ms->ast);
+	redirect_heredoc(ms, ms->ast);
 	commands_exec(ms, ms->ast, ms->ast);
 	commands_wait(ms, ms->ast, NULL);
 	print_signaled(ms);
