@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/25 21:18:18 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/26 14:35:12 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ static void	process_line(t_ms *ms, char **line)
 	free(*line);
 	*line = NULL;
 	ms->exit_type = 0;
+	commands_heredoc(ms, ms->ast);
 	commands_exec(ms, ms->ast, ms->ast);
 	if (ms->fd_heredoc >= 0)
 		close(ms->fd_heredoc);

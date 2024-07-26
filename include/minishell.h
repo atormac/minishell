@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 15:36:13 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/19 13:12:58 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/07/26 14:33:59 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,7 @@ void	error_builtin(char *builtin, char *s, char *error_str);
 size_t	args_count(char **args);
 void	prompt_update(t_ms *ms, char *prompt, size_t size);
 int		is_executable(char *path);
+
+void	commands_heredoc(t_ms *ms, t_ast *ast);
 
 #endif
