@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 13:08:25 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/25 20:24:11 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/26 16:06:05 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct s_ast
 {
 	int				type;
 	int				pid;
+	int				fd_heredoc;
 	char			*str;
 	char			**expd_str;
 	struct s_ast	*left;
@@ -98,7 +99,6 @@ typedef struct t_ms
 	int				abort;
 	int				pipe[2];
 	int				std[2];
-	int				fd_heredoc;
 	int				heredoc_done;
 	int				stop_heredoc;
 	int				is_parent;

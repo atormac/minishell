@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 20:30:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/24 18:20:28 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/26 16:04:47 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -86,7 +86,6 @@ static int	heredoc_prompt(t_ms *ms, t_ast *io)
 	int		read_fd;
 	int		success;
 
-	ms->fd_heredoc = -1;
 	if (!heredoc_file(&write_fd, &read_fd))
 	{
 		ms->abort = 1;
@@ -101,7 +100,7 @@ static int	heredoc_prompt(t_ms *ms, t_ast *io)
 		close(read_fd);
 		return (0);
 	}
-	ms->fd_heredoc = read_fd;
+	io->fd_heredoc = read_fd;
 	return (success);
 }
 
@@ -112,6 +111,7 @@ int	heredoc_loop(t_ms *ms, t_ast *cmd)
 	io = cmd->io;
 	while (io && io->type == t_lwrlwr)
 	{
+		io->fd_heredoc = -2;
 		if (cmd->str && (io->io == NULL || io->io->type != t_lwrlwr))
 			return (heredoc_prompt(ms, io));
 		else

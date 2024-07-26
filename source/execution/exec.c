@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:31 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/25 22:02:46 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/26 16:06:58 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,8 +124,6 @@ void	exec_cmd(t_ms *ms, t_ast *cmd, int cmd_id)
 		exec_fork(ms, cmd, cmd_id, NULL);
 	else
 		exec_piped(ms, cmd, cmd_id);
-	if (ms->fd_heredoc >= 0)
-		close(ms->fd_heredoc);
 	if (cmd->pid == -1)
 		ms->abort = 1;
 }
