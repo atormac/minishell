@@ -6,12 +6,14 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 17:14:00 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/26 18:18:45 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/07/26 18:32:22 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 #include <stdio.h>
 #include <limits.h>
+
 long long	ft_atoi_ll(const char *str)
 {
 	long long	res;
