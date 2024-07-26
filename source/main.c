@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:08 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/26 16:34:26 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/26 18:37:52 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ static void	print_signaled(t_ms *ms)
 		return ;
 	sig = ms->exit_code - 128;
 	if (sig == SIGQUIT)
-		ft_putstr_fd("Quit: (core dumped)\n", STDERR_FILENO);
+		ft_putstr_fd("Quit (core dumped)\n", STDERR_FILENO);
 	else if (sig == SIGSEGV)
-		ft_putstr_fd("Segmentation fault: (core dumped)\n", STDERR_FILENO);
+		ft_putstr_fd("Segmentation fault (core dumped)\n", STDERR_FILENO);
 }
 void	redirect_heredoc(t_ms *ms, t_ast *ast);
 
