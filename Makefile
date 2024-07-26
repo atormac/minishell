@@ -6,7 +6,7 @@
 #    By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/11 21:03:29 by atorma            #+#    #+#              #
-#    Updated: 2024/07/26 16:16:24 by lopoka           ###   ########.fr        #
+#    Updated: 2024/07/26 16:36:53 by atorma           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ EXEC_SRC = commands.c exec.c path.c check.c
 EXEC_OBJ = $(addprefix $(EXEC_DIR)/,$(EXEC_SRC:.c=.o))
 
 REDIR_DIR = source/redirect
-REDIR_SRC = redirect.c std.c heredoc.c heredoc_file.c 
+REDIR_SRC = redirect.c redirect_heredoc.c std.c heredoc.c heredoc_file.c 
 REDIR_OBJ = $(addprefix $(REDIR_DIR)/,$(REDIR_SRC:.c=.o))
 
 TKNS_DIR = source/tkns

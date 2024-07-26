@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 18:14:21 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/24 16:47:51 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/26 16:16:14 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	open_infile(t_ms *ms, t_ast *io, int *to_fd)
 	if (io->type == t_lwrlwr)
 	{
 		ms->heredoc_done = 1;
-		return (ms->fd_heredoc);
+		return (io->fd_heredoc);
 	}
 	fd = open(io->expd_str[0], O_RDONLY, 0644);
 	return (fd);
@@ -76,6 +76,11 @@ static int	redirect_io_inout(t_ms *ms, t_ast *ast, int *redir_fd)
 	while (io)
 	{
 		if (ms->heredoc_done && io->type == t_lwrlwr)
+		{
+			io = io->io;
+			continue ;
+		}
+		if (io->type == t_lwrlwr && io->fd_heredoc < 0)
 		{
 			io = io->io;
 			continue ;

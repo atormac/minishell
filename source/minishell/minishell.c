@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:42:50 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/23 17:04:08 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/26 16:06:35 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -22,7 +22,6 @@ int	minishell_init(t_ms *ms, char **envp)
 	ms->abort = 0;
 	ft_memset(ms->pipe, -1, sizeof(ms->pipe));
 	ft_memset(ms->std, -1, sizeof(ms->std));
-	ms->fd_heredoc = -1;
 	ms->prsr_err = 0;
 	ms->cwd = NULL;
 	ms->env = NULL;
@@ -60,6 +59,4 @@ void	minishell_cleanup(t_ms *ms)
 		ft_free_ast(ms->ast);
 	minishell_close(ms->pipe);
 	minishell_close(ms->std);
-	if (ms->fd_heredoc >= 0)
-		close(ms->fd_heredoc);
 }

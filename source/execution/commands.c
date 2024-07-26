@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 15:00:38 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/25 20:32:07 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/26 16:31:52 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 #include <sys/wait.h>
 
 int		exec_cmd(t_ms *ms, t_ast *cmd, int cmd_id);
-int		heredoc_loop(t_ms *ms, t_ast *ast);
 int		pid_wait(t_ast *cmd, int *exit_type);
+void	redirect_heredoc(t_ms *ms, t_ast *ast);
 
 static int	command_id(t_ast *cmd, t_ast *prev, int reset)
 {
@@ -88,8 +88,6 @@ void	commands_exec(t_ms *ms, t_ast *ast, t_ast *prev)
 		root = ast;
 		command_id(ast, prev, 1);
 	}
-	if (ast->type == t_cmnd && !heredoc_loop(ms, ast))
-		return ;
 	if (ast->type == t_cmnd && ast->expd_str)
 	{
 		id = command_id(ast, prev, 0);
@@ -102,3 +100,4 @@ void	commands_exec(t_ms *ms, t_ast *ast, t_ast *prev)
 	if (ast->right && commands_can_continue(ms, root, ast->right, ast->type))
 		commands_exec(ms, ast->right, ast);
 }
+
