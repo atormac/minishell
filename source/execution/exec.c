@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:27:31 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/26 16:06:58 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/26 16:45:00 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ char	**path_get(char **envp);
 char	*path_find_bin(t_ms *ms, char *cmd);
 int		redirect(t_ms *ms, t_ast *ast, int cmd_id, int *prev_fd);
 int		heredoc_prompt(t_ms *ms, t_ast *ast);
-void	std_save(t_ms *ms);
-void	std_reset(t_ms *ms);
+int		std_save(t_ms *ms);
+int		std_reset(t_ms *ms);
 
 static int	exec_builtin(t_ms *ms, int id, char **args)
 {
@@ -115,10 +115,12 @@ void	exec_cmd(t_ms *ms, t_ast *cmd, int cmd_id)
 	builtin = is_builtin(cmd->expd_str[0]);
 	if (builtin && cmd_id == CMD_NOPIPE)
 	{
-		std_save(ms);
+		if (!std_save(ms))
+			return ;
 		if (redirect(ms, cmd, cmd_id, NULL))
 			exec_builtin(ms, builtin, &cmd->expd_str[1]);
-		std_reset(ms);
+		if (!std_reset(ms))
+			return ;
 	}
 	else if (cmd_id == CMD_NOPIPE)
 		exec_fork(ms, cmd, cmd_id, NULL);

@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 16:31:19 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/26 16:33:38 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/26 16:46:04 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int		heredoc_loop(t_ms *ms, t_ast *ast);
 
 void	redirect_heredoc(t_ms *ms, t_ast *ast)
 {
-
 	if (!ast || ms->abort || ms->stop_heredoc)
 		return ;
 	if (ast->type == t_cmnd && ast->io && ast->io->type == t_lwrlwr)

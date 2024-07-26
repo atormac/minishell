@@ -6,7 +6,7 @@
 /*   By: atorma <atorma@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 15:00:38 by atorma            #+#    #+#             */
-/*   Updated: 2024/07/26 16:31:52 by atorma           ###   ########.fr       */
+/*   Updated: 2024/07/26 16:45:52 by atorma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,4 +100,3 @@ void	commands_exec(t_ms *ms, t_ast *ast, t_ast *prev)
 	if (ast->right && commands_can_continue(ms, root, ast->right, ast->type))
 		commands_exec(ms, ast->right, ast);
 }
-
