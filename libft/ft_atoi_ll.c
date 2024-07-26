@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 17:14:00 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/26 18:15:24 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/07/26 18:18:45 by lopoka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
@@ -29,11 +29,11 @@ long long	ft_atoi_ll(const char *str)
 	}
 	while ('0' <= *str && *str <= '9')
 	{
-		if (sign == 1 && ((LLONG_MAX - *str - 48) < (res * 10)))
+		if (sign == 1 && ((LLONG_MAX - (*str - 48)) < (res * 10)))
 			return (-1);
-		if (sign == -1 && ((LLONG_MAX - *str - 48) < (res * 10 - 1)))
+		if (sign == -1 && ((LLONG_MAX - (*str - 48)) < (res * 10 - 1)))
 			return (0);
-		res = res * 10 + *str - 48;
+		res = res * 10 + (*str - 48);
 		str++;
 	}
 	return (res * sign);
