@@ -45,14 +45,7 @@ int	check_cmd_initial(t_ms *ms, char *cmd)
 		ms->exit_code = 2;
 		return (1);
 	}
-	if (!env_var_get(ms->env, "PATH"))
-	{
-		error_print(cmd,
-			"No such file or directory");
-		ms->exit_code = 127;
-		return (1);
-	}
-	if (ft_strcmp(cmd, "..") == 0 || check_empty(cmd))
+	if (check_empty(cmd))
 	{
 		error_cmd(0, cmd);
 		ms->exit_code = 127;
@@ -65,20 +58,19 @@ int	check_cmd(char *cmd)
 {
 	struct stat	file_stat;
 
-	if (access(cmd, F_OK) != 0)
+	if (stat(cmd, &file_stat) == -1)
 	{
 		error_print(cmd, NULL);
 		return (127);
 	}
-	if (access(cmd, X_OK) != 0)
-	{
-		error_print(cmd, NULL);
-		return (126);
-	}
-	stat(cmd, &file_stat);
 	if (S_ISDIR(file_stat.st_mode))
 	{
 		error_print(cmd, "Is a directory");
+		return (126);
+	}
+	if (access(cmd, X_OK) != 0)
+	{
+		error_print(cmd, NULL);
 		return (126);
 	}
 	return (0);

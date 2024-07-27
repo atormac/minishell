@@ -15,15 +15,14 @@
 
 # include "structs.h"
 # include "../libft/libft.h"
+# include "../source/tkns/tkns.h"
+# include "../source/prsr/prsr.h"
+# include "../source/expd/expd.h"
 # include <string.h>
 # include <errno.h>
 # include <stdio.h>
 # include <unistd.h>
-# include <unistd.h>
 # include "environment.h"
-# include "../source/tkns/tkns.h"
-# include "../source/prsr/prsr.h"
-# include "../source/expd/expd.h"
 
 int		minishell_init(t_ms *ms, char **envp);
 void	minishell_close(int *fd);

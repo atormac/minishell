@@ -49,7 +49,12 @@ static int	exec_bin(t_ms *ms, char **args)
 	ret = 0;
 	cmd_path = path_find_bin(ms, args[0]);
 	if (cmd_path)
+	{
 		ret = execve(cmd_path, args, ms->env);
+		if (ret == -1)
+			error_print(cmd_path, NULL);
+		ms->exit_code = 1;
+	}
 	free(cmd_path);
 	return (ret);
 }

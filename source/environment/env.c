@@ -18,13 +18,13 @@ char	**env_clone(char **envp)
 	int		i;
 
 	i = 0;
-	while (envp[i])
+	while (envp && envp[i])
 		i++;
 	ret = ft_calloc(1, ((i + 1) * sizeof(char *)));
 	if (!ret)
 		return (NULL);
 	i = 0;
-	while (envp[i])
+	while (envp && envp[i])
 	{
 		ret[i] = ft_strdup(envp[i]);
 		if (!ret[i])
@@ -67,10 +67,8 @@ void	env_print(char **env)
 {
 	int	i;
 
-	if (!env)
-		return ;
 	i = 0;
-	while (env[i])
+	while (env && env[i])
 	{
 		if (ft_strchr(env[i], '='))
 			printf("%s\n", env[i]);

@@ -98,12 +98,14 @@ char	*path_find_bin(t_ms *ms, char *cmd)
 {
 	char	*cmd_path;
 	int		err;
+	char	*path_exists;
 
 	err = 0;
-	if (ft_strchr(cmd, '/'))
-		return (path_abs_or_relative(ms, cmd));
+	path_exists = env_var_get(ms->env, "PATH");
 	if (check_cmd_initial(ms, cmd))
 		return (NULL);
+	if (ft_strchr(cmd, '/') || !path_exists)
+		return (path_abs_or_relative(ms, cmd));
 	cmd_path = path_search(ms, cmd, &err);
 	if (!check_path_cmd(ms, cmd, cmd_path, err))
 	{
