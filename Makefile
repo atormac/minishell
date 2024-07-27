@@ -62,7 +62,7 @@ target debug: CC = cc
 target debug: CFLAGS += -fsanitize=address,undefined -g 
 
 target fast: CFLAGS += -O2
-target symbols: CFLAGS += -g
+target symbols: CFLAGS += -gdwarf-4
 
 all: $(NAME)
 

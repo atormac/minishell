@@ -105,7 +105,8 @@ static void	exec_piped(t_ms *ms, t_ast *cmd, int cmd_id)
 		}
 	}
 	exec_fork(ms, cmd, cmd_id, prev_fd);
-	close(ms->pipe[1]);
+	if (ms->pipe[1] >= 0)
+		close(ms->pipe[1]);
 	ms->pipe[1] = -1;
 	if (cmd_id > CMD_FIRST)
 		close(prev_fd[0]);
