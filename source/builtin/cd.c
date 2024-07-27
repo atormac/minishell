@@ -14,7 +14,7 @@
 #include "../../include/builtin.h"
 #include "../../include/environment.h"
 
-static void	trim_path(char *path)
+static void	trim_dir(char *path)
 {
 	char	*last;
 
@@ -27,26 +27,41 @@ static void	trim_path(char *path)
 		*last = 0;
 }
 
+static void	trim_path(char *path, char *new, size_t size)
+{
+	size_t	count;
+
+	count = 0;
+	if (ft_strcmp(path, "..") == 0)
+		return (trim_dir(new));
+	while (*path && ft_strncmp(path, "../", 3) == 0)
+	{
+		count++;
+		path += 3;
+	}
+	if (!count)
+		return ;
+	while (count-- > 0)
+		trim_dir(new);
+	ft_strlcat(new, "/", size);
+	ft_strlcat(new, path, size);
+}
+
 static int	change_up(t_ms *ms, char *dir)
 {
 	char	*new;
-	char	*original;
 	size_t	size;
 
-	original = dir;
-	while (*dir && *dir == '.')
-		dir++;
 	size = ft_strlen(ms->cwd) + ft_strlen(dir) + 1;
 	new = ft_calloc(1, size);
 	if (!new)
 		return (1);
 	ft_strlcat(new, ms->cwd, size);
-	trim_path(new);
-	ft_strlcat(new, dir, size);
+	trim_path(dir, new, size);
 	if (chdir(new) == -1)
 	{
 		free(new);
-		error_builtin("cd", original, NULL);
+		error_builtin("cd", dir, NULL);
 		return (0);
 	}
 	free(new);
