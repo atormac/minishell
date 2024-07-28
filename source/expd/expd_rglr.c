@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 20:20:53 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/19 14:59:31 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/07/28 11:09:14 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -37,7 +37,7 @@ void	ft_expd_rglr_hrdc(char **res, char *s, size_t *i)
 	size_t	bgn;
 
 	bgn = *i;
-	while (s[*i] && s[*i] != '\'' && s[*i] != '"' && s[*i] != '$')
+	while (s[*i] && s[*i] != '$')
 		(*i)++;
 	tmp1 = ft_substr(s, bgn, *i - bgn);
 	if (!tmp1)

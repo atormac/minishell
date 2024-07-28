@@ -6,7 +6,7 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 12:12:16 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/24 17:27:17 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/07/28 11:17:51 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
@@ -71,10 +71,6 @@ char	*ft_expd_heredoc(char *s, t_ms *ms)
 	{
 		if (s[i] == '$')
 			ft_expd_dlr(&res, s, &i, ms);
-		else if (s[i] == '\'')
-			ft_expd_sq(&res, s, &i);
-		else if (s[i] == '"')
-			ft_expd_dq(&res, s, &i, ms);
 		else
 			ft_expd_rglr_hrdc(&res, s, &i);
 	}
