@@ -25,7 +25,6 @@ static void	set_signal_exit(t_ms *ms)
 	if (!ms)
 	{
 		ms_struct->exit_code = 130;
-		ms_struct->stop_heredoc = 1;
 	}
 	else
 		ms_struct = ms;

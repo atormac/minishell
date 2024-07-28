@@ -42,11 +42,12 @@ static int	heredoc_read(t_ms *ms, t_ast *io, int write_fd)
 	char	*line;
 
 	success = 1;
+	ms->exit_code = 0;
 	set_signals(ms, SIGNALS_HEREDOC);
 	while (1)
 	{
 		line = readline(">");
-		if (!line || ms->stop_heredoc || ft_strcmp(line, io->str) == 0)
+		if (!line || ms->exit_code == 130 || ft_strcmp(line, io->str) == 0)
 			break ;
 		success = heredoc_write(ms, write_fd, line, io->do_hrdc_exp);
 		if (!success)
@@ -54,6 +55,8 @@ static int	heredoc_read(t_ms *ms, t_ast *io, int write_fd)
 		free(line);
 		line = NULL;
 	}
+	if (ms->exit_code == 130)
+		ms->stop_heredoc = 1;
 	set_signals(ms, SIGNALS_PARENT);
 	if (!line)
 		error_heredoc(io->str);
@@ -65,15 +68,18 @@ static void	heredoc_prompt_empty(t_ms *ms, char *eof)
 {
 	char	*line;
 
+	ms->exit_code = 0;
 	set_signals(ms, SIGNALS_HEREDOC);
 	while (1)
 	{
 		line = readline(">");
-		if (!line || ms->stop_heredoc || ft_strcmp(line, eof) == 0)
+		if (!line || ms->exit_code == 130 || ft_strcmp(line, eof) == 0)
 			break ;
 		free(line);
 		line = NULL;
 	}
+	if (ms->exit_code == 130)
+		ms->stop_heredoc = 1;
 	set_signals(ms, SIGNALS_PARENT);
 	if (!line)
 		error_heredoc(eof);
