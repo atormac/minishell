@@ -6,14 +6,12 @@
 /*   By: lopoka <lopoka@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 16:36:42 by lopoka            #+#    #+#             */
-/*   Updated: 2024/07/19 13:26:54 by lopoka           ###   ########.fr       */
+/*   Updated: 2024/07/28 11:27:03 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TKNS_H
 # define TKNS_H
-
-# include "../../include/minishell.h"
 
 //Tkns
 void	ft_get_tokens(t_ms *ms, char *line);
